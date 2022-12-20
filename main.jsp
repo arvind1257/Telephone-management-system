@@ -33,7 +33,7 @@
                 background-color:#e8e8e8;
             }
             .tab {
-                top:9.5%;
+                top:8.5%;
                 position: -webkit-sticky;
                 background-color: rgba(24,54,186,0.6);
                 height: 45px;
@@ -106,7 +106,7 @@
             }
             .tabcontent { 
                 display: none; 
-                top:120px; 
+                top:100px; 
                 position: relative; 
                 float: right; 
                 padding: 10px 15px; 
@@ -153,8 +153,9 @@
             .dropdown-content { 
                 display: none; 
                 position: absolute; 
+                right:3%;
                 background-color: #7c8ef7;
-                min-width: 160px; 
+                width: 180px; 
                 overflow: auto; 
                 z-index: 1; 
                 border: 3px solid rgb(24,54,165); 
@@ -164,15 +165,14 @@
             }
             .dropdown-content a { 
                 background-color: #7c8ef7; 
-                padding: 12px 16px; 
+                padding: 12px;
                 text-align:center;
                 text-decoration: none; 
                 display: block; 
             }
             .dropdown-content button { 
-                padding: 12px 40px; 
+                padding: 12px; 
                 border:none; 
-                font-size:25px;
                 background-color: #7c8ef7; 
                 width:100%; 
                 font-size:18px; 
@@ -204,10 +204,13 @@
                 z-index: 1;
             }
             .head1{
-                
+                width:25%;
+                font-size:20px;
             }
             .head2{
-                
+                width:40%;
+                font-size:30px;
+                text-align: center;
             }
             .head3{
                 
@@ -223,7 +226,7 @@
                 padding:10px; 
                 background-color:green;
                 border:none; 
-                width:100px;
+                width:120px;
             }
             .gb{ 
                 color:white; 
@@ -256,7 +259,6 @@
                 background-color:lightgreen; 
             }
             .redbutton input{ 
-                float:left; 
                 color:white;
                 padding:10px; 
                 background-color:red; 
@@ -310,9 +312,80 @@
                 width:100%;
                 z-index: 1;
             }
+            .img2{
+                width:25px;
+                height:25px;
+            }
+            .profile{
+                float:none; 
+                width:55%;
+            }
+            .title{
+                color:#1836ba;
+                font-size:42px;
+                font-weight: bold;
+                text-align: center;
+            }
+            .pcontent11{
+                width:60%; 
+                float:left; 
+                padding:20px; 
+                word-break: break-word; 
+            }
+            .pcontent12{
+                width:40%; 
+                float:right;
+            }
+            .pcontent13{
+                float:left; 
+                width:100%; 
+            }
+            .ptable{
+                width:100%;
+                border-collapse: collapse;
+            }
+            .ptable td,.ptable th{
+                padding:10px 5px;
+            }
+            #pback{
+                display:none;
+            }
+            #content112{
+                display:none;
+            }
+            #imgedit{
+                display:none;
+            }
+            .profile_img{
+                width:80%;
+                height:225px;
+            }
+            
+            .btn{
+                width:70%;
+            }
             @media (max-width: 1000px) {
                 .header{ 
                     padding:5px;
+                }
+                .dropbtn { 
+                    padding: 5px 10px; 
+                    min-width: 90px;
+                    height:35px;
+                    border-radius: 20px;
+                    font-size: 15px;   
+                }
+                .dropdown-content { 
+                    width: 160px; 
+                    right:4%;
+                }
+                .dropdown-content a { 
+                    padding: 10px;
+                }
+                .dropdown-content button { 
+                    padding: 10px; 
+                    width:100%; 
+                    font-size:16px; 
                 }
                 .imgstyle{
                     width:30px;
@@ -321,24 +394,51 @@
                 .home{
                     padding-top:0px;
                 }
-                img2{
-                    width:15px;
-                    height:15px;
+                .img2{
+                    width:20px;
+                    height:20px;
                 }
                 .head1{
-                    width:40%; 
+                    width:25%; 
                     font-size:15px;
                 }
                 .head2{
                     width:40%; 
                     font-size:25px;
                 }
+                .profile{
+                    float:none; 
+                    width:75%;
+                }
+                .profile_img{
+                    width:90%;
+                    height:175px;
+                }
+                .pcontent11{
+                    width:70%; 
+                    float:left; 
+                    padding:20px; 
+                    word-break: break-word; 
+                }
+                .pcontent12{
+                    width:30%; 
+                    float:right;
+                }
+                .title{
+                    font-size:32px;
+                }
+                .btn{
+                    width:85%;
+                }
+                .greenbutton input{
+                    width:140px;
+                }
                 .tabcontent11, .tabcontent12 {
                     width: 100%;
                     margin-top: 0;
                 }
                 .tab {
-                    height: 40px;
+                    top:8%;
                 }
                 .tab ul li {
                     padding: 8px 25px;
@@ -369,19 +469,72 @@
                     padding:5px;
                 }
                 .head1{
-                    width:40%; 
-                    font-size:15px;
+                    width:30%; 
+                    font-size:12px;
                 }
                 .head2{
-                    width:40%; 
-                    font-size:20px;
+                    width:50%; 
+                    font-size:17px;
+                }
+                .dropbtn { 
+                    padding: 3px; 
+                    min-width: 70px;
+                    height:27px;
+                    border-radius: 20px;
+                    font-size: 12px;   
+                }
+                .dropbtn { 
+                    padding: 5px 10px; 
+                    min-width: 90px;
+                    height:35px;
+                    border-radius: 20px;
+                    font-size: 15px;   
+                }
+                .dropdown-content { 
+                    width: 130px; 
+                    right:6%;
+                }
+                .dropdown-content a { 
+                    padding: 8px;
+                }
+                
+                .dropdown-content button { 
+                    padding: 8px; 
+                    width:100%; 
+                    font-size:13px; 
                 }
                 .tabcontent11, .tabcontent12 {
                     width: 100%;
                     margin-top: 0;
                 }
+                .profile{
+                    float:none; 
+                    width:100%;
+                }
+                .title{
+                    font-size:26px;
+                }
+                .profile_img{
+                    width:100%;
+                    height:160px;
+                }
+                .btn{
+                    width:100%;
+                }
+                .pcontent11{
+                    width:75%; 
+                    float:left; 
+                    padding:20px; 
+                    word-break: break-word; 
+                }
+                .pcontent12{
+                    width:25%; 
+                    float:right;
+                }
+                
                 .tab {
-                    height: 35px;
+                    top:8%;
+                    height:37px;
                 }
                 .tab ul li {
                     padding:6px 20px;
@@ -457,6 +610,7 @@
         else
             menubar=request.getParameter("menubar");
     %>
+        
         <div class="footer">
             <p>This Project is Done By Arvind M M (20BCE2633) , For any more Queries contact arvind.mm2020@vitstudent.ac.in</p>
         </div>
@@ -1566,12 +1720,12 @@
         %>
         </div>
         <div class="header">
-            <table style="width:100%;border-collapse: collapse" border="1">
+            <table style="width:100%;">
                 <tr>
                     <td style="width:4%;">
                         <img class="imgstyle" src="images/VITLogoEmblem.png" width="40px" height="40px"/>
                     </td>
-                    <td style='width:25%;font-size:20px;'>
+                    <td class="head1">
                         <span>VIT (VELLORE CAMPUS) </span>
                     </td>
                     <td style='width:3%;'>
@@ -1580,7 +1734,7 @@
                         {
                         %>
                         <button class="home tablinks" onclick="openMode(event, 'home')" id="defaultOpen">
-                            <img class="img2" src="images/home icon.png" width="25px" height="25px"></img>
+                            <img class="img2" src="images/home icon.png"></img>
                         </button>
                         <%
                         }
@@ -1588,13 +1742,13 @@
                         {
                         %>
                         <button class="home tablinks" onclick="openMode(event, 'home')">
-                            <img class="img2" src="images/home icon.png" width="25px" height="25px"></img>
+                            <img class="img2" src="images/home icon.png"></img>
                         </button>
                         <%
                         }
                         %>
                     </td>
-                    <td style='width:40%;font-size:30px;text-align: center;'> TELEPHONE E-BILL </td>
+                    <td class="head2"> TELEPHONE E-BILL </td>
                     <td style='text-align: right;padding-right:20px;'>
                         <div class="dropdown">
                             <button onclick="dropdown_list()" class="dropbtn"><%=username%></button>
@@ -1624,8 +1778,301 @@
                 </tr>
             </table>
         </div> 
+        <div id="profile" class="tabcontent profile center">
+            <%
+            if(request.getParameter("submit3")!=null)
+            {
+                %>
+                <input type="hidden" id="status" value="error"/>
+                    <%
+            }
+            else
+            {
+                %>
+                    <input type="hidden" id="status" value="done"/>
+                    <%    
+            }
+            %>
+            <p class="title">PROFILE</p>
+            <div class="tablecontent" style="float:left; width:100%;" > 
+                <div class="pcontent1" id="content1">
+                    <div class="pcontent11" id="content11" style="">
+                        <div class="pcontent111" id="content111">
+                            <%
+                            rs=stm.executeQuery("select * from login where username='"+username+"'");
+                            while(rs.next())
+                            {
+                            %>
+                            <form id="myform8" name="myform8" method="post" action="profile.jsp">
+                            </form>
+                            <table class='ptable'>
+                                <tr>
+                                    <th style='width:50%;text-align: left;'>Name</th>
+                                    <td style='width:50%;'>
+                                        <input form="myform8" type="text" style="width:100%;" value="<%=rs.getString("name")%>" name="p_name" readonly/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style='text-align: left;'>STAFF ID</th>
+                                    <td>
+                                        <input form="myform8" type="text" style="width:100%;" value="<%=rs.getString("username")%>" name="p_staff" readonly/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style='text-align: left;'>DESIGNATION</th>
+                                    <td style=''>
+                                        <input form="myform8" type="text" style="width:100%;" value="<%=rs.getString("desi")%>" name="p_desi" readonly/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style='text-align: left;'>EMAIL ID</th>
+                                    <td style=''>
+                                        <input form="myform8" type="text" style="width:100%;" value="<%=rs.getString("email")%>" name="p_email" readonly/>                                        
+                                    </td>
+                                </tr>
+                                <tr id='pedit'>
+                                    <td></td>
+                                    <td class='greenbutton' align="right">
+                                        <input class="btn" onclick="edittab(true)" type="button" value="EDIT" name="submit2"/>
+                                    </td>
+                                </tr>
+                                <tr id="pback">
+                                    <td class='greenbutton' style='text-align: center;'>
+                                        <input form="myform8" class="btn" type="submit" value="UPDATE" name="submit2"/>
+                                    </td>
+                                    <td class='redbutton' style='text-align: center;'>
+                                        <input class="btn" type="button" value="BACK" name="submit2" onclick="edittab(false)"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div style="width:40%; float:left;">Current admin:</div>
+                                        <div style="width:25%; float:left;"><%=admin%></div>
+                                        <%
+                                        if(admin.equals(username))
+                                        {
+                                        %>
+                                        <div style="width:35%; float:left;">
+                                            <input style="width:100%;" class="bluebutton" type="button" onclick="switchtab('content111','content112')" value="Change Admin" name="submit2"/>
+                                        </div>
+                                        <%
+                                        }
+                                        %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Change Security Question Answers: </td>
+                                    <td class="greenbutton" align="right">
+                                        <input type="button" onclick="switchtab('content1','content2')" value="Change Answers" name="submit2" class=""/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <%
+                            }
+                            %>
+                            <div style="width:59%; float:left;"></div>
+                            <div style="width:39%; float:left;" class="greenbutton"></div>   
+                        </div>
+                        <div class="pcontent111" id="content112">
+                            <form id="myform28" name="myform28" method="post" action="profile.jsp">
+                            </form>
+                            <table class="ptable">
+                                <tr>
+                                    <th style="width:50%; text-align: left;">User ID :</th>
+                                    <td style="width:50%;">
+                                        <select form="myform28" class="btn" name="p_user" required>
+                                        <%
+                                        rs1=stm1.executeQuery("select username from login");
+                                        while(rs1.next())
+                                        {
+                                        %>
+                                            <option value="<%=rs1.getString(1)%>"><%=rs1.getString(1)%></option>
+                                        <%
+                                        }
+                                        %>    
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left;">Password :</th>
+                                    <td>
+                                        <input form="myform28" class="btn" type="password" name="p_pass" required/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="greenbutton">
+                                        <input form="myform28" class="btn" type="submit" value="CHANGE" name="submit2"/>
+                                    </td>
+                                    <td class="redbutton">
+                                        <input class="btn" type="button" onclick="switchtab('content112','content111')" value="BACK" name="submit2"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="pcontent12" id="content12" style="">
+                        <form action="FileUploadServlet" method="post" enctype="multipart/form-data"> 
+                            <center>
+                                <img src="<%=photourl%>" alt="no image exist" class="profile_img">
+                                <div id="imgedit">    
+                                    <br>
+                                    <input style="width:90%;" type="file" name="file" accept="image/png, image/gif, image/jpeg, image/jpg" />
+                                    <input style="width:50%;" class="bluebutton" type="submit" value="CHANGE"/>   
+                                </div>
+                                <div id="imgback">
+                                    <br>
+                                    <input type="button" onclick="switchtab('imgback','imgedit')" value="Change Photo" class="bluebutton btn" name="submit2"/>
+                                </div>
+                            </center>
+                            <br><br>
+                        </form>
+                    </div>
+                </div>
+                <div class="pcontent2" id="content2">
+                    <form id="myform18" name="myform18" method="post" action="profile.jsp">
+                    </form>
+                    <table style="width:100%; font-size:20px; " cellspacing="20">
+                            <tr>
+                                <td>Current Password</td>
+                                <td><input form="myform18" style="width:100%; font-size:20px; height:25px;" type="password" name="p_pass" required/></td>
+                            </tr>
+                            <tr>
+                                <td>1.What Is your favorite book?</td>
+                                <td><input form="myform18" style="width:100%; font-size:20px; height:25px;" type="text" name="q1" required/></td>
+                            </tr>
+                            <tr>
+                                <td>2.Where is your favorite place to vacation?</td>
+                                <td><input form="myform18" style="width:100%; font-size:20px; height:25px;" type="text" name="q2" required/></td>
+                            </tr>
+                            <tr>
+                                <td>3.What was the name of your elementary school?</td>
+                                <td><input form="myform18" style="width:100%; font-size:20px; height:25px;" type="text" name="q3" required/></td>
+                            </tr> 
+                            <tr>
+                                <td style="width:100px;" align="center" class="greenbutton">
+                                    <input form="myform18" type="submit" value="SAVE" name="submit2"/>
+                                </td>
+                                <td style="width:100px;" align="center" class="redbutton">
+                                    <input type="button" value="BACK" onclick="switchtab('content2','content1')"/>
+                                </td>
+                            </tr> 
+                        </table>
+                </div>
+            </div>
+        </div>                        
         <script>
+            if(document.getElementById('status').value==="done"){
+                switchtab('content2','content1');
+            }
+            else{
+                switchtab('content1','content2');
+            }
+            function edittab(status){
+                var element = document.querySelectorAll("input[form='myform8']");
+                if(status)
+                {
+                    for(let i=0;i<4;i++)
+                    {
+                        if(i!==1)
+                        {
+                            element[i].removeAttribute("readonly");
+                        }
+                    }
+                    tswitchtab('pedit','pback');
+                }
+                else{
+                    for(let i=0;i<4;i++)
+                    {
+                        if(i!==1)
+                        {
+                            element[i].setAttribute("readonly", "");
+                        }
+                    }
+                    tswitchtab('pback','pedit');
+                }
+            }
+            function tswitchtab(id1,id2)
+            {
+                document.getElementById(id1).style.display="none";
+                document.getElementById(id2).style.display="table-row";
+            }
+            function switchtab(id1,id2)
+            {
+                document.getElementById(id1).style.display="none";
+                document.getElementById(id2).style.display="block";
+            }
             alert(window.innerWidth);
-            </script>
+            function dropdown_list() {
+                document.getElementById("myDropdown").classList.toggle("show");
+            }
+            window.onclick = function(event) {
+                if (!event.target.matches('.dropbtn')) {
+                    var dropdowns = document.getElementsByClassName("dropdown-content");
+                    var i;
+                    for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
+            };
+            if(document.getElementById("defaultOpen5"))
+                document.getElementById("defaultOpen5").click();
+            if(document.getElementById("defaultOpen6"))
+                document.getElementById("defaultOpen6").click();
+            if(document.getElementById("defaultOpen"))
+                document.getElementById("defaultOpen").click();
+            if(document.getElementById("defaultOpen1"))
+                document.getElementById("defaultOpen1").click();
+            if(document.getElementById("defaultOpen2"))
+                document.getElementById("defaultOpen2").click();
+            if(document.getElementById("defaultOpen3"))
+                document.getElementById("defaultOpen3").click();
+            if(document.getElementById("defaultOpen4"))
+                document.getElementById("defaultOpen4").click();
+            function openMode1(evt,operator) 
+            {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent1");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablinks1");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace("active", "");
+                }
+                document.getElementById(operator).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+            function openMode(evt, operator) 
+            {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace("active", "");
+                }
+                document.getElementById(operator).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+            function openMode2(evt, operator) 
+            {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent2");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablinks2");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+                document.getElementById(operator).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+        </script>
     </body>
 </html>
