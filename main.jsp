@@ -226,7 +226,7 @@
                 padding:10px; 
                 background-color:green;
                 border:none; 
-                width:120px;
+                width:80%;
             }
             .gb{ 
                 color:white; 
@@ -360,7 +360,12 @@
                 width:80%;
                 height:225px;
             }
-            
+            .gst,.signup{
+                font-size:18px;
+            }
+            .gst input,.signup input{
+                font-size:15px;
+            }
             .btn{
                 width:70%;
             }
@@ -425,13 +430,21 @@
                     float:right;
                 }
                 .title{
-                    font-size:32px;
+                    font-size:36px;
                 }
                 .btn{
                     width:85%;
                 }
+                .gst,.signup{
+                    font-size:15px;
+                }
+                
+                .gst input,.signup input{
+                    font-size:13px;
+                }
                 .greenbutton input{
-                    width:140px;
+                     
+                    width:90%;
                 }
                 .tabcontent11, .tabcontent12 {
                     width: 100%;
@@ -511,15 +524,18 @@
                     float:none; 
                     width:100%;
                 }
-                .title{
-                    font-size:26px;
-                }
                 .profile_img{
                     width:100%;
                     height:160px;
                 }
                 .btn{
                     width:100%;
+                }
+                .gst,.signup {
+                    font-weight:bold;
+                }
+                .gst,.signup input{
+                    font-size:12px;
                 }
                 .pcontent11{
                     width:75%; 
@@ -610,1114 +626,67 @@
         else
             menubar=request.getParameter("menubar");
     %>
-        
+        <input type="hidden" id="menubar" value="<%=menubar%>"/>
         <div class="footer">
             <p>This Project is Done By Arvind M M (20BCE2633) , For any more Queries contact arvind.mm2020@vitstudent.ac.in</p>
         </div>
         <div class="tab">
-        <%
-            if(menubar!=null)
-            {
-                if(menubar.equals("airtel"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')" id="defaultOpen1">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>    
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else if(menubar.equals("jio"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')" id="defaultOpen1">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else if(menubar.equals("bsnl"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')" id="defaultOpen1">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else if(menubar.equals("vodofone"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')" id="defaultOpen1">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else if(menubar.equals("airtelvip"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')" id="defaultOpen1">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else if(menubar.equals("airtellandline"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')" id="defaultOpen1">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else if(menubar.equals("bsnllandline"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')" id="defaultOpen1">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else if(menubar.equals("add"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')"  id="defaultOpen1">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else if(menubar.equals("modify"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')" id="defaultOpen1">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else if(menubar.equals("delete"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                   <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')" id="defaultOpen1">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else if(menubar.equals("display"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')" id="defaultOpen1">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else if(menubar.equals("single"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')" id="defaultOpen1">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else if(menubar.equals("multiple"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')" id="defaultOpen1">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else if(menubar.equals("gst"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')" id="defaultOpen1">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else if(menubar.equals("signup"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')" id="defaultOpen1">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else if(menubar.equals("freeze"))
-                {
-                %>
-                <ul>
-                    <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')" id="defaultOpen1">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-                else
-                {
-                %>
-                <ul>
-                <li><button>BILL <i class="fas fa-caret-down"></i></button>
-                    <div class="ctab">
-                        <ul>
-                            <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
-                        </ul>
-                    </div>
-                </li>
-                <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Monthwise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                </ul>
-                <%
-                }
-            }
-            else
-            {
-            %>
             <ul>
                 <li><button>BILL <i class="fas fa-caret-down"></i></button>
                     <div class="ctab">
                         <ul>
-                            <li><button class="tablinks" onclick="openMode(event, 'airtel')">AIRTEL</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'jio')">JIO</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'bsnl')">BSNL</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'vodofone')">VODOFONE</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'airtelvip')">AIRTEL VIP</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'airtellandline')">AIRTEL LANDLINE</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')">BSNL LANDLINE</button></li>
+                            <li><button class="tablinks" onclick="openMode(event, 'airtel')" id="default1">AIRTEL</button></li>
+                            <li><button class="tablinks" onclick="openMode(event, 'jio')" id="default2">JIO</button></li>
+                            <li><button class="tablinks" onclick="openMode(event, 'bsnl')" id="default3">BSNL</button></li>
+                            <li><button class="tablinks" onclick="openMode(event, 'vodofone')" id="default4">VODOFONE</button></li>
+                            <li><button class="tablinks" onclick="openMode(event, 'airtelvip')" id="default5">AIRTEL VIP</button></li>
+                            <li><button class="tablinks" onclick="openMode(event, 'airtellandline')" id="default6">AIRTEL LANDLINE</button></li>
+                            <li><button class="tablinks" onclick="openMode(event, 'bsnllandline')" id="default7">BSNL LANDLINE</button></li>
                         </ul>
                     </div>
                 </li>
                 <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>EDIT <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'add')">ADD</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'modify')">MODIFY</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'delete')">DELETE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
-                    <li><button class="tablinks" onclick="openMode(event, 'display')">DISPLAY</button></li>
-                    <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'single')">Single Month Report</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'multiple')">Month wise Report</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    if(admin.equals(username))
-                    {
-                    %>
-                    <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                        <div class="ctab">
-                            <ul>
-                                <li><button class="tablinks" onclick="openMode(event, 'gst')">GST</button></li>
-                                <li><button class="tablinks" onclick="openMode(event, 'signup')">SIGNUP</button></li> 
-                                <li><button class="tablinks" onclick="openMode(event, 'freeze')">FREEZE DATE</button></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <%
-                    }
-                    %>
+                if(admin.equals(username))
+                {
+                %>
+                <li><button>EDIT <i class="fas fa-caret-down"></i></button>
+                    <div class="ctab">
+                        <ul>
+                            <li><button class="tablinks" onclick="openMode(event, 'add')" id="default8">ADD</button></li>
+                            <li><button class="tablinks" onclick="openMode(event, 'modify')" id="default9">MODIFY</button></li>
+                            <li><button class="tablinks" onclick="openMode(event, 'delete')" id="default10">DELETE</button></li>
+                        </ul>
+                    </div>
+                </li>
+                <%
+                }
+                %>
+                <li><button class="tablinks" onclick="openMode(event, 'display')" id="default11">DISPLAY</button></li>
+                <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
+                    <div class="ctab">
+                        <ul>
+                            <li><button class="tablinks" onclick="openMode(event, 'single')" id="default12">Report</button></li>
+                            <li><button class="tablinks" onclick="openMode(event, 'multiple')"  id="default13">MONTH WISE Report</button></li>
+                        </ul>
+                    </div>
+                </li>    
+                <%
+                if(admin.equals(username))
+                {
+                %>
+                <li><button>SETTING <i class="fas fa-caret-down"></i></button>
+                    <div class="ctab">
+                        <ul>
+                            <li><button class="tablinks" onclick="openMode(event, 'gst')" id="default14">GST</button></li>
+                            <li><button class="tablinks" onclick="openMode(event, 'signup')" id="default15">SIGNUP</button></li> 
+                            <li><button class="tablinks" onclick="openMode(event, 'freeze')" id="default16">FREEZE DATE</button></li>
+                        </ul>
+                    </div>
+                </li>
+                <%
+                }
+                %>
             </ul>
-            <%
-            }
-        %>
         </div>
         <div class="header">
             <table style="width:100%;">
@@ -1729,24 +698,9 @@
                         <span>VIT (VELLORE CAMPUS) </span>
                     </td>
                     <td style='width:3%;'>
-                        <%
-                        if(request.getParameter("menubar")==null || menubar.equals("home"))
-                        {
-                        %>
-                        <button class="home tablinks" onclick="openMode(event, 'home')" id="defaultOpen">
+                        <button class="home tablinks" onclick="openMode(event, 'home')" id="default0">
                             <img class="img2" src="images/home icon.png"></img>
                         </button>
-                        <%
-                        }
-                        else
-                        {
-                        %>
-                        <button class="home tablinks" onclick="openMode(event, 'home')">
-                            <img class="img2" src="images/home icon.png"></img>
-                        </button>
-                        <%
-                        }
-                        %>
                     </td>
                     <td class="head2"> TELEPHONE E-BILL </td>
                     <td style='text-align: right;padding-right:20px;'>
@@ -1755,22 +709,8 @@
                             <div id="myDropdown" class="dropdown-content center">
                                 HELLO,<br>
                                 <center>
-                                <%
-                                if(menubar.equals("profile"))
-                                {
-                                    %>
-                                    <button style="" class="tablinks" onclick="openMode(event, 'profile')" id="defaultOpen"><%=uname%></button>
+                                    <button style="" class="tablinks" onclick="openMode(event, 'profile')" id="default17"><%=uname%></button>
                                     <a href="logout.jsp">Sign Out</a>
-                                    <%
-                                    }
-                                    else
-                                    {
-                                    %>
-                                    <button style="" class="tablinks" onclick="openMode(event, 'profile')"><%=uname%></button>
-                                    <a href="logout.jsp">Sign Out</a>
-                                    <%
-                                    }
-                                %>    
                                 </center>
                             </div>
                         </div>
@@ -1833,7 +773,7 @@
                                 <tr id='pedit'>
                                     <td></td>
                                     <td class='greenbutton' align="right">
-                                        <input class="btn" onclick="edittab(true)" type="button" value="EDIT" name="submit2"/>
+                                        <input class="btn" onclick="edittab(true,'myform8','profile')" type="button" value="EDIT" name="submit2"/>
                                     </td>
                                 </tr>
                                 <tr id="pback">
@@ -1841,7 +781,7 @@
                                         <input form="myform8" class="btn" type="submit" value="UPDATE" name="submit2"/>
                                     </td>
                                     <td class='redbutton' style='text-align: center;'>
-                                        <input class="btn" type="button" value="BACK" name="submit2" onclick="edittab(false)"/>
+                                        <input class="btn" type="button" value="BACK" name="submit2" onclick="edittab(false,'myform8','profile')"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -1959,36 +899,198 @@
                         </table>
                 </div>
             </div>
-        </div>                        
+        </div>
+            <div id="gst" class="tabcontent">
+                <center><P class="title">GST</p></center>
+                <form name="myform10" id="myform10" method="post" action="gst_validation.jsp">
+                </form>
+                <%
+                    rs = stm.executeQuery("select * from gst");
+                    double cgst2 = 0;
+                    double sgst2 = 0;
+                    while(rs.next())
+                    {
+                        if(rs.getString("status").equals("ACTIVE"))
+                        {
+                            cgst2=Double.parseDouble(rs.getString("cgst"));
+                            sgst2=Double.parseDouble(rs.getString("sgst"));
+                        }
+                    }
+                    %>
+                    <table cellspacing="20" class="tablecontent gst center">
+                        <tr>
+                            <td>Current CGST</td>
+                            <td><input form="myform10" type="text" value="<%=cgst2%>" name="cgst2" readonly/></td>
+                        </tr>
+                        <tr>
+                            <td>Current SGST</td>
+                            <td><input form="myform10" type="text" value="<%=sgst2%>" name="sgst2" readonly/></td>
+                        </tr>
+                        <tr id="gedit">
+                            <td class="greenbutton center"><input type="button" onclick="edittab(true,'myform10','gst')" value="EDIT" name="setting"/></td>
+                            <td></td>
+                        </tr>
+                        <tr id="gback" style="display:none;">
+                            <td class="redbutton"><input type="button" value="BACK" name="setting" onclick="edittab(false,'myform10','gst')"/></td>
+                            <td class="greenbutton center">
+                                <input form="myform10" style="width:50%;" type="submit" value="SAVE" name="setting"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div id="signup" class="tabcontent">
+                <center><p class="title">SIGNUP</p></center>
+                <form name="myform12" id="myform12" method="post" action="signup_validation.jsp">
+                </form>
+                    <table cellspacing="20" class="tablecontent signup center">
+                    <%
+                        String name5="";
+                        String emp5="";
+                        String desi5="";
+                        String email5="";
+                        if(request.getParameter("name5")!=null)
+                        {
+                        name5=request.getParameter("name5");
+                        email5=request.getParameter("email5");
+                        desi5=request.getParameter("desi5");
+                        emp5=request.getParameter("emp5");
+                        }
+                    %>
+                        <tr>
+                            <td>Name</td>
+                            <td><input form="myform12" type="text" value="<%=name5%>" name="name5" required/></td>
+                        </tr>
+                        <tr>
+                            <td>Staff ID</td>
+                            <td><input form="myform12" type="text" value="<%=emp5%>" name="emp5" pattern="[0-9]{5}" title="It must contain 5 digits only" required/>  </td>
+                        </tr>
+                        <tr>
+                            <td>Designation</td>
+                            <td><input form="myform12" type="text" value="<%=desi5%>" name="desi5" required/>  </td>
+                        </tr>
+                        <tr>
+                            <td>Email ID</td>
+                            <td><input form="myform12" type="email" value="<%=email5%>" name="email5" required/>  </td>
+                        </tr>
+                        <tr>
+                            <td>Password</td>
+                            <td><input form="myform12" type="password" name="pass5" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required/>  </td>
+                        </tr>
+                        <tr>
+                            <td>Confirm Password</td>
+                            <td><input form="myform12" type="password" name="cpass5" required/>  </td>
+                        </tr>
+                        <tr>
+                            <td class="greenbutton center"><input form="myform12" type="submit" value="SAVE"/></td>
+                            <td class="redbutton center"><input form="myform12" type="reset" value="CLEAR"/></td>
+                        </tr>
+                    </table>
+            </div>
+            <div id="freeze" class="tabcontent">
+                <center><p class="title">FREEZE DATE</p></center>
+                <form name="myform11" id="myform11" method="post" action="freeze.jsp">
+                </form>
+                    <%
+                    int fdate = 0;
+                    rs = stm.executeQuery("select * from freeze");
+                    while(rs.next())
+                        fdate = Integer.parseInt(rs.getString(1));
+                    %>
+                    <table cellspacing="20" class="tablecontent center">
+                        <tr>
+                            <td>Freezing Date<br>(for every month)</td>
+                            <td style="width:50%;">
+                                <select form="myform11" style="width:100%;" name="fdate" required readonly>
+                                    <%
+                                        for(int i=1;i<29;i++)
+                                        {
+                                            if(fdate==i){
+                                            %>
+                                            <option value="<%=i%>" selected><%=i%></option>
+                                            <%}else{
+                                            %><option value="<%=i%>"><%=i%></option><%
+                                            }
+                                        }
+                                    %>
+                                </select> 
+                            </td>
+                        </tr>
+                        <tr id="fedit">
+                            <td colspan="2" class="greenbutton">
+                                <input onclick="editselect(true,'myform11')" style="width:50%;" type="submit" value="Change" name="fsubmit"/>
+                            </td>
+                        </tr>
+                        <tr id="fback">
+                            <td form="myform11" class="greenbutton"><input form="myform11" type="submit" value="Save" name="fsubmit"/></td>
+                            <td class="redbutton"><input type="button" onclick="editselect(false,'myform11')" value="Back" name="fsubmit"/></td>
+                        </tr>
+                    </table>
+            </div>                        
         <script>
+            editselect(false,'myform11');
+            document.getElementById('default0').click();
+            var c_menubar = ["home","airtel","jio","bsnl","vodofone","airtelvip","airtellandline","bsnllandline","add","modify","delete","display","single","multiple","gst","signup","freeze","profile"];
+            var e_menubar = document.getElementById('menubar').value;
+            for(let i=0;i<c_menubar.length;i++)
+            {
+                if(e_menubar===c_menubar[i])
+                {
+                    document.getElementById('default'+i).click();
+                }
+            }
             if(document.getElementById('status').value==="done"){
                 switchtab('content2','content1');
             }
             else{
                 switchtab('content1','content2');
             }
-            function edittab(status){
-                var element = document.querySelectorAll("input[form='myform8']");
+            function edittab(status,form,type){
+                var element = document.querySelectorAll("input[form='"+form+"'][type='text']");
                 if(status)
                 {
-                    for(let i=0;i<4;i++)
+                    for(let i=0;i<element.length;i++)
                     {
-                        if(i!==1)
-                        {
-                            element[i].removeAttribute("readonly");
-                        }
+                        element[i].removeAttribute("readonly");
                     }
-                    tswitchtab('pedit','pback');
+                    if(type==="profile")
+                    {tswitchtab('pedit','pback');}
+                    else if(type==="freeze")
+                    {tswitchtab('fedit','fback');}
+                    else
+                    {tswitchtab('gedit','gback');}
                 }
                 else{
-                    for(let i=0;i<4;i++)
+                    for(let i=0;i<element.length;i++)
                     {
-                        if(i!==1)
-                        {
-                            element[i].setAttribute("readonly", "");
-                        }
+                        element[i].setAttribute("readonly", "");
                     }
-                    tswitchtab('pback','pedit');
+                    if(type==="profile")
+                    {tswitchtab('pback','pedit');}
+                    else if(type==="freeze")
+                    {tswitchtab('fback','fedit');}
+                    else
+                    {
+                        tswitchtab('gback','gedit');
+                    }
+                }
+            }
+            function editselect(status,form){
+                var element = document.querySelectorAll("select[form='"+form+"']");
+                if(status)
+                {
+                    for(let i=0;i<element.length;i++)
+                    {
+                        element[i].removeAttribute("disabled");
+                    }
+                    tswitchtab('fedit','fback');
+                }
+                else{
+                    for(let i=0;i<element.length;i++)
+                    {
+                        element[i].setAttribute("disabled", "true");
+                    }
+                    tswitchtab('fback','fedit');
                 }
             }
             function tswitchtab(id1,id2)
@@ -2021,8 +1123,6 @@
                 document.getElementById("defaultOpen5").click();
             if(document.getElementById("defaultOpen6"))
                 document.getElementById("defaultOpen6").click();
-            if(document.getElementById("defaultOpen"))
-                document.getElementById("defaultOpen").click();
             if(document.getElementById("defaultOpen1"))
                 document.getElementById("defaultOpen1").click();
             if(document.getElementById("defaultOpen2"))
