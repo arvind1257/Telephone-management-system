@@ -360,10 +360,10 @@
                 width:80%;
                 height:225px;
             }
-            .gst,.signup{
+            .gst,.signup,.add,.modify,.delete{
                 font-size:18px;
             }
-            .gst input,.signup input{
+            .gst input,.signup input,.add input,.add select,.modify select,.modify input,.delete select,.delete input{
                 font-size:15px;
             }
             .btn{
@@ -435,11 +435,11 @@
                 .btn{
                     width:85%;
                 }
-                .gst,.signup{
+                .gst,.signup,.add,.modify,.delete {
                     font-size:15px;
                 }
                 
-                .gst input,.signup input{
+                .gst input,.signup input,.add input,.add select,.modify select,.modify input,.delete select,.delete input{
                     font-size:13px;
                 }
                 .greenbutton input{
@@ -531,10 +531,10 @@
                 .btn{
                     width:100%;
                 }
-                .gst,.signup {
+                .gst,.signup,.add,.modify,.delete{
                     font-weight:bold;
                 }
-                .gst,.signup input{
+                .gst,.signup input,.add input,.add select,.modify input,.modify select,.delete select,.delete input{
                     font-size:12px;
                 }
                 .pcontent11{
@@ -900,6 +900,244 @@
                 </div>
             </div>
         </div>
+            <div id="add" class="tabcontent">
+                <center><p class="title">ADD</p></center>
+                <form name="myform13" id="myform13" method="post" action="add_validation.jsp">
+                </form>
+                    <input type="hidden" id="operator1" value="<%=request.getParameter("operator1")%>"/>
+                    <table class="tablecontent add center" cellspacing="15">
+                        <tr>
+                            <td>Mobile Operator</td>
+                            <%
+                                String name1="";
+                                String desi1="";
+                                String emp1="";
+                                String phone1="";
+                                if(request.getParameter("operator1")!=null)
+                                {
+                                    name1=request.getParameter("name1");
+                                    desi1=request.getParameter("desi1");
+                                    emp1=request.getParameter("emp1");
+                                    phone1=request.getParameter("phone1");
+                                }
+                                %>
+                            <td>
+                                <select form="myform13" name="operator1" required>
+                                    <option></option>
+                                    <option id="airtel1" value="airtel">Airtel</option>
+                                    <option id="jio1" value="jio">Jio</option>
+                                    <option id="bsnl1" value="bsnl">Bsnl</option>
+                                    <option id="vodofone1" value="vodofone">Vodofone</option>
+                                    <option id="airtellandline1" value="airtellandline">Airtel Landline</option>
+                                    <option id="airtelvip1" value="airtelvip">Airtel Vip</option>
+                                    <option id="bsnllandline1" value="bsnllandline">Bsnl Landline</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>NAME</td>
+                            <td><input form="myform13" type="text" value="<%=name1%>" name="name1" required/></td>
+                        </tr>
+                        <tr>
+                            <td>STAFF ID</td>
+                            <td><input form="myform13" type="text" value="<%=emp1%>" name="emp1" pattern="[0-9]{5}" title="It must contain 5 digits only"/></td>
+                        </tr>
+                        <tr>
+                            <td>DESIGNATION</td>
+                            <td><input form="myform13" type="text" value="<%=desi1%>" name="desi1" required/></td>
+                        </tr>
+                        <tr>
+                            <td>PHONE NUMBER</td>
+                            <td><input form="myform13" type="text" value="<%=phone1%>" name="phone1" pattern="[0-9]{10}" title="Phone Number must contain 10 digits only" required/></td>
+                        </tr>
+                        <tr>
+                            <td class="greenbutton center"><input form="myform13" type="submit" value="ADD"/></td>
+                            <td class="redbutton center"><input form="myform13" type="reset" value="CLEAR"/></td>
+                        </tr>                        
+                    </table>
+                </form>
+            </div>
+            <div id="modify" class="tabcontent center">
+                <center><p class="title">MODIFY</p></center>
+                <form method="post" id="myform14" name="myform14" action="modify_validation.jsp">
+                </form>
+                <input type="hidden" id="operator2" value="<%=request.getParameter("operator2")%>"/>
+                    <table class="tablecontent modify center" cellspacing="15">
+                        <tr>
+                            <td>MOBILE OPERATOR</td>
+                            <%
+                                String ph2 = "";
+                                if(request.getParameter("phone2")!=null) ph2=request.getParameter("phone2");
+                                if(request.getParameter("butt")!=null && request.getParameter("butt").equals("GET"))
+                                {
+                                %>
+                                <td>
+                                    <input form="myform14" type="text" value="<%=request.getParameter("operator2")%>" name="operator2" readonly/>
+                                </td>
+                                <%
+                                }
+                                else{
+                                %>    
+                                <td>
+                                    <select form="myform14" name="operator2" required>
+                                        <option></option>
+                                        <option id="airtel2" value="airtel">Airtel</option>
+                                        <option id="jio2" value="jio">Jio</option>
+                                        <option id="bsnl2" value="bsnl">Bsnl</option>
+                                        <option id="vodofone2" value="vodofone">Vodofone</option>
+                                        <option id="airtellandline2" value="airtellandline">Airtel Landline</option>
+                                        <option id="airtelvip2" value="airtelvip">Airtel Vip</option>
+                                        <option id="bsnllandline2" value="bsnllandline">Bsnl Landline</option>
+                                    </select>
+                                </td>
+                                <%}%>
+                            </tr>
+                            <%
+                            if(request.getParameter("butt")!=null && request.getParameter("butt").equals("GET"))
+                            {
+                            %>    
+                            <tr>
+                                <td>PHONE NUMBER</td>
+                                <td><input form="myform14" type="text" value="<%=request.getParameter("phone2")%>" name="phone2" readonly/></td>
+                            </tr>
+                            <tr>
+                                <td>NAME</td>
+                                <td><input form="myform14" type="text" name="name2" value="<%=request.getParameter("name2")%>" required/></td>
+                            </tr>
+                            <tr>
+                                <td>STAFF ID</td>
+                                <td><input form="myform14" type="text" name="emp2" value="<%=request.getParameter("emp2")%>" pattern="[0-9]{5}" title="It must contain 5 digits only" required/></td>
+                            </tr>
+                            <tr>
+                                <td>DESIGNATION</td>
+                                <td><input form="myform14" type="text" name="desi2" value="<%=request.getParameter("desi2")%>" required/></td>
+                            </tr>    
+                            <tr>
+                                <td class="greenbutton center"><input form="myform14" type="submit" value="SAVE" name="button"/></td>
+                                <td class="redbutton center"><input form="myform14" type="submit" value="BACK" name="button"/></td>
+                            </tr>
+                            <%
+                            }
+                            else
+                            {
+                            %>
+                            <tr>
+                                <td>PHONE NUMBER</td>
+                                <td><input form="myform14" type="text" value="<%=ph2%>" name="phone2" pattern="[0-9]{10}" title="Phone Number must contain 10 digits only" required/></td>
+                            </tr>
+                            <tr>
+                                <td>NAME</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>STAFF ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>DESIGNATION</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="greenbutton center"><input form="myform14" type="submit" value="GET" name="button"/></td>
+                                <td class="redbutton center"><input form="myform14" type="reset" value="CLEAR"/></td>
+                            </tr>
+                            <%
+                            }
+                        %>
+                    </table>
+                </form>
+            </div>
+            <div id="delete" class="tabcontent center">
+                <center><p class="title">DELETE</p></center>
+                <form id="myform15" name="myform15" method="post" action="delete_validation.jsp">
+                </form>
+                <input type="hidden" id="operator3" value="<%=request.getParameter("operator3")%>"/>
+                    <table class="tablecontent delete center" cellspacing="20">
+                        <tr>
+                            <td>MOBILE OPERATOR</td>
+                            <%
+                                String ph3 = "";
+                                if(request.getParameter("phone3")!=null) ph3=request.getParameter("phone3");
+                                if(request.getParameter("delete")!=null && request.getParameter("delete").equals("DELETE"))
+                                {
+                                %>
+                                <td><input form="myform15" type="text" name="operator3" value="<%=request.getParameter("operator3")%>" readonly/></td>
+                                <%
+                                }
+                                else
+                                {
+                                %>    
+                                <td>
+                                    <select form="myform15" name="operator3" required>
+                                        <option></option>
+                                        <option id="airtel3" value="airtel">Airtel</option>
+                                        <option id="jio3" value="jio">Jio</option>
+                                        <option id="bsnl3" value="bsnl">Bsnl</option>
+                                        <option id="vodofone3" value="vodofone">Vodofone</option>
+                                        <option id="airtellandline3" value="airtellandline">Airtel Landline</option>
+                                        <option id="airtelvip3" value="airtelvip">Airtel Vip</option>
+                                        <option id="bsnllandline3" value="bsnllandline">Bsnl Landline</option>
+                                    </select>
+                                </td>
+                                <%
+                                }
+                            %>
+                            </tr>
+                            <%
+                            if(request.getParameter("delete")!=null && request.getParameter("delete").equals("DELETE"))
+                            {
+                            %>
+                            <tr>
+                                <td>PHONE NUMBER</td>
+                                <td><input form="myform15" type="text" value="<%=request.getParameter("phone3")%>" name="phone3" readonly/></td>
+                            </tr>
+                            <tr>
+                                <td>NAME</td>
+                                <td><%=request.getParameter("name3")%></td>
+                            </tr>
+                            <tr>
+                                <td>STAFF ID</td>
+                                <td><%=request.getParameter("emp3")%></td>
+                            </tr>
+                            <tr>
+                                <td>DESIGNATION</td>
+                                <td><%=request.getParameter("desi3")%></td>
+                            </tr>
+                            <tr>
+                                <td class="greenbutton center"><input form="myform15" type="submit" value="CONFIRM" name="delete"/></td>
+                                <td class="redbutton center"><input form="myform15" type="submit" value="BACK" name="delete"/></td>
+                            </tr>
+                            <%
+                            }
+                            else
+                            {
+                            %>
+                            <tr>
+                                <td>PHONE NUMBER</td>
+                                <td colspan="2"><input form="myform15" value="<%=ph3%>" type="text" name="phone3" pattern="[0-9]{10}" title="Phone Number must contain 10 digits only" /></td>
+                            </tr>
+                            <tr>
+                                <td>NAME</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>STAFF ID</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>DESIGNATION</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="greenbutton center"><input form="myform15" type="submit" value="DELETE" name="delete"/></td>
+                                <td class="redbutton center"><input form="myform15" type="reset" value="CLEAR"/></td>
+                            </tr>
+                            <%
+                            }
+                        %>
+                    </table>
+                </form>
+            </div>
             <div id="gst" class="tabcontent">
                 <center><P class="title">GST</p></center>
                 <form name="myform10" id="myform10" method="post" action="gst_validation.jsp">
@@ -1037,6 +1275,40 @@
                 if(e_menubar===c_menubar[i])
                 {
                     document.getElementById('default'+i).click();
+                    if(e_menubar==="add")
+                    {
+                        let operator = document.getElementById('operator1').value;
+                        for(let j=1;j<=7;j++)
+                        {
+                            if(operator===c_menubar[j])
+                            {
+                                alert(e_menubar+":"+operator);
+                                document.getElementById(c_menubar[j]+'1').setAttribute("selected","");
+                            }
+                        }
+                    }
+                    if(e_menubar==="modify")
+                    {
+                        let operator= document.getElementById('operator2').value;
+                        for(let j=1;j<=7;j++)
+                        {
+                            if(operator===c_menubar[j])
+                            {
+                                document.getElementById(c_menubar[j]+'2').setAttribute("selected","");
+                            }
+                        }
+                    }
+                    if(e_menubar==="delete")
+                    {
+                        let operator= document.getElementById('operator3').value;
+                        for(let j=1;j<=7;j++)
+                        {
+                            if(operator===c_menubar[j])
+                            {
+                                document.getElementById(c_menubar[j]+'3').setAttribute("selected","");
+                            }
+                        }
+                    }
                 }
             }
             if(document.getElementById('status').value==="done"){
