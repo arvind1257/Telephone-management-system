@@ -8,14 +8,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="icon" href="VITLogoEmblem.png">
-        <link rel="stylesheet" href="bootstrap.min.css">
-        <link href="jquery.dataTables.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="bootstrap-datepicker.min.css">
-        <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
-        <script src="jquery.dataTables.min.js"></script>
-        <script src="bootstrap-datepicker.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap-datepicker.min.css">
+        <script src="bootstrap-datepicker.min.js"></script>
+        <script src="jquery.dataTables.min.js"></script>
+        <link href="jquery.dataTables.min.css" rel="stylesheet" />
+        <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+        <link rel="icon" href="VITLogoEmblem.png">
         <title>E-BILL</title>
         <%
             response.setHeader("Cache-Control","no-store");
@@ -360,10 +360,10 @@
                 width:80%;
                 height:225px;
             }
-            .gst,.signup,.add,.modify,.delete{
+            .gst,.signup,.add,.modify,.delete,.download{
                 font-size:18px;
             }
-            .gst input,.signup input,.add input,.add select,.modify select,.modify input,.delete select,.delete input{
+            .gst input,.signup input,.add input,.add select,.modify select,.modify input,.delete select,.delete input,.download select,.download input{
                 font-size:15px;
             }
             .btn{
@@ -435,11 +435,11 @@
                 .btn{
                     width:85%;
                 }
-                .gst,.signup,.add,.modify,.delete {
+                .gst,.signup,.add,.modify,.delete,.download {
                     font-size:15px;
                 }
                 
-                .gst input,.signup input,.add input,.add select,.modify select,.modify input,.delete select,.delete input{
+                .gst input,.signup input,.add input,.add select,.modify select,.modify input,.delete select,.delete input,.download select,.download input{
                     font-size:13px;
                 }
                 .greenbutton input{
@@ -531,10 +531,10 @@
                 .btn{
                     width:100%;
                 }
-                .gst,.signup,.add,.modify,.delete{
+                .gst,.signup,.add,.modify,.delete,.download{
                     font-weight:bold;
                 }
-                .gst,.signup input,.add input,.add select,.modify input,.modify select,.delete select,.delete input{
+                .gst,.signup input,.add input,.add select,.modify input,.modify select,.delete select,.delete input,.download select,.download input{
                     font-size:12px;
                 }
                 .pcontent11{
@@ -662,14 +662,7 @@
                 }
                 %>
                 <li><button class="tablinks" onclick="openMode(event, 'display')" id="default11">DISPLAY</button></li>
-                <li><button>DOWNLOAD <i class="fas fa-caret-down"></i></button>
-                    <div class="ctab">
-                        <ul>
-                            <li><button class="tablinks" onclick="openMode(event, 'single')" id="default12">Report</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'multiple')"  id="default13">MONTH WISE Report</button></li>
-                        </ul>
-                    </div>
-                </li>    
+                <li><button class="tablinks" onclick="openMode(event, 'download')" id="default12">DOWNLOAD</button></li>
                 <%
                 if(admin.equals(username))
                 {
@@ -1138,6 +1131,58 @@
                     </table>
                 </form>
             </div>
+            <div id="download" class="tabcontent center">
+                <center><p class="title">DOWNLOAD</p></center>
+                <form id="myform16" name="myform16" method="post" action="<%=request.getContextPath()%>/download2.jsp" onsubmit="return submitForm()">
+                </form>    
+                <input type="hidden" id="operator4" value="<%=request.getParameter("mobile5")%>"/>
+                <input type="hidden" id="download1" value="<%=request.getContextPath()%>/download1.jsp"/>
+                <input type="hidden" id="download2" value="<%=request.getContextPath()%>/download2.jsp"/>
+                    <table class="tablecontent download center" cellspacing="20">
+                        <tr>
+                            <td>Mobile operator*</td>
+                            <%
+                                String dmonth1 ="";
+                                String dmonth2 ="";                            
+                                if(request.getParameter("mobile5")!=null)
+                                {
+                                    dmonth1=request.getParameter("dmonth1");
+                                    dmonth2=request.getParameter("dmonth2");                                
+                                }    
+                                %>    
+                                <td>
+                                    <select form='myform16' name="mobile5" required>
+                                        <option></option>
+                                        <option id="airtel4" value="airtel">Airtel</option>
+                                        <option id="jio4" value="jio">Jio</option>
+                                        <option id="bsnl4" value="bsnl">Bsnl</option>
+                                        <option id="vodofone4" value="vodofone">Vodofone</option>
+                                        <option id="airtellandline4" value="airtellandline">Airtel Landline</option>
+                                        <option id="airtelvip4" value="airtelvip">Airtel Vip</option>
+                                        <option id="bsnllandline4" value="bsnllandline">Bsnl Landline</option>
+                                    </select>
+                                </td>  
+                        </tr>
+                        <tr>
+                            <td>From 
+                                <div class="input-group date datepicker">
+                                    <input id='from1' form='myform16' style="width:90%;" type="text" onchange='checkdate("from","from1","to1")' onkeydown="return false" value="<%=dmonth1%>" name="dmonth1" required>
+                                    <span class="input-group-append"></span>
+                                </div>
+                            </td>
+                            <td>To 
+                                <div class="input-group date datepicker">
+                                    <input id='to1' form='myform16' style="width:90%;" type="text" onchange='checkdate("to","from1","to1")' onkeydown="return false" value="<%=dmonth2%>" name="dmonth2" required>
+                                    <span class="input-group-append"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="greenbutton center" colspan="2"> <input form='myform16' type="submit" style='width:40%;' value="Download"/>
+                        </tr>
+                    </table>            
+            </div>
+                
             <div id="gst" class="tabcontent">
                 <center><P class="title">GST</p></center>
                 <form name="myform10" id="myform10" method="post" action="gst_validation.jsp">
@@ -1268,7 +1313,7 @@
         <script>
             editselect(false,'myform11');
             document.getElementById('default0').click();
-            var c_menubar = ["home","airtel","jio","bsnl","vodofone","airtelvip","airtellandline","bsnllandline","add","modify","delete","display","single","multiple","gst","signup","freeze","profile"];
+            var c_menubar = ["home","airtel","jio","bsnl","vodofone","airtelvip","airtellandline","bsnllandline","add","modify","delete","display","download","","gst","signup","freeze","profile"];
             var e_menubar = document.getElementById('menubar').value;
             for(let i=0;i<c_menubar.length;i++)
             {
@@ -1316,6 +1361,41 @@
             }
             else{
                 switchtab('content1','content2');
+            }
+            function submitForm()
+            {
+                if(document.myform16.dmonth1.value===document.myform16.dmonth2.value){
+                    document.myform16.action=document.getElementById('download1').value;
+                }
+                else{
+                    document.myform16.action=document.getElementById('download2').value;
+                }
+                return true;
+            }
+            function checkdate(check,date1,date2)
+            {
+                var curr = new Date();
+                var from = new Date(document.getElementById(date1).value);
+                var to = new Date(document.getElementById(date2).value);
+
+                if(check==="from" && curr.getTime()-from.getTime()<0)
+                {
+                    document.getElementById(date1).value="";
+                    alert("Incorrect From Date");
+                }
+                if(check==="to" && curr.getTime()-to.getTime()<0)
+                {
+                    document.getElementById(date2).value="";
+                    alert("Incorrect To Date");
+                }
+                if(document.getElementById(date1).value.length>0 && document.getElementById(date2).value.length>0){
+                    if(from.getTime()-to.getTime()>0)
+                    {
+                        if(check==="to") document.getElementById(date2).value="";
+                        if(check==="from") document.getElementById(date1).value="";
+                        alert("Invalid Date");
+                    }
+                }
             }
             function edittab(status,form,type){
                 var element = document.querySelectorAll("input[form='"+form+"'][type='text']");
@@ -1445,6 +1525,36 @@
                 document.getElementById(operator).style.display = "block";
                 evt.currentTarget.className += " active";
             }
+        </script>
+        <script>
+            $(function() {
+                $('.datepicker').datepicker(
+                {
+                    startView: 1,
+                    minViewMode: 1,
+                    format: 'yyyy-mm',
+                    clearBtn: true
+                });
+            });
+            $(document).ready(function () {
+                
+                $('#example1').DataTable({"bPaginate": false,"paging": false});
+                $('#example11').DataTable({"bPaginate": false,"paging": false});
+                $('#example2').DataTable({"bPaginate": false,"paging": false});
+                $('#example22').DataTable({"bPaginate": false,"paging": false});
+                $('#example3').DataTable({"bPaginate": false,"paging": false});
+                $('#example33').DataTable({"bPaginate": false,"paging": false});
+                $('#example4').DataTable({"bPaginate": false,"paging": false});
+                $('#example44').DataTable({"bPaginate": false,"paging": false});
+                $('#example5').DataTable({"bPaginate": false,"paging": false});
+                $('#example55').DataTable({"bPaginate": false,"paging": false});
+                $('#example6').DataTable({"bPaginate": false,"paging": false});
+                $('#example66').DataTable({"bPaginate": false,"paging": false});
+                $('#example7').DataTable({"bPaginate": false,"paging": false});
+                $('#example77').DataTable({"bPaginate": false,"paging": false});
+                $('#example').DataTable({"bPaginate": false,"paging": false});
+                $('#example8').DataTable({"bPaginate": false,"paging": false});
+            });
         </script>
     </body>
 </html>
