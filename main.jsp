@@ -360,10 +360,10 @@
                 width:80%;
                 height:225px;
             }
-            .gst,.signup,.add,.modify,.delete,.download{
+            .gst,.signup,.add,.modify,.delete,.download,.display1{
                 font-size:18px;
             }
-            .gst input,.signup input,.add input,.add select,.modify select,.modify input,.delete select,.delete input,.download select,.download input{
+            .gst input,.signup input,.add input,.add select,.modify select,.modify input,.delete select,.delete input,.download select,.download input,.display1 select,.display1 input{
                 font-size:15px;
             }
             .btn{
@@ -435,11 +435,11 @@
                 .btn{
                     width:85%;
                 }
-                .gst,.signup,.add,.modify,.delete,.download {
+                .gst,.signup,.add,.modify,.delete,.download,.display1 {
                     font-size:15px;
                 }
                 
-                .gst input,.signup input,.add input,.add select,.modify select,.modify input,.delete select,.delete input,.download select,.download input{
+                .gst input,.signup input,.add input,.add select,.modify select,.modify input,.delete select,.delete input,.download select,.download input,.display1 select,.display1 input{
                     font-size:13px;
                 }
                 .greenbutton input{
@@ -531,10 +531,10 @@
                 .btn{
                     width:100%;
                 }
-                .gst,.signup,.add,.modify,.delete,.download{
+                .gst,.signup,.add,.modify,.delete,.download,.display1{
                     font-weight:bold;
                 }
-                .gst,.signup input,.add input,.add select,.modify input,.modify select,.delete select,.delete input,.download select,.download input{
+                .gst,.signup input,.add input,.add select,.modify input,.modify select,.delete select,.delete input,.download select,.download input,.display1 select,.display1 input{
                     font-size:12px;
                 }
                 .pcontent11{
@@ -574,6 +574,9 @@
                 .tab ul li:hover .ctab ul li button:hover{
                     color: black;
                     z-index: 1;
+                }
+                .display td{
+                    font-weight:lighter;
                 }
             }
         </style>
@@ -1131,6 +1134,305 @@
                     </table>
                 </form>
             </div>
+                    
+                    <%!
+                        public String convert(String date,int n)
+                        {
+                            LocalDate dates = LocalDate.parse(date+"-01");
+                            dates = dates.plusMonths(n);
+                            String date2 = dates.toString();
+                            String[] date1 = date2.split("-");
+                            return date1[0]+"-"+date1[1];
+                        }
+                    %>
+                    
+            <div id="display" class="tabcontent center">
+            <center><p class="title">DISPLAY</p></center>
+            <table class="tablecontent display1 center" style="width:100%;">
+                <tr>
+                    <td>
+                        <form id="myform17" name="myform17" method="post" action="main.jsp" onsubmit="return submitForm1()">
+                            <input type="hidden" id="operator5" value="<%=request.getParameter("mobile1")%>" />
+                        </form>
+                            <table cellspacing="20" class=" center">
+                                <tr>
+                                    <td>Mobile operator*</td>
+                                    <%
+                                        int count8 = 0 ; 
+                                        if(request.getParameter("count")==null || Integer.parseInt(request.getParameter("count"))==0 || Integer.parseInt(request.getParameter("count"))==1)
+                                        {
+                                            %><input type="hidden" id="displayTab" value="singlemonth" /><%
+                                        }
+                                        else
+                                        {
+                                            count8 = Integer.parseInt(request.getParameter("count"));
+                                            %><input type="hidden" id="displayTab" value="multiplemonth" /><%
+                                        }
+                                        String dbmonth1="";
+                                        String dbmonth2="";
+                                        if(request.getParameter("dbmonth1")!=null)
+                                            dbmonth1=request.getParameter("dbmonth1");
+                                        if(request.getParameter("dbmonth2")!=null)
+                                            dbmonth2=request.getParameter("dbmonth2");
+                                    %>    
+                                            <td>
+                                                <select form="myform17" name="mobile1" required>
+                                                    <option></option>
+                                                    <option value="airtel" id="airtel5">Airtel</option>
+                                                    <option value="jio" id="jio5">Jio</option>
+                                                    <option value="bsnl" id="bsnl5">Bsnl</option>
+                                                    <option value="vodofone" id="vodofone5">Vodofone</option>
+                                                    <option value="airtellandline" id="airtellandline5">Airtel Landline</option>
+                                                    <option value="airtelvip" id="airtelvip">Airtel Vip</option>
+                                                    <option value="bsnllandline" id="bsnllandline5">Bsnl Landline</option>
+                                                </select>
+                                            </td>
+                                </tr>
+                                <tr>
+                                    <td>From
+                                        <div class="input-group date datepicker">
+                                            <input form="myform17" id="from2" style="width:90%;" type="text" onkeydown="return false" onchange='checkdate("from","from2","to2")' value="<%=dbmonth1%>" name="dbmonth1" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                    <td>To
+                                        <div class="input-group date datepicker">
+                                            <input form="myform17" id="to2" style="width:90%;" type="text" onkeydown="return false" onchange='checkdate("to","from2","to2")' value="<%=dbmonth2%>" name="dbmonth2" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="greenbutton center" colspan="2"> <input form="myform17" type="submit" value="submit"/>
+                                </tr>
+                            </table>
+                            <input form="myform17" type="hidden" value="display" name="menubar" /> 
+                            <input form="myform17" type="hidden" value="<%=count8%>" name="count"/>
+                        </form>    
+                    <div id="singlemonth" style="display:none;">
+                        <div class="center" style="overflow-x:auto;width:90vw;">
+                            
+                        <table id="example" class="display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>S no</th>
+                                    <th>Name</th>
+                                    <th>Staff ID</th>
+                                    <th>Designation</th>
+                                    <th>Phone No</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                            double sum8=0;
+                            double sum88=0;
+                            double cgst8=0;
+                            double sgst8=0;
+                            double fixed8 = 0.0;
+                            double misc8 = 0.0;
+                            double usage8 = 0.0;
+                            double late8 = 0.0;
+                            double discount8 = 0.0;
+                            double adj8 = 0.0;
+                            if(request.getParameter("mobile1")!=null)
+                            {
+                                String mobile1 = request.getParameter("mobile1");
+                                rs = stm.executeQuery("select * from bills where operator='"+mobile1+"' and date = '"+dbmonth1+"'");
+                                int a8=0;
+                                while(rs.next())
+                                {
+                                %>
+                                
+                                <tr>
+                                    <td align="center"><%=a8+1%></td>
+                                    <td align="left"><%=rs.getString("name")%></td>
+                                    <td align="center"><%=rs.getString("emp")%></td>
+                                    <td align="left"><%=rs.getString("desi")%></td>
+                                    <td align="center"><%=rs.getString("phone")%></td>
+                                    <td align="right"><%=rs.getString("amount")%></td>
+                                </tr>
+                                <%
+                                    a8++;
+                                    if(request.getParameter("mobile1")!=null && request.getParameter("mobile1").equals("bsnl"))
+                                    {
+                                        cgst8=Double.parseDouble(rs.getString("cgst"));
+                                        sgst8=Double.parseDouble(rs.getString("sgst"));
+                                        fixed8 = Double.parseDouble(rs.getString("fixed"));
+                                        usage8 = Double.parseDouble(rs.getString("usages"));
+                                        misc8 = Double.parseDouble(rs.getString("misc"));
+                                        late8 = Double.parseDouble(rs.getString("late"));
+                                        discount8 = Double.parseDouble(rs.getString("discount"));
+                                        adj8 = Double.parseDouble(rs.getString("adj"));
+                                    }
+                                    else
+                                    {
+                                        cgst8=Double.parseDouble(rs.getString("cgst"));
+                                        sgst8=Double.parseDouble(rs.getString("sgst"));
+                                        sum8+=Double.parseDouble(rs.getString("amount"));
+                                    }
+                                }
+                                %>
+                                    </tbody>
+                                    <tfoot>
+                                <%
+                                if(request.getParameter("mobile1")!=null && request.getParameter("mobile1").equals("bsnl"))
+                                {
+                                    sum8+=fixed8+usage8+misc8+late8;
+                                    sum88+=sum8-discount8-adj8;
+                                    cgst8*=sum88;
+                                    sgst8*=sum88;
+                                    %>
+                                    <tr>
+                                    <th colspan="5" align="right">Fixed Monthly Charge</th>
+                                    <td align="right"><%=Math.round(fixed8*100.0)/100.0%></td>
+                                    </tr>
+                                    <tr>
+                                    <th colspan="5" align="right">Usage Charge</th>
+                                    <td align="right"><%=Math.round(usage8*100.0)/100.0%></td>
+                                    </tr>
+                                    <tr>
+                                    <th colspan="5" align="right">Miscellaneous Charge</th>
+                                    <td align="right"><%=Math.round(misc8*100.0)/100.0%></td>
+                                    </tr>
+                                    <tr>
+                                    <th colspan="5" align="right">Late Charge</th>
+                                    <td align="right"><%=Math.round(late8*100.0)/100.0%></td>
+                                    </tr>
+                                    <tr>
+                                    <th colspan="5" align="right">Sub Total</th>
+                                    <td align="right"><%=Math.round(sum8*100.0)/100.0%></td>
+                                    </tr>
+                                    <tr>
+                                    <th colspan="5" align="right">Discount</th>
+                                    <td align="right"><%=Math.round(discount8*100.0)/100.0%></td>
+                                    </tr>
+                                    <tr>
+                                    <th colspan="5" align="right">Adjustments</th>
+                                    <td align="right"><%=Math.round(adj8*100.0)/100.0%></td>
+                                    </tr>
+                                    <tr>
+                                    <th colspan="5" align="right">Total Charge</th>
+                                    <td align="right"><%=Math.round(sum88*100.0)/100.0%></td>
+                                    </tr>
+                                    <tr>
+                                    <th colspan="5" align="right">CGST</th>
+                                    <td align="right"><%=Math.round(cgst8*100.0)/100.0%></td>
+                                    </tr>
+                                    <tr>
+                                    <th colspan="5" align="right">SGST</th>
+                                    <td align="right"><%=Math.round(sgst8*100.0)/100.0%></td>
+                                    </tr>
+                                    <tr>
+                                    <th colspan="5" align="right">Grand Total</th>
+                                    <td align="right"><%=Math.round((sgst8+cgst8+sum88)*100.0)/100.0%></td>
+                                    </tr>
+                                    <%
+                                }
+                                else{
+                                    cgst8*=sum8;
+                                    sgst8*=sum8;
+                                    %>
+                                    <tr>
+                                    <th colspan="5" align="right">Sub Total</th>
+                                    <td align="right"><%=Math.round(sum8*100.0)/100.0%></td>
+                                    </tr>
+                                    <tr>
+                                    <th colspan="5" align="right">CGST</th>
+                                    <td align="right"><%=Math.round(cgst8*100.0)/100.0%></td>
+                                    </tr>
+                                    <tr>
+                                    <th colspan="5" align="right">SGST</th>
+                                    <td align="right"><%=Math.round(sgst8*100.0)/100.0%></td>
+                                    </tr>
+                                    <tr>
+                                    <th colspan="5" align="right">Grand Total</th>
+                                    <td align="right"><%=Math.round((sgst8+cgst8+sum8)*100.0)/100.0%></td>
+                                    </tr>
+                                    <%
+                                }
+                            }
+                            %>   
+                            </tfoot>
+                        </table>
+                    </div>
+                    </div>
+                        <div id="multiplemonth" style="display:none;">
+                            <%
+                            if(request.getParameter("mobile1")!=null)
+                            {
+                            String mobile1 = request.getParameter("mobile1");
+                            %>
+                            <div class="center" style="overflow-x:auto;width:90vw;">
+                            <table id="example1" class="display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Sno</th>
+                                    <th>Name</th>
+                                    <th>Staff ID</th>
+                                    <th>Designation</th>
+                                    <th>Phone No</th>
+                                    <%
+                                    for(int i=0;i<count8;i++)
+                                    {
+                                        %><th><%=convert(dbmonth1,i)%></th><%
+                                    }
+                                    %>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                            
+                                rs=stm.executeQuery("select * from "+mobile1);  
+                                int z=0;
+                                while(rs.next())
+                                {
+                                    z++;
+                                    double rowsum = 0;
+                                    %>
+                                    <tr>
+                                        <td><%=z%></td>
+                                        <td><%=rs.getString("name")%></td>
+                                        <td><%=rs.getString("emp")%></td>
+                                        <td><%=rs.getString("desi")%></td>
+                                        <td><%=rs.getString("phone")%></td>
+                                    <%
+                                    
+                                        for(int i=0;i<count8;i++)
+                                        {
+                                            rs1 = stm1.executeQuery("select * from bills where operator='"+mobile1+"' and phone='"+rs.getString("phone")+"' and date='"+convert(dbmonth1,i)+"'");
+                                            if(rs1.next())
+                                            {
+                                            
+                                                %>
+                                                <td><%=rs1.getString("amount")%></td>
+                                                <%                    
+                                                rowsum+=Double.parseDouble(rs1.getString("amount"));
+                                            }  
+                                            else{
+                                                %>
+                                                <td>0</td>
+                                                <%  
+                                            }
+                                        }
+                                    
+                                    %>
+                                        <td><%=rowsum%></td>
+                                    </tr>
+                                    <%
+                                }
+                            }
+                            %>   
+                            </tbody>
+                            </table>
+                            </div>
+                    </div>
+                        
+                    </td>
+                </tr>
+            </table>
+        </div>
             <div id="download" class="tabcontent center">
                 <center><p class="title">DOWNLOAD</p></center>
                 <form id="myform16" name="myform16" method="post" action="<%=request.getContextPath()%>/download2.jsp" onsubmit="return submitForm()">
@@ -1311,6 +1613,7 @@
                     </table>
             </div>                        
         <script>
+            document.getElementById(document.getElementById('displayTab').value).style.display="block";
             editselect(false,'myform11');
             document.getElementById('default0').click();
             var c_menubar = ["home","airtel","jio","bsnl","vodofone","airtelvip","airtellandline","bsnllandline","add","modify","delete","display","download","","gst","signup","freeze","profile"];
@@ -1354,6 +1657,17 @@
                             }
                         }
                     }
+                    if(e_menubar==="display")
+                    {
+                        let operator= document.getElementById('operator5').value;
+                        for(let j=1;j<=7;j++)
+                        {
+                            if(operator===c_menubar[j])
+                            {
+                                document.getElementById(c_menubar[j]+'5').setAttribute("selected","");
+                            }
+                        }
+                    }
                 }
             }
             if(document.getElementById('status').value==="done"){
@@ -1361,6 +1675,14 @@
             }
             else{
                 switchtab('content1','content2');
+            }
+            function submitForm1()
+            {
+                var from = new Date(document.getElementById("from2").value);
+                var to = new Date(document.getElementById("to2").value);
+                var month = (to.getFullYear() - from.getFullYear())*12 + to.getMonth() - from.getMonth() + 1; 
+                document.myform17.count.value=month;
+                return true;
             }
             function submitForm()
             {
@@ -1538,7 +1860,7 @@
             });
             $(document).ready(function () {
                 
-                $('#example1').DataTable({"bPaginate": false,"paging": false});
+                $('#example1').DataTable({"bPaginate": false,"paging": false,"scrollX": true});
                 $('#example11').DataTable({"bPaginate": false,"paging": false});
                 $('#example2').DataTable({"bPaginate": false,"paging": false});
                 $('#example22').DataTable({"bPaginate": false,"paging": false});
@@ -1552,7 +1874,7 @@
                 $('#example66').DataTable({"bPaginate": false,"paging": false});
                 $('#example7').DataTable({"bPaginate": false,"paging": false});
                 $('#example77').DataTable({"bPaginate": false,"paging": false});
-                $('#example').DataTable({"bPaginate": false,"paging": false});
+                $('#example').DataTable({"bPaginate": false,"paging": false,"scrollX": true});
                 $('#example8').DataTable({"bPaginate": false,"paging": false});
             });
         </script>
