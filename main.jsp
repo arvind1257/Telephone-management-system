@@ -116,12 +116,13 @@
                 display: none; 
             }
             .tabcontent11 { 
-                float: left; 
                 width: 70%; 
                 padding:5px; 
+                float: left; 
             }
             .tabcontent12 { 
                 float: right; 
+                position: relative;
                 width: 30%;
                 padding:5px; 
             }
@@ -221,12 +222,15 @@
                 border:10px solid rgba(24,54,186,0.5); 
                 margin-bottom: 40px;
             }
-            .greenbutton input{ 
+            .greenbutton input,.greenbutton1 input{ 
                 color:white; 
                 padding:10px; 
                 background-color:green;
                 border:none; 
                 width:80%;
+            }
+            .greenbutton1 input{ 
+                width:50%;
             }
             .gb{ 
                 color:white; 
@@ -255,7 +259,7 @@
                 padding: 13px 30px; 
                 font-weight:bold;
             }
-            .greenbutton input:hover{ 
+            .greenbutton input:hover,.greenbutton1 input:hover{ 
                 background-color:lightgreen; 
             }
             .redbutton input{ 
@@ -446,9 +450,15 @@
                      
                     width:90%;
                 }
+                .greenbutton1 input {
+                    width:40%;
+                }
                 .tabcontent11, .tabcontent12 {
                     width: 100%;
                     margin-top: 0;
+                }
+                .tablescroll{
+                    width:90vw;
                 }
                 .tab {
                     top:8%;
@@ -476,6 +486,10 @@
                     color: black;
                     z-index: 1;
                 }
+                
+                .btnstyle{
+                    width:40%;
+                }
             }
             @media (max-width: 650px) {
                 .header{ 
@@ -484,6 +498,9 @@
                 .head1{
                     width:30%; 
                     font-size:12px;
+                }
+                .btnstyle{
+                    width:40%;
                 }
                 .head2{
                     width:50%; 
@@ -503,6 +520,11 @@
                     border-radius: 20px;
                     font-size: 15px;   
                 }
+                .tabcontent{
+                    width:90%;
+                    padding:10px 0px;
+                    border:1px solid black;
+                }
                 .dropdown-content { 
                     width: 130px; 
                     right:6%;
@@ -519,6 +541,12 @@
                 .tabcontent11, .tabcontent12 {
                     width: 100%;
                     margin-top: 0;
+                }
+                .buttonstyle{ 
+                    font-size:16px; 
+                    width:140px;
+                    padding: 13px 18px; 
+                    font-weight:bold;
                 }
                 .profile{
                     float:none; 
@@ -582,6 +610,47 @@
         </style>
     </head>
     <body>
+    <%!
+        public boolean convert(String date,HttpServletRequest request)
+        {
+            HttpSession session=request.getSession();  
+            String fdate = "";
+            try
+            {
+                Connection con = (Connection)session.getAttribute("connection");
+                Statement stm = con.createStatement();
+                ResultSet rs =null;
+                rs = stm.executeQuery("select * from freeze");
+                while(rs.next())
+                {
+                    fdate=rs.getString(1);
+                }
+            }
+            catch(Exception e)
+            {}
+            if(Integer.parseInt(fdate)<10)
+                fdate='0'+fdate;
+            date+="-"+fdate;
+            LocalDate date1 = LocalDate.parse(date);
+            date1 = date1.plusMonths(1);
+            LocalDate date2 = LocalDate.now();
+            Period period = Period.between(date2,date1);
+            if(period.getYears()<0 || period.getMonths()<0 || period.getDays()<0)
+                return false;
+            else
+                return true;
+        }
+    %>
+    <%!
+        public String convert1(String date,int n)
+        {
+            LocalDate dates = LocalDate.parse(date+"-01");
+            dates = dates.plusMonths(n);
+            String date2 = dates.toString();
+            String[] date1 = date2.split("-");
+            return date1[0]+"-"+date1[1];
+        }
+    %>
     <%  
         Connection con ;
         Statement stm = null ,stm1 = null;
@@ -593,15 +662,15 @@
         String photourl = "";
         String[] name = new String[100];
         
-            username = session.getAttribute("uid").toString();
-            admin = session.getAttribute("admin").toString();
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = (Connection)session.getAttribute("connection");
-            stm = con.createStatement();
-            stm1 = con.createStatement();
-            rs =null;
-            rs1 =null;
-
+        username = session.getAttribute("uid").toString();
+        admin = session.getAttribute("admin").toString();
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        con = (Connection)session.getAttribute("connection");
+        stm = con.createStatement();
+        stm1 = con.createStatement();
+        rs =null;
+        rs1 =null;
+        Calendar cal = Calendar.getInstance();
         rs = stm.executeQuery("select * from login");
         while(rs.next())
         {
@@ -896,6 +965,433 @@
                 </div>
             </div>
         </div>
+        <div id="airtel" class="tabcontent center" style="width:100%;">
+            <center><p class="title">AIRTEL</p></center>
+            <table class="tablecontent display1 center" style="width:100%;">
+                <tr>
+                <td>
+                <div class="tab2">
+                    <table class="center" cellspacing="30">
+                        <tr>
+                        <%
+                            if(request.getParameter("button")!=null && request.getParameter("bill_operator").equals("airtel"))
+                            {
+                            if(request.getParameter("button").equals("new"))
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new1')" id="defaultOpen5">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old1')">OLD BILL</button></td>
+                            <%
+                            }
+                            else if(request.getParameter("button").equals("old"))
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new1')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old1')" id="defaultOpen5">OLD BILL</button></td>
+                            <%
+                            }
+                            else
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new1')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old1')">OLD BILL</button></td>
+                            <%
+                            }
+                            }
+                            else
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new1')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old1')">OLD BILL</button></td>
+                            <%
+                            }
+                        %>
+                        </tr>
+                    </table>
+                </div>
+                <div id="new1" class="tabcontent2">
+                <%
+                    int month = cal.get(Calendar.MONTH) + 1 ;
+                    int year = cal.get(Calendar.YEAR);
+                    String currentdate = "";
+                    if(month<10)
+                    {
+                        currentdate = year+"-"+"0"+month;
+                    }
+                    else
+                    {
+                        currentdate =  year+"-"+month;
+                    }
+                    int count1 = 0;
+                    double sum1 = 0.0;
+                    String bill_date = "";
+                    String[] amt1 = new String[100];
+                    if(request.getParameter("count")!=null && request.getParameter("button").equals("new") && request.getParameter("bill_operator").equals("airtel"))
+                    {
+                        count1=Integer.parseInt(request.getParameter("count"));
+                        for(int i=0;i<count1;i++)
+                            amt1[i]=request.getParameter(name[i]);
+                        if(request.getParameter("sum")!=null)
+                            sum1=Double.parseDouble(request.getParameter("sum"));
+                        if(request.getParameter("bill_date")!=null)
+                            bill_date = request.getParameter("bill_date");
+                    }
+                    else
+                        count1=100;
+                    for(int i=0;i<count1;i++)
+                    {
+                        if(amt1[i]==null)
+                            amt1[i]="";
+                    }
+                %>   
+                    <form name="form1" id="form1" method="post" action="bill_validation.jsp"> 
+                    </form>
+                    <form name="form11" id="form11" action="FileUploadServlet" method="post" enctype="multipart/form-data">
+                    </form>
+                        <div class="tabcontent12 center">
+                            <br><br>
+                            <table class="center" cellspacing="20">
+                                <tr>
+                                    <td>BILL MONTH</td>
+                                    <td>
+                                        <div class="input-group date datepicker">
+                                            <input form="form1" style="width:90%;" type="text" onkeydown="return false" onchange="checkdate1(this)" value="<%=bill_date%>" name="bill_date" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>	
+                                    <td>Sub Total</td>
+                                    <td><%=sum1%></td>
+                                </tr>
+                                <tr>
+                                    <td>CGST</td>
+                                    <td><%=Math.round(sum1*cgst*100.0)/100.0%></td>
+                                </tr>
+                                <tr>
+                                    <td>SGST</td>
+                                    <td><%=Math.round(sum1*sgst*100.0)/100.0%></td>
+                                </tr>
+                                <tr>
+                                    <td>Grand Total</td>
+                                    <td><%=Math.round(((sum1*cgst+sum1*sgst)+ sum1)*100.0)/100.0 %></td>
+                                </tr>
+                                <tr>
+                                    <td class="greenbutton center"><input form="form1" type="submit" value="GET" name="submit1"></td>
+                                    <td class="greenbutton center"><input form="form1" type="submit" value="STORE" name="submit1"></td>
+                                </tr>
+                            </table>
+                            <% 
+                            if(!bill_date.isEmpty())
+                            {
+                            rs=stm.executeQuery("select * from receipt where operator='airtel' and date='"+bill_date+"'");
+                            if(rs.next())
+                            {
+                            %>
+                            <table class="center" style="width:100%;" cellspacing="15">    
+                                <tr>
+                                    <td><b>Receipt Filename :</b></td>
+                                    <td style="word-break:break-all;"><%=rs.getString("filename")%></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <a class="gb" target="_blank" href="<%=rs.getString("filepath")%>">Download</a>
+                                    </td>                                    
+                                </tr>
+                            </table>    
+                            <%
+                            }
+                            else
+                            {   
+                            %>
+                            
+                                <table class="center" cellspacing="25">
+                                    <tr>
+                                        <td>Upload Receipt :<input form="form11" type="file" name="file"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="greenbutton1">
+                                            <input form="form11" type="submit" value="Submit" name="submit_receipt"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <input form="form11" type="hidden" name="mobile2" value="airtel"/>
+                                <input form="form11" type="hidden" name="bill_month" value="<%=bill_date%>"/>
+                                <input form="form11" type="hidden" name="button" value="new"/>
+                                <input form="form11" type="hidden" name="count" value="<%=count1%>"/>
+                                <%
+                                for(int i=0;i<count1;i++)
+                                {%>
+                                <input form="form11" type="hidden" value="<%=amt1[i]%>" name="<%=name[i]%>"/>
+                                <%
+                                }
+                            }
+                        }
+                        %>
+                        </div>
+                        <div class="tabcontent11 center" >
+                            <div class="tablescroll center" style="overflow-x:auto;">
+                            <table id="example1" class="display" style="width:100%;" cellspacing="20">
+                                <thead>    
+                                    <tr>
+                                        <td>SNo</td>
+                                        <td>Name</td>
+                                        <td>Staff ID</td>
+                                        <td>Designation</td>
+                                        <td>Phone Number</td>
+                                        <td>Amount</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <%
+                                    int a1=0;
+                                    rs=stm.executeQuery("select * from airtel");
+                                    while(rs.next())
+                                    {                
+                                    %>
+                                    <tr>
+                                        <td><%=a1+1%></td>
+                                        <td><%=rs.getString("name")%></td>
+                                        <td><%=rs.getString("emp")%></td>
+                                        <td><%=rs.getString("desi")%></td>
+                                        <td><%=rs.getString("phone")%></td>
+                                        <td><input form="form1" type="text" value="<%=amt1[a1]%>" name="<%=name[a1]%>" style="width:100px;" required></td>
+                                    </tr>
+                                    <%
+                                        a1++;   
+                                    }
+                                %>  
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                        <input form="form1" type="hidden" value="<%=a1%>" name="count"/>
+                        <input form="form1" type="hidden" value="new" name="button"/>
+                        <input form="form1" type="hidden" value="airtel" name="bill_operator"/>
+                        
+                </div>
+                <div id="old1" class="tabcontent2">
+                <%
+                    String bill_date11="";
+                    String filename="main.jsp";
+                    double sum11=0;
+                    if(request.getParameter("bill_operator")!=null && request.getParameter("bill_date")!=null && request.getParameter("button").equals("old") && request.getParameter("bill_operator").equals("airtel"))
+                    {
+                        bill_date11=request.getParameter("bill_date");
+                        filename="bill_validation.jsp";
+                    }  
+                                int a11=0;
+                                double cgst3=0.0;
+                                double sgst3=0.0;
+                                if(!bill_date11.equals(""))
+                                {
+                                    rs=stm.executeQuery("select * from bills where operator='airtel' and date='"+bill_date11+"'");
+                                    if(rs.next())
+                                    { 
+                                    do
+                                    {
+                                        a11++;  
+                                        if(rs.getString("amount")!=null)
+                                            sum11+=Double.parseDouble(rs.getString("amount"));
+                                        cgst3=Double.parseDouble(rs.getString("cgst"));
+                                        sgst3=Double.parseDouble(rs.getString("sgst"));
+                                    }while(rs.next());
+                                    }
+                                }
+                %>
+                    <div class="tabcontent12 center">
+                        
+                            <br><br>
+                            <table class="center" cellspacing="20">
+                                <tr>
+                                    <td>BILL MONTH</td>
+                                    <td>
+                                        <div class="input-group date datepicker">
+                                            <input form="myform" style="width:90%;" type="text" onkeydown="return false" onchange="checkdate1(this)" value="<%=bill_date11%>" name="bill_date" yform'required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                
+                                </tr>
+                                <tr>	
+                                    <td>Sub Total</td>
+                                    <td><%=sum11%></td>
+                                </tr>
+                                <tr>
+                                    <td>CGST</td>
+                                    <td><%=Math.round(sum11*cgst3*100.0)/100.0%></td>
+                                </tr>
+                                <tr>
+                                    <td>SGST</td>
+                                    <td><%=Math.round(sum11*sgst3*100.0)/100.0%></td>
+                                </tr>
+                                <tr>
+                                    <td>Grand Total</td>
+                                    <td><%=Math.round(((sum11*cgst3+sum11*sgst3) + sum11)*100.0)/100.0%></td>
+                                </tr>
+                                <%  
+                                if(bill_date11.equals(""))
+                                {
+                                %>
+                                <tr>
+                                    <td colspan="2" class="greenbutton1 center"><input form="myform" type="submit" value="GET DETAILS" name="submit1"></td>
+                                </tr>
+                                <%
+                                }
+                                else
+                                {
+                                %>
+                                <tr>
+                                    <%if(convert(bill_date11,request)){%>
+                                    <td class="greenbutton center"><input form="myform" type="submit" value="UPDATE" name="submit1"></td>
+                                    <%}%>
+                                    <td class="redbutton cventer"><input form="myform" type="submit" value="BACK" name="submit1"></td>
+                                </tr>
+                                <%
+                                }
+                                %>    
+                            </table>
+                            
+                        <%
+                        if(!bill_date11.equals(""))
+                        {
+                            rs=stm.executeQuery("select * from receipt where operator='airtel' and date='"+bill_date11+"'");
+                            if(rs.next())
+                            {
+                            %>
+                            <table class="center" cellspacing="15">    
+                                <tr>
+                                    <td><b>Receipt Filename :</b></td>
+                                    <td style="word-break:break-all;"><%=rs.getString("filename")%></td>
+                                </tr>
+                                <%
+                                if(admin.equals(username) && convert(bill_date11,request)) 
+                                {
+                                %>
+                                <tr>
+                                    <td>
+                                        <a class="gb" target="_blank" href="<%=rs.getString("filepath")%>">Download</a>
+                                    </td>
+                                    <td>
+                                        <a class="rb" target="_self" href="deletereceipt.jsp?operator=airtel&bill_month=<%=bill_date11%>&button=old">Delete</a>
+                                    </td>
+                                </tr>    
+                                <%
+                                }
+                                else
+                                {
+                                %>
+                                <tr>
+                                    <td colspan="2">
+                                        <a class="gb" target="_blank" href="<%=rs.getString("filepath")%>">Download</a>
+                                    </td>
+                                </tr>  
+                                <%
+                                }
+                            %>
+                            </table>    
+                            <%
+                            }
+                            else
+                            {   
+                            %>
+                            <form action="FileUploadServlet" method="post" enctype="multipart/form-data">
+                                <table class="center" cellspacing="25">
+                                    <tr>
+                                        <td>Upload Receipt :<input type="file" name="file"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="greenbutton1">
+                                            <input class="btnstyle" type="submit" value="Submit" name="submit_receipt"/>
+                                        </td>
+                                    </tr>
+                                </table> 
+                                <input type="hidden" name="mobile2" value="airtel"/>
+                                <input type="hidden" name="bill_month" value="<%=bill_date11%>"/>
+                                <input type="hidden" name="button" value="old"/>
+                                <input type="hidden" value="<%=a11%>" name="count"/>
+                                
+                            </form>
+                            <%
+                            }
+                            rs=stm.executeQuery("select * from modifier where operator='airtel' and date='"+bill_date11+"'");
+                            if(rs.next())
+                            {
+                            %>
+                            <table class="center" cellspacing="25">
+                                <tr>
+                                    <td>Last Modified By : </td>
+                                    <td><%=rs.getString("emp")%></td>
+                                </tr>
+                            </table>    
+                            <%
+                            }
+                        }
+                        %>
+                    </div>
+                    <div class="tabcontent11 center" >
+                        <form name="myform" id="myform" method="post" action="<%=filename%>"> 
+                        </form>
+                        <div class="center tablescroll" style="overflow-x:auto;">
+                        <table id="example11" class="display" style="width:100%;" cellspacing="20">
+                            <thead>
+                                <tr>
+                                    <td>S No</td>
+                                    <td>Name</td>
+                                    <td>Staff ID</td>
+                                    <td>Designation</td>
+                                    <td>Phone Number</td>
+                                    <td>Amount</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                                a11=0;
+                                if(!bill_date11.equals(""))
+                                {
+                                    rs=stm.executeQuery("select * from bills where operator='airtel' and date='"+bill_date11+"'");
+                                    if(rs.next())
+                                    { 
+                                    do
+                                    {
+                                    %>
+                                    <tr>
+                                        <td><%=a11+1%></td>
+                                        <td><%=rs.getString("name")%></td>
+                                        <td><%=rs.getString("emp")%></td>
+                                        <td><%=rs.getString("desi")%></td>
+                                        <td><%=rs.getString("phone")%></td>
+                                        <%if(convert(bill_date11,request)){%>
+                                        <td><input form="myform" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a11]%>" style="width:100px;" required></td>
+                                        <%}else{%>
+                                        <td><input form="myform" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a11]%>" style="width:100px;" readonly></td>
+                                        <%}%>
+                                    </tr>
+                                    <%
+                                        a11++;  
+                                    }while(rs.next());
+                                    }
+                                    else
+                                    {
+                                        bill_date11="";
+                                        filename="main.jsp";
+                                    }
+                                }
+                            %>  
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    
+                            <input form="myform" type="hidden" value="airtel" name="bill_operator"/>
+                            <input form="myform" type="hidden" value="airtel" name="menubar"/>
+                            <input form="myform" type="hidden" value="old" name="button"/>
+                            <input form="myform" type="hidden" value="<%=a11%>" name="count"/>
+                </div>
+                </td>
+                </tr>
+            </table>
+        </div>
             <div id="add" class="tabcontent">
                 <center><p class="title">ADD</p></center>
                 <form name="myform13" id="myform13" method="post" action="add_validation.jsp">
@@ -1135,16 +1631,7 @@
                 </form>
             </div>
                     
-                    <%!
-                        public String convert(String date,int n)
-                        {
-                            LocalDate dates = LocalDate.parse(date+"-01");
-                            dates = dates.plusMonths(n);
-                            String date2 = dates.toString();
-                            String[] date1 = date2.split("-");
-                            return date1[0]+"-"+date1[1];
-                        }
-                    %>
+                    
                     
             <div id="display" class="tabcontent center">
             <center><p class="title">DISPLAY</p></center>
@@ -1364,7 +1851,7 @@
                             String mobile1 = request.getParameter("mobile1");
                             %>
                             <div class="center" style="overflow-x:auto;width:90vw;">
-                            <table id="example1" class="display" style="width:100%">
+                            <table id="example8" class="display" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Sno</th>
@@ -1375,7 +1862,7 @@
                                     <%
                                     for(int i=0;i<count8;i++)
                                     {
-                                        %><th><%=convert(dbmonth1,i)%></th><%
+                                        %><th><%=convert1(dbmonth1,i)%></th><%
                                     }
                                     %>
                                     <th>Total</th>
@@ -1401,7 +1888,7 @@
                                     
                                         for(int i=0;i<count8;i++)
                                         {
-                                            rs1 = stm1.executeQuery("select * from bills where operator='"+mobile1+"' and phone='"+rs.getString("phone")+"' and date='"+convert(dbmonth1,i)+"'");
+                                            rs1 = stm1.executeQuery("select * from bills where operator='"+mobile1+"' and phone='"+rs.getString("phone")+"' and date='"+convert1(dbmonth1,i)+"'");
                                             if(rs1.next())
                                             {
                                             
@@ -1613,6 +2100,7 @@
                     </table>
             </div>                        
         <script>
+            alert(window.innerWidth);
             document.getElementById(document.getElementById('displayTab').value).style.display="block";
             editselect(false,'myform11');
             document.getElementById('default0').click();
@@ -1693,6 +2181,16 @@
                     document.myform16.action=document.getElementById('download2').value;
                 }
                 return true;
+            }
+            function checkdate1(bill_date)
+            {
+                var curr = new Date();
+                var date = new Date(bill_date.value);
+                if(curr.getTime()-date.getTime()<0)
+                {
+                    bill_date.value="";
+                    alert("Invalid date");
+                }
             }
             function checkdate(check,date1,date2)
             {
@@ -1777,7 +2275,7 @@
                 document.getElementById(id1).style.display="none";
                 document.getElementById(id2).style.display="block";
             }
-            alert(window.innerWidth);
+            
             function dropdown_list() {
                 document.getElementById("myDropdown").classList.toggle("show");
             }
@@ -1859,23 +2357,7 @@
                 });
             });
             $(document).ready(function () {
-                
-                $('#example1').DataTable({"bPaginate": false,"paging": false,"scrollX": true});
-                $('#example11').DataTable({"bPaginate": false,"paging": false});
-                $('#example2').DataTable({"bPaginate": false,"paging": false});
-                $('#example22').DataTable({"bPaginate": false,"paging": false});
-                $('#example3').DataTable({"bPaginate": false,"paging": false});
-                $('#example33').DataTable({"bPaginate": false,"paging": false});
-                $('#example4').DataTable({"bPaginate": false,"paging": false});
-                $('#example44').DataTable({"bPaginate": false,"paging": false});
-                $('#example5').DataTable({"bPaginate": false,"paging": false});
-                $('#example55').DataTable({"bPaginate": false,"paging": false});
-                $('#example6').DataTable({"bPaginate": false,"paging": false});
-                $('#example66').DataTable({"bPaginate": false,"paging": false});
-                $('#example7').DataTable({"bPaginate": false,"paging": false});
-                $('#example77').DataTable({"bPaginate": false,"paging": false});
-                $('#example').DataTable({"bPaginate": false,"paging": false,"scrollX": true});
-                $('#example8').DataTable({"bPaginate": false,"paging": false});
+                $('.display').DataTable({"bPaginate": false,"paging": false,"scrollX": true});
             });
         </script>
     </body>
