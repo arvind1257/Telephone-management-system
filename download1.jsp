@@ -116,7 +116,7 @@
         month[0]=Integer.toString(Integer.parseInt(month[0])-1);
         months2=12;
     }
-    String month2[] = {"JAN-"+month[0],"FEB-"+month[0],"MAR-"+month[0],"APR-"+month[0],"MAY-"+month[0],"JUN-"+month[0],"JUL-"+month[0],"AUG-"+month[0],"SEP-"+month[0],"OCT-"+month[0],"NOV-"+month[0],"DEC-"+month[0]};
+    String month2[] = {"JANUARY-"+month[0],"FEBRUARY-"+month[0],"MARCH-"+month[0],"APRIL-"+month[0],"MAY-"+month[0],"JUNE-"+month[0],"JULY-"+month[0],"AUGEST-"+month[0],"SEPTEMBER-"+month[0],"OCTOBER-"+month[0],"NOVEMBER-"+month[0],"DECEMBER-"+month[0]};
     String Operators = "";
     double cgst = 0.0;
     double sgst = 0.0;
@@ -124,16 +124,16 @@
     DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     Calendar obj = Calendar.getInstance();
     String date = formatter.format(obj.getTime());
-    double[] extra = new double[11];
-    String[] name = {"Fixed Monthly Charges","Usage Charges","Miscellaneous Charges","Late Charge","Sub Total","Discounts","Adjustments","Total Charges","CGST","SGST","Total"};
+    double[] extra = new double[12];
+    String[] name = {"One Time Charges","Fixed Monthly Charges","Usage Charges","Miscellaneous Charges","Late Charge","Sub Total","Discounts","Adjustments","Total Charges","CGST","SGST","Total"};
     String operator=request.getParameter("mobile5");
-    if(operator.equals("airtel")) Operators="Airtel Mobile";
-    else if(operator.equals("bsnl")) Operators="Bsnl Mobile";
-    else if(operator.equals("jio")) Operators="Jio Mobile";
-    else if(operator.equals("vodofone")) Operators="Vodofone Mobile";
-    else if(operator.equals("airtellandline")) Operators="Airtel Landline";
-    else if(operator.equals("airtelvip")) Operators="Airtel Vip Mobile";
-    else if(operator.equals("bsnllandline")) Operators="Bsnl Landline";
+    if(operator.equals("airtel")) Operators="AIRTEL";
+    else if(operator.equals("bsnl")) Operators="BSNL";
+    else if(operator.equals("jio")) Operators="JIO";
+    else if(operator.equals("vodofone")) Operators="VODOFONE";
+    else if(operator.equals("airtellandline")) Operators="AIRTEL LANDLINE";
+    else if(operator.equals("airtelvip")) Operators="AIRTEL VIP";
+    else if(operator.equals("bsnllandline")) Operators="BSNL LANDLINE";
     
     Class.forName("com.mysql.cj.jdbc.Driver");
     Connection con = (Connection)session.getAttribute("connection");
@@ -141,7 +141,7 @@
     ResultSet rs = null;
     
     XSSFWorkbook wb = new XSSFWorkbook();
-    XSSFSheet sheet = wb.createSheet(month1[months1-1]);
+    XSSFSheet sheet = wb.createSheet(month2[months2-1]);
     
     InputStream inputStream = new FileInputStream(imagepath);
     byte[] bytes = IOUtils.toByteArray(inputStream);
@@ -156,12 +156,12 @@
     pict.resize();
 
     XSSFRow header = sheet.createRow(6);
-    createCell(wb,header,0,HorizontalAlignment.CENTER,true,12,"Statement of "+Operators+" Bill for the Period of  "+month2[months2-1]+" to "+month1[months1-1]+"    DATE: "+date+""," ");
-    createCell(wb,header,1,HorizontalAlignment.CENTER,true,12,"","");
-    createCell(wb,header,2,HorizontalAlignment.CENTER,true,12,"","");
-    createCell(wb,header,3,HorizontalAlignment.CENTER,true,12,"","");
-    createCell(wb,header,4,HorizontalAlignment.CENTER,true,12,"","");
-    createCell(wb,header,5,HorizontalAlignment.CENTER,true,12,"","");
+    createCell(wb,header,0,HorizontalAlignment.CENTER,true,10,""+Operators+" MONTHLY STATEMENT FOR THE MONTH OF  "+month2[months2-1]+"     BILL-DATE: "+date+""," ");
+    createCell(wb,header,1,HorizontalAlignment.CENTER,true,10,"","");
+    createCell(wb,header,2,HorizontalAlignment.CENTER,true,10,"","");
+    createCell(wb,header,3,HorizontalAlignment.CENTER,true,10,"","");
+    createCell(wb,header,4,HorizontalAlignment.CENTER,true,10,"","");
+    createCell(wb,header,5,HorizontalAlignment.CENTER,true,10,"","");
 
     sheet.addMergedRegion(new CellRangeAddress(6,6,0,5));
         
@@ -188,37 +188,39 @@
         if(rs.getString("operator")!=null)
         {                    
             row = sheet.createRow(index);
-            createCell(wb,row,0,HorizontalAlignment.CENTER,false,12,Integer.toString(index-7),"");
-            createCell(wb,row,1,HorizontalAlignment.LEFT,false,12,rs.getString("name"),"");
-            createCell(wb,row,2,HorizontalAlignment.CENTER,false,12,rs.getString("emp"),"");
-            createCell(wb,row,3,HorizontalAlignment.LEFT,false,12,rs.getString("desi"),"");
-            createCell(wb,row,4,HorizontalAlignment.CENTER,false,12,rs.getString("phone"),"");
-            createCell(wb,row,5,HorizontalAlignment.RIGHT,false,12,rs.getString("amount"),"0.00");
+            createCell(wb,row,0,HorizontalAlignment.CENTER,false,11,Integer.toString(index-7),"");
+            createCell(wb,row,1,HorizontalAlignment.LEFT,false,11,rs.getString("name"),"");
+            createCell(wb,row,2,HorizontalAlignment.CENTER,false,11,rs.getString("emp"),"");
+            createCell(wb,row,3,HorizontalAlignment.LEFT,false,11,rs.getString("desi"),"");
+            createCell(wb,row,4,HorizontalAlignment.CENTER,false,11,rs.getString("phone"),"");
+            createCell(wb,row,5,HorizontalAlignment.RIGHT,false,11,rs.getString("amount"),"0.00");
             cgst = Double.parseDouble(rs.getString("cgst"));
             sgst = Double.parseDouble(rs.getString("sgst"));
             sum+=Double.parseDouble(rs.getString("amount"));
             index++;
             if(rs.getString("operator").equals("bsnl"))
             {
-            extra[0] = Double.parseDouble(rs.getString("fixed"));
-            extra[1] = Double.parseDouble(rs.getString("usages"));
-            extra[2] = Double.parseDouble(rs.getString("misc"));
-            extra[3] = Double.parseDouble(rs.getString("late"));
-            extra[4] = extra[0]+extra[1]+extra[2]+extra[3];
-            extra[5] = Double.parseDouble(rs.getString("discount"));
-            extra[6] = Double.parseDouble(rs.getString("adj"));
-            extra[7] = extra[4]-extra[5]-extra[6];
-            extra[8] = extra[7]*Double.parseDouble(rs.getString("cgst"));
-            extra[9] = extra[7]*Double.parseDouble(rs.getString("sgst"));
-            extra[10] = extra[8] + extra[9] + extra[7];
-            sum=(int)extra[10];
+            
+            extra[0] = Double.parseDouble(rs.getString("one"));
+            extra[1] = Double.parseDouble(rs.getString("fixed"));
+            extra[2] = Double.parseDouble(rs.getString("usages"));
+            extra[3] = Double.parseDouble(rs.getString("misc"));
+            extra[4] = Double.parseDouble(rs.getString("late"));
+            extra[5] = extra[0]+extra[1]+extra[2]+extra[3]+extra[4];
+            extra[6] = Double.parseDouble(rs.getString("discount"));
+            extra[7] = Double.parseDouble(rs.getString("adj"));
+            extra[8] = extra[5]-extra[6]-extra[7];
+            extra[9] = extra[8]*Double.parseDouble(rs.getString("cgst"));
+            extra[10] = extra[8]*Double.parseDouble(rs.getString("sgst"));
+            extra[11] = extra[9] + extra[10] + extra[8];
+            sum=(int)extra[11];
             }
         }
     }
     
     if(operator.equals("bsnl"))
     {
-    for(int i=0;i<11;i++,index++)
+    for(int i=0;i<12;i++,index++)
     {
         row = sheet.createRow(index);
         createCell(wb,row,0,HorizontalAlignment.CENTER,false,13,"","");
@@ -277,7 +279,7 @@
     response.setContentType("application/ms-excel");
     response.setContentLength(outArray.length); 
     response.setHeader("Expires:", "0");
-    response.setHeader("Content-Disposition", "attachment; filename="+operator+" "+month1[months1-1]+".xls");
+    response.setHeader("Content-Disposition", "attachment; filename="+Operators+" "+month2[months2-1]+".xls");
     OutputStream outStream = response.getOutputStream();
     outStream.write(outArray);
     outStream.flush();

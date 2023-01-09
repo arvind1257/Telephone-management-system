@@ -85,7 +85,8 @@
                 String[] name = new String[100];
                 String[] amt = new String[100];
                 count = Integer.parseInt(request.getParameter("count"));
-                double fixed = 0.00;
+                double one = 0.00;
+                    double fixed = 0.00;
                     double misc = 0.00;
                     double usage = 0.00;
                     double late = 0.00;
@@ -94,6 +95,7 @@
                 if(bill_operator.equals("bsnl"))
                 {
                     try{
+                        one = Double.parseDouble(request.getParameter("one_charge"));
                         fixed = Double.parseDouble(request.getParameter("f_charge"));
                         usage = Double.parseDouble(request.getParameter("u_charge"));
                         misc = Double.parseDouble(request.getParameter("m_charge"));
@@ -109,15 +111,25 @@
                     name[i] = "amount"+Integer.toString(i);
                 for(int i=0;i<count;i++)
                 {
-                    amt[i]=request.getParameter(name[i]);
+                amt[i]=request.getParameter(name[i]);
+                try{
+                    double s = Double.parseDouble(amt[i]);
                     %>
                     <input type="hidden" value="<%=amt[i]%>" name="<%=name[i]%>"/>
                     <%
+                }
+                catch(NumberFormatException e)
+                {
+                    %>
+                    <input type="hidden" value="" name="<%=name[i]%>"/>
+                    <%
+                }
                 }
                 if(date.isEmpty()||date.equals(""))
                 {
                 %>
                 <input type="hidden" value="error3" id="check"/>
+                <input type="hidden" value="<%=one%>" name="one_charge"/>
                 <input type="hidden" value="<%=fixed%>" name="f_charge"/>
                 <input type="hidden" value="<%=misc%>" name="m_charge"/>
                 <input type="hidden" value="<%=usage%>" name="u_charge"/>
@@ -299,16 +311,18 @@
                     <input type="hidden" value="old" name="button"/>
                     <input type="hidden" value="<%=date%>" name="bill_date" id="bill_date"/>
                     <%
-                    String sql1 = "update bills set fixed=? , usages=? , misc=? , late=? , discount=? , adj=?  where operator=? and date=?";
+                    String sql1 = "update bills set one=? , fixed=? , usages=? , misc=? , late=? , discount=? , adj=?  where operator=? and date=?";
                     PreparedStatement ps = con.prepareStatement(sql1);
-                    ps.setString(1,Double.toString(fixed));
-                    ps.setString(2,Double.toString(usage));
-                    ps.setString(3,Double.toString(misc));
-                    ps.setString(4,Double.toString(late));
-                    ps.setString(5,Double.toString(discount));
-                    ps.setString(6,Double.toString(adj));
-                    ps.setString(7,bill_operator);
-                    ps.setString(8,date);
+                    
+                    ps.setString(1,Double.toString(one));
+                    ps.setString(2,Double.toString(fixed));
+                    ps.setString(3,Double.toString(usage));
+                    ps.setString(4,Double.toString(misc));
+                    ps.setString(5,Double.toString(late));
+                    ps.setString(6,Double.toString(discount));
+                    ps.setString(7,Double.toString(adj));
+                    ps.setString(8,bill_operator);
+                    ps.setString(9,date);
                     ps.executeUpdate();
                 }
                 else

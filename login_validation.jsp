@@ -46,7 +46,7 @@
     }
     else
     {
-        session.setAttribute("msg",getMd5(pass));
+        session.setAttribute("msg","Invalid Credentials");
         session.setAttribute("status","failed");
         response.sendRedirect("index.jsp");
     }

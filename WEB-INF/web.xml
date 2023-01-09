@@ -4,9 +4,25 @@
         <servlet-name>FileUploadServlet</servlet-name>
         <servlet-class>uploadfile.FileUploadServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Forgotpassword</servlet-name>
+        <servlet-class>password.Forgotpassword</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>newpassword</servlet-name>
+        <servlet-class>password.newpassword</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>FileUploadServlet</servlet-name>
         <url-pattern>/FileUploadServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Forgotpassword</servlet-name>
+        <url-pattern>/Forgotpassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newpassword</servlet-name>
+        <url-pattern>/newpassword</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

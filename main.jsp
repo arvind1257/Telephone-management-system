@@ -28,12 +28,13 @@
                 padding: 0;
                 box-sizing: border-box;
             }
+            
             body {
                 font-family: sans-serif;
                 background-color:#e8e8e8;
             }
             .tab {
-                top:8.5%;
+                top:52px;
                 position: -webkit-sticky;
                 background-color: rgba(24,54,186,0.6);
                 height: 45px;
@@ -253,6 +254,9 @@
                 border:none; 
                 width:50px;
             }
+            .submitstyle{
+                width:70px;
+            }
             .buttonstyle{ 
                 font-size:20px; 
                 width:200px;
@@ -371,9 +375,43 @@
                 font-size:15px;
             }
             .btn{
+                border:1px solid black;
                 width:70%;
             }
+            .homecontent{
+                border:1px solid black; 
+                word-break: break-all; 
+                width:55%; 
+                float:none;
+            }
+            .display{
+                width:100%;
+            }
+            @media (max-width: 1150px) {
+                .homecontent{
+                    width:65%;
+                }
+            }
             @media (max-width: 1000px) {
+                .homecontent{
+                    width:70%;
+                }
+                .tablecontent ul{
+                    padding:10px;
+                    font-size:16px;
+                }
+                .tablecontent ul li{	
+                    padding:10px 10px;	
+                }
+                .tablecontent ul li button{
+                    padding:10px; 
+                    font-size:16px;
+                    width:150px; 
+                }
+                .tablecontent ul li ul{
+                    padding:10px;
+                    padding-left:150px;
+                }
                 .header{ 
                     padding:5px;
                 }
@@ -461,7 +499,7 @@
                     width:90vw;
                 }
                 .tab {
-                    top:8%;
+                    top:50px;
                 }
                 .tab ul li {
                     padding: 8px 25px;
@@ -491,7 +529,28 @@
                     width:40%;
                 }
             }
+            @media (max-width: 800px) {
+                .homecontent{
+                    width:80%;
+                }
+            }
             @media (max-width: 650px) {
+                .tablecontent ul{
+                    padding:10px;
+                    font-size:14px;
+                }
+                .tablecontent ul li{	
+                    padding:10px 10px;	
+                }
+                .tablecontent ul li button{
+                    padding:10px; 
+                    font-size:14px;
+                    width:150px; 
+                }
+                .tablecontent ul li ul{
+                    padding:10px;
+                    padding-left:150px;
+                }
                 .header{ 
                     padding:5px;
                 }
@@ -521,7 +580,7 @@
                     font-size: 15px;   
                 }
                 .tabcontent{
-                    width:90%;
+                    width:100%;
                     padding:10px 0px;
                     border:1px solid black;
                 }
@@ -700,7 +759,7 @@
     %>
         <input type="hidden" id="menubar" value="<%=menubar%>"/>
         <div class="footer">
-            <p>This Project is Done By Arvind M M (20BCE2633) , For any more Queries contact arvind.mm2020@vitstudent.ac.in</p>
+            <p>This Project is Done By Arvind M M (20BCE2633)</p>
         </div>
         <div class="tab">
             <ul>
@@ -782,7 +841,88 @@
                     </td>
                 </tr>
             </table>
-        </div> 
+        </div>
+        <div id="home" class="tabcontent homecontent center" style="">
+            <div class="tablecontent  center">                    
+                <ul>    
+                    <li><button>GST</button>
+                        <ul>
+                            <li>Current CGST : <%=cgst*100%>%.</li>
+                            <li>Current SGST : <%=sgst*100%>%.</li>
+                        </ul>
+                    </li>    
+                    <li><button>Last Bill Details</button>
+                        <ul>
+                        <%
+                            String[] Operator1 = {"airtel","jio","bsnl","vodofone","airtelvip","airtellandline","bsnllandline"};
+                            String[] Operator2 = {"Airtel","Jio","Bsnl","Vodofone","Airtel Vip","Airtel Landline","Bsnl Landline"};
+                            for(int i=0;i<7;i++)
+                            {
+                                String date;
+                                double sum1=0;
+                                double cgst1=0;
+                                double sgst1=0;
+                                double one=0.0;
+                                double fixed=0.0;
+                                double usage=0.0;
+                                double misc=0.0;
+                                double late=0.0;
+                                double discount=0.0;
+                                double adj=0.0;
+                                for(int j=0;j<3;j++)
+                                {
+                                    int flag1=0;
+                                    int month = cal.get(Calendar.MONTH) + 1 - j;
+                                    int year = cal.get(Calendar.YEAR);
+                                    if(month<0)
+                                    {
+                                        month+=12;
+                                        year-=1;
+                                    }
+                                    if(month==10 || month==11 || month==12)
+                                        date=Integer.toString(year)+"-"+Integer.toString(month);
+                                    else
+                                        date=Integer.toString(year)+"-0"+Integer.toString(month);
+                                    rs=stm.executeQuery("select * from bills where operator='"+Operator1[i]+"' and date='"+date+"'");
+                                    while(rs.next())
+                                    {
+                                        if(flag1==0 && rs.getString("operator")==null)
+                                            break;
+                                        else if(Operator1[i].equals("bsnl"))
+                                        {
+                                            one = Double.parseDouble(rs.getString("one"));
+                                            fixed = Double.parseDouble(rs.getString("fixed"));
+                                            usage = Double.parseDouble(rs.getString("usages"));
+                                            misc = Double.parseDouble(rs.getString("misc"));
+                                            late = Double.parseDouble(rs.getString("late"));
+                                            discount = Double.parseDouble(rs.getString("discount"));
+                                            adj = Double.parseDouble(rs.getString("adj"));
+                                            sum1=one+fixed+usage+misc+late-discount-adj;
+                                            flag1=1;
+                                        }
+                                        else
+                                        {
+                                            flag1=1;
+                                            sum1+=Double.parseDouble(rs.getString("amount"));
+                                        }
+                                        cgst1 = Double.parseDouble(rs.getString("cgst"));
+                                        sgst1 = Double.parseDouble(rs.getString("sgst"));
+                                    }
+                                    if(flag1==1)
+                                    {
+                                    %>
+                                        <li><b><%=Operator2[i]%></b>: <%=date%> --- Rs <%=Math.round(((sum1*cgst1+sum1*sgst1)+sum1)*100.0)/100.0%><br></li>
+                                        <%
+                                        break;
+                                    }
+                                }
+                            }
+                        %>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <div id="profile" class="tabcontent profile center">
             <%
             if(request.getParameter("submit3")!=null)
@@ -933,7 +1073,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="pcontent2" id="content2">
+                <div class="pcontent2" id="content2" style="display:none;">
                     <form id="myform18" name="myform18" method="post" action="profile.jsp">
                     </form>
                     <table style="width:100%; font-size:20px; " cellspacing="20">
@@ -1078,7 +1218,11 @@
                                 </tr>
                                 <tr>
                                     <td class="greenbutton center"><input form="form1" type="submit" value="GET" name="submit1"></td>
+                                    <%if(request.getParameter("bill_date")!=null){%>
                                     <td class="greenbutton center"><input form="form1" type="submit" value="STORE" name="submit1"></td>
+                                    <%}else{%>
+                                    <td><td>
+                                    <%}%>
                                 </tr>
                             </table>
                             <% 
@@ -1134,9 +1278,9 @@
                             <table id="example1" class="display" style="width:100%;" cellspacing="20">
                                 <thead>    
                                     <tr>
-                                        <td>SNo</td>
+                                        <td>S<font color="white">_</font>No</td>
                                         <td>Name</td>
-                                        <td>Staff ID</td>
+                                        <td>Staff<font color="white">_</font>ID</td>
                                         <td>Designation</td>
                                         <td>Phone Number</td>
                                         <td>Amount</td>
@@ -1155,7 +1299,7 @@
                                         <td><%=rs.getString("emp")%></td>
                                         <td><%=rs.getString("desi")%></td>
                                         <td><%=rs.getString("phone")%></td>
-                                        <td><input form="form1" type="text" value="<%=amt1[a1]%>" name="<%=name[a1]%>" style="width:100px;" required></td>
+                                        <td><input form="form1" type="text" onchange="checknumber(this)" value="<%=amt1[a1]%>" name="<%=name[a1]%>" style="width:100px;" required></td>
                                     </tr>
                                     <%
                                         a1++;   
@@ -1336,9 +1480,9 @@
                         <table id="example11" class="display" style="width:100%;" cellspacing="20">
                             <thead>
                                 <tr>
-                                    <td>S No</td>
+                                    <td>S<font color="white">_</font>No</td>
                                     <td>Name</td>
-                                    <td>Staff ID</td>
+                                    <td>Staff<font color="white">_</font>ID</td>
                                     <td>Designation</td>
                                     <td>Phone Number</td>
                                     <td>Amount</td>
@@ -1362,7 +1506,7 @@
                                         <td><%=rs.getString("desi")%></td>
                                         <td><%=rs.getString("phone")%></td>
                                         <%if(convert(bill_date11,request)){%>
-                                        <td><input form="myform" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a11]%>" style="width:100px;" required></td>
+                                        <td><input form="myform" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a11]%>" onchange="checknumber(this)" style="width:100px;" required></td>
                                         <%}else{%>
                                         <td><input form="myform" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a11]%>" style="width:100px;" readonly></td>
                                         <%}%>
@@ -1392,6 +1536,2276 @@
                 </tr>
             </table>
         </div>
+        <div id="jio" class="tabcontent center" style="width:100%;">
+            <center><p class="title">JIO</p></center>
+            <table class="tablecontent display1 center" style="width:100%;">
+                <tr>
+                <td>
+                <div class="tab2">
+                    <table class="center" cellspacing="30">
+                        <tr>
+                        <%
+                            if(request.getParameter("button")!=null && request.getParameter("bill_operator").equals("jio"))
+                            {
+                            if(request.getParameter("button").equals("new"))
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new2')" id="defaultOpen5">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old2')">OLD BILL</button></td>
+                            <%
+                            }
+                            else if(request.getParameter("button").equals("old"))
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new2')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old2')" id="defaultOpen5">OLD BILL</button></td>
+                            <%
+                            }
+                            else
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new2')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old2')">OLD BILL</button></td>
+                            <%
+                            }
+                            }
+                            else
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new2')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old2')">OLD BILL</button></td>
+                            <%
+                            }
+                        %>
+                        </tr>
+                    </table>
+                </div>
+                <div id="new2" class="tabcontent2">
+                <%
+                    int count2 = 0;
+                    double sum2 = 0.0;
+                    bill_date = "";
+                    String[] amt2 = new String[100];
+                    if(request.getParameter("count")!=null && request.getParameter("button").equals("new") && request.getParameter("bill_operator").equals("jio"))
+                    {
+                        count2=Integer.parseInt(request.getParameter("count"));
+                        for(int i=0;i<count2;i++)
+                            amt2[i]=request.getParameter(name[i]);
+                        if(request.getParameter("sum")!=null)
+                            sum2=Double.parseDouble(request.getParameter("sum"));
+                        if(request.getParameter("bill_date")!=null)
+                            bill_date = request.getParameter("bill_date");
+                    }
+                    else
+                        count2=100;
+                    for(int i=0;i<count2;i++)
+                    {
+                        if(amt2[i]==null)
+                            amt2[i]="";
+                    }
+                %>   
+                    
+                <form id="form2" name="form2"  method="post" action="bill_validation.jsp">
+                </form>
+                        <div class="tabcontent12 center">
+                            <br><br>
+                            <table class="center" cellspacing="20">
+                                <tr>
+                                    <td>BILL MONTH</td>
+                                    <td>
+                                        <div class="input-group date datepicker">
+                                            <input form="form2" style="width:90%;" type="text" form="form2" onkeydown="return false" onchange="checkdate1(this)" value="<%=bill_date%>" name="bill_date" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>	
+                                    <td>Total</td>
+                                    <td><%=sum2%></td>
+                                </tr>
+                                <tr>
+                                    <td class="greenbutton center"><input form="form2" type="submit" value="GET" name="submit1"></td>
+                                    <%if(request.getParameter("bill_date")!=null){%>
+                                    <td class="greenbutton center"><input form="form2" type="submit" value="STORE" name="submit1"></td>
+                                    <%}else{%>
+                                    <td><td>
+                                    <%}%>
+                                </tr>
+                            </table>
+                        </div> 
+                    <div class="tabcontent11 center" >
+                        <div class="center tablescroll" style="overflow-x:auto;">
+                        <table id="example2" class="display" style="width:100%;" cellspacing="20">
+                            <thead>    
+                                <tr>
+                                    <td>S<font color="white">_</font>No</td>
+                                    <td>Name</td>
+                                    <td>Staff<font color="white">_</font>ID</td>
+                                    <td>Designation</td>
+                                    <td>Phone Number</td>
+                                    <td>Amount</td>
+                                    <td>Receipt</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                                int a2=0;
+                                rs=stm.executeQuery("select * from jio");
+                                while(rs.next())
+                                {                
+                                %>
+                                    <tr>
+                                        <td><%=a2+1%></td>
+                                        <td><%=rs.getString("name")%></td>
+                                        <td><%=rs.getString("emp")%></td>
+                                        <td><%=rs.getString("desi")%></td>
+                                        <td><%=rs.getString("phone")%></td>
+                                        <td><input form="form2" type="text" value="<%=amt2[a2]%>" name="<%=name[a2]%>" onchange="checknumber(this)" style="width:100px;" required/></td>
+                                        <%
+                                        rs1 = stm1.executeQuery("select * from receipt where operator='jio' and date='"+bill_date+"' and phone='"+rs.getString("phone")+"'");
+                                        if(rs1.next())
+                                        {
+                                        %>
+                                        <td>
+                                            <a class="gb" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a>
+                                        </td>
+                                        <%
+                                        }
+                                        else
+                                        {
+                                        %>
+                                        <td>
+                                            <form action="FileUploadServlet" method="post" enctype="multipart/form-data">
+                                                
+                                                <%if(!bill_date.isEmpty()){%>
+                                                    <input type="file" name="file">
+                                                    <input class="bluebutton submitstyle" type="submit" value="Submit" name="submit_receipt"/>
+                                                <%}%>
+                                                <input type="hidden" name="mobile2" value="jio"/>
+                                                <input type="hidden" name="bill_month" value="<%=bill_date%>"/>
+                                                <input type="hidden" name="button" value="new"/>
+                                                <input type="hidden" name="phone" value="<%=rs.getString("phone")%>"/>
+                                                <input type="hidden" name="count" value="<%=count2%>"/>
+                                                <%
+                                                for(int i=0;i<count2;i++)
+                                                {
+                                                %>
+                                                <input type="hidden" value="<%=amt2[i]%>" name="<%=name[i]%>"/>
+                                                <%
+                                                }
+                                                %>
+                                            </form>
+                                        </td>
+                                        <%
+                                        }
+                                        %>
+                                    </tr>
+                                    <%
+                                        a2++;   
+                                }
+                                %>  
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    <input form="form2" type="hidden" value="<%=a2%>" name="count"/>
+                    <input form="form2" type="hidden" value="new" name="button"/>
+                    <input form="form2" type="hidden" value="jio" name="bill_operator"/>        
+                </div>
+                <div id="old2" class="tabcontent2">
+                <%
+                    String bill_date22="";
+                    filename="main.jsp";
+                    double sum22=0;
+                    if(request.getParameter("bill_operator")!=null && request.getParameter("bill_date")!=null && request.getParameter("button").equals("old") && request.getParameter("bill_operator").equals("jio"))
+                    {
+                        bill_date22=request.getParameter("bill_date");
+                        filename="bill_validation.jsp";
+                    }  
+                    int a22=0;
+                                if(!bill_date22.equals(""))
+                                {
+                                    rs=stm.executeQuery("select * from bills where operator='jio' and date='"+bill_date22+"'");
+                                    if(rs.next())
+                                    {
+                                    do{
+                                    a22++;  
+                                        if(rs.getString("amount")!=null)
+                                            sum22+=Double.parseDouble(rs.getString("amount"));
+                                    }while(rs.next());
+                                    }
+                                    else
+                                    {
+                                        bill_date22="";
+                                        filename="main.jsp";
+                                    }
+                }
+                %>
+                    <div class="tabcontent12 center">
+                        <form id="myform2" name="myform2" method="post" action="<%=filename%>"></form> 
+                            <br><br>
+                            <table class="center" cellspacing="20">
+                                <tr>
+                                    <td>BILL MONTH</td>
+                                    <td>
+                                        <div class="input-group date datepicker">
+                                            <input form="myform2" style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date22%>" onchange="checkdate1(this)" name="bill_date" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>	
+                                    <td>Sub Total</td>
+                                    <td><%=sum22%></td>
+                                </tr>
+                                <%  
+                                if(bill_date22.equals(""))
+                                {
+                                %>
+                                <tr>
+                                    <td colspan="2" class="greenbutton1 center"><input form="myform2" type="submit" value="GET DETAILS" name="submit1"></td>
+                                </tr>
+                                <%
+                                }
+                                else
+                                {
+                                %>
+                                <tr>
+                                    <%if(convert(bill_date22,request)){%>
+                                    <td class="greenbutton center"><input form="myform2" type="submit" value="UPDATE" name="submit1"></td>
+                                    <%}%>
+                                    <td class="redbutton cventer"><input form="myform2" type="submit" value="BACK" name="submit1"></td>
+                                </tr>
+                                <%
+                                }
+                                %>    
+                            </table>
+                            <%
+                                rs=stm.executeQuery("select * from modifier where operator='jio' and date='"+bill_date22+"'");
+                                if(rs.next())
+                                {
+                                %>
+                                <table class="center" cellspacing="25">
+                                    <tr>
+                                        <td>Last Modified By : </td>
+                                        <td><%=rs.getString("emp")%></td>
+                                    </tr>
+                                </table>    
+                                <%
+                                }
+                            %>
+                    </div>
+                    <div class="tabcontent11 center" >
+                        <div class="center tablescroll" style="overflow-x:auto;">
+                        <table id="example22" class="display" style="width:100%;" cellspacing="20">
+                            <thead>
+                                <tr>
+                                    <td>S<font color="white">_</font>No</td>
+                                    <td>Name</td>
+                                    <td>Staff<font color="white">_</font>ID</td>
+                                    <td>Designation</td>
+                                    <td>Phone Number</td>
+                                    <td>Amount</td>
+                                    <td>Receipt</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                                a22=0;
+                                if(!bill_date22.equals(""))
+                                {
+                                    rs=stm.executeQuery("select * from bills where operator='jio' and date='"+bill_date22+"'");
+                                    while(rs.next()){
+                                    %>
+                                    <tr>
+                                        <td><%=a22+1%></td>
+                                        <td><%=rs.getString("name")%></td>
+                                        <td><%=rs.getString("emp")%></td>
+                                        <td><%=rs.getString("desi")%></td>
+                                        <td><%=rs.getString("phone")%></td>
+                                        <%if(convert(bill_date22,request)){%>
+                                        <td><input form="myform2" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a22]%>" onchange="checknumber(this)" style="width:100px;" required></td>
+                                        <%}else{%>
+                                        <td><input form="myform2" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a22]%>" style="width:100px;" readonly></td>
+                                        <%}%>
+                                        <%
+                                        rs1 = stm1.executeQuery("select * from receipt where operator='jio' and date='"+bill_date22+"' and phone='"+rs.getString("phone")+"'");
+                                        if(rs1.next())
+                                        {
+                                        %>
+                                        <td>
+                                            <button class="gb"><a style="text-decoration:none;color:inherit;" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a></button>
+                                            <%
+                                            if(admin.equals(username) && convert(bill_date22,request)) 
+                                            {
+                                            %>
+                                            <button class="rb"><a style="text-decoration:none;color:inherit;" target="_self" href="deletereceipt.jsp?operator=jio&bill_month=<%=bill_date22%>&phone=<%=rs.getString("phone")%>&button=old">Delete</a></button>
+                                            <%
+                                            }
+                                            %>
+                                        </td>
+                                        <%
+                                        }
+                                        else
+                                        {
+                                        %>
+                                        <td>
+                                            <form action="FileUploadServlet" method="post" enctype="multipart/form-data">
+                                                <input type="file" name="file">
+                                                <input class="bluebutton submitstyle" type="submit" value="Submit" name="submit_receipt"/>
+                                                <input type="hidden" name="mobile2" value="jio"/>
+                                                <input type="hidden" name="bill_month" value="<%=bill_date22%>"/>
+                                                <input type="hidden" name="button" value="old"/>
+                                                <input type="hidden" name="phone" value="<%=rs.getString("phone")%>"/>
+                                                <input type="hidden" value="<%=a22%>" name="count"/>
+                                            </form>
+                                        </td>
+                                        <%
+                                        }
+                                    %>
+                                    </tr>
+                                    <%
+                                        a22++;  
+                                        
+                                    }
+                                }
+                            %>  
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    <input form="myform2" type="hidden" value="jio" name="bill_operator"/>
+                    <input form="myform2" type="hidden" value="jio" name="menubar"/>
+                    <input form="myform2" type="hidden" value="old" name="button"/>
+                    <input form="myform2" type="hidden" value="<%=a22%>" name="count"/>
+                </div>
+                </td>
+                </tr>
+            </table>
+        </div>       
+        <div id="bsnl" class="tabcontent center" style="width:100%;">
+            <center><p class="title">BSNL</p></center>
+            <table class="tablecontent display1 center" style="width:100%;">
+                <tr>
+                <td>
+                <div class="tab2">
+                    <table class="center" cellspacing="30">
+                        <tr>
+                        <%
+                            if(request.getParameter("button")!=null && request.getParameter("bill_operator").equals("bsnl"))
+                            {
+                            if(request.getParameter("button").equals("new"))
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new3')" id="defaultOpen5">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old3')">OLD BILL</button></td>
+                            <%
+                            }
+                            else if(request.getParameter("button").equals("old"))
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new3')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old3')" id="defaultOpen5">OLD BILL</button></td>
+                            <%
+                            }
+                            else
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new3')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old3')">OLD BILL</button></td>
+                            <%
+                            }
+                            }
+                            else
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new3')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old3')">OLD BILL</button></td>
+                            <%
+                            }
+                        %>
+                        </tr>
+                    </table>
+                </div>
+                <div id="new3" class="tabcontent2">
+                <%
+                    int count3 = 0;
+                    double sum3 = 0.0;
+                    double one  = 0.0;
+                    double fixed = 0.0;
+                    double misc = 0.0;
+                    double usage = 0.0;
+                    double late = 0.0;
+                    double discount = 0.0;
+                    double adj = 0.0;
+                    
+                    bill_date = "";
+                    String[] amt3 = new String[100];
+                    if(request.getParameter("count")!=null && request.getParameter("button").equals("new") && request.getParameter("bill_operator").equals("bsnl"))
+                    {
+                        count3=Integer.parseInt(request.getParameter("count"));
+                        for(int i=0;i<count3;i++)
+                            amt3[i]=request.getParameter(name[i]);
+                        if(request.getParameter("sum")!=null)
+                            sum3=Double.parseDouble(request.getParameter("sum"));
+                        if(request.getParameter("bill_date")!=null)
+                            bill_date = request.getParameter("bill_date");
+                            
+                        one = Double.parseDouble(request.getParameter("one_charge"));
+                        fixed = Double.parseDouble(request.getParameter("f_charge"));
+                        misc = Double.parseDouble(request.getParameter("m_charge"));
+                        usage = Double.parseDouble(request.getParameter("u_charge"));
+                        late = Double.parseDouble(request.getParameter("l_charge"));
+                        discount = Double.parseDouble(request.getParameter("discount"));
+                        adj = Double.parseDouble(request.getParameter("adj"));
+                    }
+                    else
+                        count3=100;
+                    for(int i=0;i<count3;i++)
+                    {
+                        if(amt3[i]==null)
+                            amt3[i]="399.00";
+                    }
+                %>   
+                <form name="form3" id="form3" method="post" action="bill_validation.jsp"> </form>
+                        <div class="tabcontent12 center">
+                            <br><br>
+                            <table class="center" cellspacing="20">
+                                <tr>
+                                    <td>BILL MONTH</td>
+                                    <td>
+                                        <div class="input-group date datepicker">
+                                            <input form="form3" style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date%>" onchange="checkdate1(this)" name="bill_date" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>One Time Charge</td>
+                                    <td><input form="form3" class="bsnl_input" type="text" value="<%=one%>" name="one_charge" required/></td>
+                                </tr>
+                                <tr>
+                                    <td>Fixed Monthly Charge</td>
+                                    <td><input form="form3" class="bsnl_input" type="text" value="<%=fixed%>" name="f_charge" required/></td>
+                                </tr>
+                                <tr>
+                                    <td>Usage Charge</td>
+                                    <td><input form="form3" class="bsnl_input" type="text" value="<%=usage%>" name="u_charge" required/></td>
+                                </tr>
+                                <tr>
+                                    <td>Miscellaneous Charge</td>
+                                    <td><input form="form3" class="bsnl_input" type="text" value="<%=misc%>" name="m_charge" required/></td>
+                                </tr>
+                                <tr>
+                                    <td>Late Charge</td>
+                                    <td><input form="form3" class="bsnl_input" type="text" value="<%=late%>" name="l_charge" required/></td>
+                                </tr>
+                                <tr>	
+                                    <td>Sub Total</td>
+                                    <td style="font-size:14pt;"><%=sum3%></td>
+                                </tr>
+                                <%sum3-=discount;%>
+                                <tr>
+                                    <td>Discount</td>
+                                    <td><input form="form3" class="bsnl_input" type="text" value="<%=discount%>" name="discount" required/></td>
+                                </tr>
+                                <%sum3-=adj;%>
+                                <tr>
+                                    <td>Adjustments</td>
+                                    <td><input form="form3" class="bsnl_input" type="text" value="<%=adj%>" name="adj" required/></td>
+                                </tr>
+                                <tr>
+                                    <td>Total Charge</td>
+                                    <td style="font-size:14pt;"><%=Math.round(sum3*100.0)/100.0%></td>
+                                </tr>
+                                <tr>
+                                    <td>CGST</td>
+                                    <td style="font-size:14pt;"><%=Math.round(sum3*cgst*100.0)/100.0%></td>
+                                </tr>
+                                <tr>
+                                    <td>SGST</td>
+                                    <td style="font-size:14pt;"><%=Math.round(sum3*sgst*100.0)/100.0%></td>
+                                </tr>
+                                <tr>
+                                    <td>Grand Total</td>
+                                    <td style="font-size:14pt;"><%=Math.round(((sum3*cgst+sum3*sgst)+sum3)*100.0)/100.0%></td>
+                                </tr>
+                                <tr>
+                                    <td class="greenbutton center"><input form="form3" type="submit" value="GET" name="submit1"></td>
+                                    <%if(request.getParameter("bill_date")!=null){%>
+                                    <td class="greenbutton center"><input form="form3" type="submit" value="STORE" name="submit1"></td>
+                                    <%}else{%>
+                                    <td><td>
+                                    <%}%>
+                                </tr>
+                            </table>
+                        
+                    
+                    <%
+                    if(!bill_date.isEmpty())
+                    {
+                        rs=stm.executeQuery("select * from receipt where operator='bsnl' and date='"+bill_date+"'");
+                        if(rs.next())
+                        {
+                            %>
+                            <table class="center" cellspacing="15">    
+                                <tr>
+                                    <td><b>Receipt Filename :</b></td>
+                                    <td style="word-break:break-all;"><%=rs.getString("filename")%></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <a class="gb" target="_blank" href="<%=rs.getString("filepath")%>">Download</a>
+                                    </td>
+                                </tr>  
+                            </table>    
+                            <%
+                        }
+                        else
+                        {   
+                            %>
+                            <form action="FileUploadServlet" method="post" enctype="multipart/form-data">
+                                <table class="center" cellspacing="25">
+                                    <tr>
+                                        <td>Upload Receipt :<input type="file" name="file"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="greenbutton1">
+                                            <input type="submit" value="Submit" name="submit_receipt"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <input type="hidden" name="mobile2" value="bsnl"/>
+                                <input type="hidden" name="bill_month" value="<%=bill_date%>"/>
+                                <input type="hidden" name="button" value="new"/>
+                                <input type="hidden" name="count" value="<%=count3%>"/>
+                                <%
+                                for(int i=0;i<count3;i++)
+                                {%>
+                                <input type="hidden" value="<%=amt3[i]%>" name="<%=name[i]%>"/>
+                                <%
+                                }
+                                %>
+                            </form>
+                            <%
+                        }
+                    }    
+                    %>
+                    </div>    
+                    <div class="tabcontent11 center" >
+                        <div class="tablescroll center" style="overflow-x:auto;">
+                            <table id="example3" class="display" style="width:100%;" cellspacing="20">
+                                <thead>    
+                                    <tr>
+                                        <td>S<font color="white">_</font>No</td>
+                                        <td>Name</td>
+                                        <td>Staff<font color="white">_</font>ID</td>
+                                        <td>Designation</td>
+                                        <td>Phone Number</td>
+                                        <td>Amount</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <%
+                                    int a3=0;
+                                    rs=stm.executeQuery("select * from bsnl");
+                                    while(rs.next())
+                                    {                
+                                    %>
+                                    <tr>
+                                        <td><%=a3+1%></td>
+                                        <td><%=rs.getString("name")%></td>
+                                        <td><%=rs.getString("emp")%></td>
+                                        <td><%=rs.getString("desi")%></td>
+                                        <td><%=rs.getString("phone")%></td>
+                                        <td><input form="form3" type="text" value="<%=amt3[a3]%>" name="<%=name[a3]%>" onchange="checknumber(this)" style="width:100px;" required></td>
+                                    </tr>
+                                    <%
+                                        a3++;   
+                                    }
+                                %>  
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <input form="form3" type="hidden" value="<%=a3%>" name="count"/>
+                    <input form="form3" type="hidden" value="new" name="button"/>
+                    <input form="form3" type="hidden" value="bsnl" name="bill_operator"/>
+                </div>
+                <div id="old3" class="tabcontent2">
+                <%
+                    String bill_date33="";
+                    double one3 = 0.0;
+                    double fixed3 = 0.0;
+                    double misc3 = 0.0;
+                    double usage3 = 0.0;
+                    double late3 = 0.0;
+                    double discount3 = 0.0;
+                    double adj3 = 0.0;
+                    filename="main.jsp";
+                    double sum33=0;
+                    int a33=0;
+                    double cgst4=0.0;
+                    double sgst4=0.0;
+                    if(request.getParameter("bill_operator")!=null && request.getParameter("bill_date")!=null && request.getParameter("button").equals("old") && request.getParameter("bill_operator").equals("bsnl"))
+                    {
+                    
+                        bill_date33=request.getParameter("bill_date");
+                        filename="bill_validation.jsp";
+                    }  
+                    if(!bill_date33.equals(""))
+                    {
+                                    rs=stm.executeQuery("select * from bills where operator='bsnl' and date='"+bill_date33+"'");
+                                    if(rs.next())
+                                    { 
+                                        do{
+                                            a33++;  
+                                            cgst4=Double.parseDouble(rs.getString("cgst"));
+                                            sgst4=Double.parseDouble(rs.getString("sgst"));
+                                            one3=Double.parseDouble(rs.getString("one"));
+                                            fixed3=Double.parseDouble(rs.getString("fixed"));
+                                            usage3=Double.parseDouble(rs.getString("usages"));
+                                            misc3=Double.parseDouble(rs.getString("misc"));
+                                            late3=Double.parseDouble(rs.getString("late"));
+                                            discount3=Double.parseDouble(rs.getString("discount"));
+                                            adj3=Double.parseDouble(rs.getString("adj"));
+
+                                        }while(rs.next());
+                                        sum33+=one3+fixed3+usage3+misc3+late3;
+                                    }
+                                    else
+                                    {
+                                        bill_date33="";
+                                        filename="main.jsp";
+                                    }
+                                    
+                                }
+                %>
+                    <div class="tabcontent12 center">
+                        <form id="myform3" method="post" action="<%=filename%>"> </form>
+                            <br><br>
+                            <table class="center" cellspacing="10">
+                                <tr>
+                                    <td>BILL MONTH</td>
+                                    <td>
+                                        <div class="input-group date datepicker">
+                                            <input form="myform3" style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date33%>" onchange="checkdate1(this)" name="bill_date" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>One Time Charge</td>
+                                    <td><input form="myform3" class="bsnl_input" type="text" value="<%=one3%>" name="one_charge" required/></td>
+                                </tr>
+                                <tr>
+                                    <td>Fixed Monthly Charge</td>
+                                    <td><input form="myform3" class="bsnl_input" type="text" value="<%=fixed3%>" name="f_charge" required/></td>
+                                </tr>
+                                <tr>
+                                    <td>Usage Charge</td>
+                                    <td><input form="myform3" class="bsnl_input" type="text" value="<%=usage3%>" name="u_charge" required/></td>
+                                </tr>
+                                <tr>
+                                    <td>Miscellaneous Charge</td>
+                                    <td><input form="myform3" class="bsnl_input" type="text" value="<%=misc3%>" name="m_charge" required/></td>
+                                </tr>
+                                <tr>
+                                    <td>Late Charge</td>
+                                    <td><input form="myform3" class="bsnl_input" type="text" value="<%=late3%>" name="l_charge" required/></td>
+                                </tr>
+                                <tr>	
+                                    <td>Sub Total</td>
+                                    <td style="font-size:14pt;"><%=Math.round(sum33*100.0)/100.0%></td>
+                                </tr>
+                                <%sum33-=discount3;%>
+                                <tr>
+                                    <td>Discount</td>
+                                    <td><input form="myform3" class="bsnl_input" type="text" value="<%=discount3%>" name="discount" required/></td>
+                                </tr>
+                                <%sum3-=adj3;%>
+                                <tr>
+                                    <td>Adjustments</td>
+                                    <td><input form="myform3" class="bsnl_input" type="text" value="<%=adj3%>" name="adj" required/></td>
+                                </tr>
+                                <tr>
+                                    <td>Total Charge</td>
+                                    <td style="font-size:14pt;"><%=Math.round(sum33*100.0)/100.0%></td>
+                                </tr>
+                                <tr>
+                                    <td>CGST</td>
+                                    <td style="font-size:14pt;"><%=Math.round(sum33*cgst*100.0)/100.0%></td>
+                                </tr>
+                                <tr>
+                                    <td>SGST</td>
+                                    <td style="font-size:14pt;"><%=Math.round(sum33*sgst*100.0)/100.0%></td>
+                                </tr>
+                                <tr>
+                                    <td>Grand Total</td>
+                                    <td style="font-size:14pt;"><%=Math.round(((sum33*cgst+sum33*sgst)+sum33)*100.0)/100.0%></td>
+                                </tr>
+                                <%  
+                                if(bill_date33.equals(""))
+                                {
+                                %>
+                                <tr>
+                                    <td colspan="2" class="greenbutton1 center"><input form="myform3" type="submit" value="GET DETAILS" name="submit1"></td>
+                                </tr>
+                                <%
+                                }
+                                else
+                                {
+                                %>
+                                <tr>
+                                    <%if(convert(bill_date33,request)){%>
+                                    <td class="greenbutton center"><input form="myform3" type="submit" value="UPDATE" name="submit1"></td>
+                                    <%}%>
+                                    <td class="redbutton cventer"><input form="myform3" type="submit" value="BACK" name="submit1"></td>
+                                </tr>
+                                <%
+                                }
+                                %>    
+                            </table>
+                            <input form="myform3" type="hidden" value="bsnl" name="bill_operator"/>
+                            <input form="myform3" type="hidden" value="bsnl" name="menubar"/>
+                            <input form="myform3" type="hidden" value="old" name="button"/>
+                            <input form="myform3" type="hidden" value="<%=a33%>" name="count"/>
+                        <%
+                        if(!bill_date33.equals(""))
+                        {
+                            rs=stm.executeQuery("select * from receipt where operator='bsnl' and date='"+bill_date33+"'");
+                            if(rs.next())
+                            {
+                            %>
+                            <table class="center" cellspacing="15">    
+                                <tr>
+                                    <td colspan="2"><b>Receipt Filename :</b></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="word-break: break-all;"><%=rs.getString("filename")%></td>
+                                </tr>
+                                <%
+                                if(admin.equals(username) && convert(bill_date33,request)) 
+                                {
+                                %>
+                                <tr>
+                                    <td>
+                                        <a class="gb" target="_blank" href="<%=rs.getString("filepath")%>">Download</a>
+                                    </td>
+                                    <td>
+                                        <a class="rb" target="_self" href="deletereceipt.jsp?operator=bsnl&bill_month=<%=bill_date33%>&button=old">Delete</a>
+                                    </td>
+                                </tr>    
+                                <%
+                                }
+                                else
+                                {
+                                %>
+                                <tr>
+                                    <td colspan="2">
+                                        <a class="gb" target="_blank" href="<%=rs.getString("filepath")%>">Download</a>
+                                    </td>
+                                </tr>  
+                                <%
+                                }  
+                                %>
+                            </table>    
+                            <%
+                            }
+                            else
+                            {
+                            %>
+                            <form action="FileUploadServlet" method="post" enctype="multipart/form-data">
+                                <table class="center" cellspacing="25">
+                                    <tr>
+                                        <td>UPLOAD RECEIPT :<input type="file" name="file"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="greenbutton1">
+                                            <input type="submit" value="upload" name="submit_receipt"/>
+                                        </td>
+                                    </tr>
+                                </table> 
+                                <input type="hidden" name="mobile2" value="bsnl"/>
+                                <input type="hidden" value="<%=a33%>" name="count"/>
+                                <input type="hidden" name="bill_month" value="<%=bill_date33%>"/>
+                                <input type="hidden" name="button" value="old"/>
+                            </form>
+                            <%
+                            }
+                        }
+                        rs=stm.executeQuery("select * from modifier where operator='bsnl' and date='"+bill_date33+"'");
+                        if(rs.next())
+                        {
+                        %>
+                            <table class="center" cellspacing="25">
+                                <tr>
+                                    <td>Last Modified By : </td>
+                                    <td><%=rs.getString("emp")%></td>
+                                </tr>
+                            </table>    
+                        <%
+                        }
+                        %>
+                    </div>
+                    <div class="tabcontent11 center">
+                        <div class="tablescroll center" style="overflow-x:auto;">
+                        <table id="example33" class="display" style="width:100%;" cellspacing="20">
+                            <thead>
+                                <tr>
+                                    <td>S<font color="white">_</font>No</td>
+                                    <td>Name</td>
+                                    <td>Staff<font color="white">_</font>ID</td>
+                                    <td>Designation</td>
+                                    <td>Phone Number</td>
+                                    <td>Amount</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                                a33=0;
+                                if(!bill_date33.equals(""))
+                                {
+                                    rs=stm.executeQuery("select * from bills where operator='bsnl' and date='"+bill_date33+"'");
+                                    if(rs.next())
+                                    { 
+                                        do{
+                                        %>
+                                        <tr>
+                                            <td><%=a33+1%></td>
+                                            <td><%=rs.getString("name")%></td>
+                                            <td><%=rs.getString("emp")%></td>
+                                            <td><%=rs.getString("desi")%></td>
+                                            <td><%=rs.getString("phone")%></td>
+                                            <%if(convert(bill_date33,request)){%>
+                                            <td><input form="myform3" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a33]%>" onchange="checknumber(this)" style="width:100px;" required></td>
+                                            <%}else{%>
+                                            <td><input form="myform3" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a33]%>" style="width:100px;" readonly></td>
+                                            <%}%>
+                                        </tr>
+                                        <%
+                                            a33++;  
+
+                                        }while(rs.next());
+                                    }
+                                }
+                            %>  
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    
+                </div>
+                </td>
+                </tr>
+            </table>
+        </div>        
+        <div id="vodofone" class="tabcontent center" style="width:100%;">
+            <center><p class="title">VODOFONE</p></center>
+            <table class="tablecontent display1 center" style="width:100%;">
+                <tr>
+                <td>
+                <div class="tab2">
+                    <table class="center" cellspacing="30">
+                        <tr>
+                        <%
+                            if(request.getParameter("button")!=null && request.getParameter("bill_operator").equals("vodofone"))
+                            {
+                            if(request.getParameter("button").equals("new"))
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new4')" id="defaultOpen5">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old4')">OLD BILL</button></td>
+                            <%
+                            }
+                            else if(request.getParameter("button").equals("old"))
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new4')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old4')" id="defaultOpen5">OLD BILL</button></td>
+                            <%
+                            }
+                            else
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new4')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old4')">OLD BILL</button></td>
+                            <%
+                            }
+                            }
+                            else
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new4')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old4')">OLD BILL</button></td>
+                            <%
+                            }
+                        %>
+                        </tr>
+                    </table>
+                </div>
+                <div id="new4" class="tabcontent2">
+                <%
+                    int count4 = 0;
+                    double sum4 = 0.0;
+                    bill_date = "";
+                    String[] amt4 = new String[100];
+                    if(request.getParameter("count")!=null && request.getParameter("button").equals("new") && request.getParameter("bill_operator").equals("vodofone"))
+                    {
+                        count4=Integer.parseInt(request.getParameter("count"));
+                        for(int i=0;i<count4;i++)
+                            amt4[i]=request.getParameter(name[i]);
+                        if(request.getParameter("sum")!=null)
+                            sum4=Double.parseDouble(request.getParameter("sum"));
+                        if(request.getParameter("bill_date")!=null)
+                            bill_date = request.getParameter("bill_date");
+                    }
+                    else
+                        count4=100;
+                    for(int i=0;i<count4;i++)
+                    {
+                        if(amt4[i]==null)
+                            amt4[i]="";
+                    }
+                %>   
+                <form id="form4" name="form4" method="post" action="bill_validation.jsp"> </form>
+                        <div class="tabcontent12 center">
+                            <br><br>
+                            <table class="center" cellspacing="20">
+                                <tr>
+                                    <td>BILL MONTH</td>
+                                    <td>
+                                        <div class="input-group date datepicker">
+                                            <input form="form4" style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date%>" onchange="checkdate1(this)"  name="bill_date" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>	
+                                    <td>Total</td>
+                                    <td><%=sum4%></td>
+                                </tr>
+                                <tr>
+                                    <td class="greenbutton center"><input form="form4" type="submit" value="GET" name="submit1"></td>
+                                    <%if(request.getParameter("bill_date")!=null){%>
+                                    <td class="greenbutton center"><input form="form4" type="submit" value="STORE" name="submit1"></td>
+                                    <%}else{%>
+                                    <td><td>
+                                    <%}%>
+                                </tr>
+                            </table>
+                        </div>
+                    <div class="tabcontent11 center" >
+                        <div class="tablescroll center" style="overflow-x:auto;">
+                        <table id="example4" class="display" style="width:100%;" cellspacing="20">
+                            <thead>    
+                                <tr>
+                                    <td>S<font color="white">_</font>No</td>
+                                    <td>Name</td>
+                                    <td>Staff<font color="white">_</font>ID</td>
+                                    <td>Designation</td>
+                                    <td>Phone Number</td>
+                                    <td>Amount</td>
+                                    <td>Receipt</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                                int a4=0;
+                                rs=stm.executeQuery("select * from vodofone");
+                                while(rs.next())
+                                {                
+                                %>
+                                    <tr>
+                                        <td><%=a4+1%></td>
+                                        <td><%=rs.getString("name")%></td>
+                                        <td><%=rs.getString("emp")%></td>
+                                        <td><%=rs.getString("desi")%></td>
+                                        <td><%=rs.getString("phone")%></td>
+                                        <td><input form="form4" type="text" value="<%=amt4[a4]%>" name="<%=name[a4]%>" style="width:100px;" required/></td>
+                                        <%
+                                        rs1 = stm1.executeQuery("select * from receipt where operator='vodofone' and date='"+bill_date+"' and phone='"+rs.getString("phone")+"'");
+                                        if(rs1.next())
+                                        {
+                                        %>
+                                        <td>
+                                            <a class="gb" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a>
+                                        </td>
+                                        <%
+                                        }
+                                        else
+                                        {
+                                        %>
+                                        <td>
+                                            <form action="FileUploadServlet" method="post" enctype="multipart/form-data">
+                                                
+                                                <%if(!bill_date.isEmpty()){%>   
+                                                <input type="file" name="file">
+                                                <input class="bluebutton submitstyle" type="submit" value="Submit" name="submit_receipt"/>
+                                                <%}%>
+                                                <input type="hidden" name="mobile2" value="vodofone"/>
+                                                <input type="hidden" name="bill_month" value="<%=bill_date%>"/>
+                                                <input type="hidden" name="button" value="new"/>
+                                                <input type="hidden" name="phone" value="<%=rs.getString("phone")%>"/>
+                                                <input type="hidden" name="count" value="<%=count4%>"/>
+                                                <%
+                                                for(int i=0;i<count4;i++)
+                                                {
+                                                %>
+                                                <input type="hidden" value="<%=amt4[i]%>" name="<%=name[i]%>"/>
+                                                <%
+                                                }
+                                                %>
+                                            </form>
+                                        </td>
+                                        <%
+                                        }
+                                        %>
+                                    </tr>
+                                    <%
+                                        a4++;   
+                                }
+                                %>  
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>            
+                    <input form="form4" type="hidden" value="<%=a4%>" name="count"/>
+                    <input form="form4" type="hidden" value="new" name="button"/>
+                    <input form="form4" type="hidden" value="vodofone" name="bill_operator"/>
+                </div>
+                <div id="old4" class="tabcontent2">
+                <%
+                    String bill_date44="";
+                    filename="main.jsp";
+                    double sum44=0;
+                    if(request.getParameter("bill_operator")!=null && request.getParameter("bill_date")!=null && request.getParameter("button").equals("old") && request.getParameter("bill_operator").equals("vodofone"))
+                    {
+                        bill_date44=request.getParameter("bill_date");
+                        filename="bill_validation.jsp";
+                    }  
+                    int a44=0;
+                                if(!bill_date44.equals(""))
+                                {
+                                    rs=stm.executeQuery("select * from bills where operator='vodofone' and date='"+bill_date44+"'");
+                                    if(rs.next())
+                                    {
+                                    do
+                                    {
+                                    a44++;  
+                                        if(rs.getString("amount")!=null)
+                                            sum44+=Double.parseDouble(rs.getString("amount"));
+                                        }while(rs.next());
+                                        }
+                                    else
+                                   {
+                                        bill_date44="";
+                                        filename="main.jsp";
+                                   }   
+                                    
+                                }
+                %>
+                    
+                    <div class="tabcontent12 center">
+                        <form id="myform4" method="post" action="<%=filename%>"> 
+                            <br><br>
+                            <table class="center" cellspacing="20">
+                                <tr>
+                                    <td>BILL MONTH</td>
+                                    <td>
+                                        <div class="input-group date datepicker">
+                                            <input style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date44%>" onchange="checkdate1(this)" name="bill_date" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>	
+                                    <td>Sub Total</td>
+                                    <td><%=sum44%></td>
+                                </tr>
+                                <%  
+                                if(bill_date44.equals(""))
+                                {
+                                %>
+                                <tr>
+                                    <td colspan="2" class="greenbutton center"><input type="submit" value="GET DETAILS" name="submit1"></td>
+                                </tr>
+                                <%
+                                }
+                                else
+                                {  
+                                %>
+                                <tr>
+                                    <%if(convert(bill_date44,request)){%>
+                                    <td class="greenbutton center"><input type="submit" value="UPDATE" name="submit1"></td>
+                                    <%}%>
+                                    <td class="redbutton cventer"><input type="submit" value="BACK" name="submit1"></td>
+                                </tr>
+                                <%
+                                }
+                                %>    
+                            </table>
+                            <%
+                                rs=stm.executeQuery("select * from modifier where operator='vodofone' and date='"+bill_date44+"'");
+                                if(rs.next())
+                                {
+                                %>
+                                <table class="center" cellspacing="25">
+                                    <tr>
+                                        <td>Last Modified By : </td>
+                                        <td><%=rs.getString("emp")%></td>
+                                    </tr>
+                                </table>    
+                                <%
+                                }
+                            %>
+                            <input type="hidden" value="vodofone" name="bill_operator"/>
+                            <input type="hidden" value="vodofone" name="menubar"/>
+                            <input type="hidden" value="old" name="button"/>
+                            <input type="hidden" value="<%=a44%>" name="count"/>
+                        </form>  
+                    </div>
+                        <div class="tabcontent11 center" >
+                            <div class="tablescroll center" style="overflow-x:auto;">
+                        <table id="example44" class="display" style="width:100%;" cellspacing="20">
+                            <thead>
+                                <tr>
+                                    <td>S<font color="white">_</font>No</td>
+                                    <td>Name</td>
+                                    <td>Staff<font color="white">_</font>ID</td>
+                                    <td>Designation</td>
+                                    <td>Phone Number</td>
+                                    <td>Amount</td>
+                                    <td>Receipt</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                                 a44=0;
+                                if(!bill_date44.equals(""))
+                                {
+                                    rs=stm.executeQuery("select * from bills where operator='vodofone' and date='"+bill_date44+"'");
+                                    if(rs.next())
+                                    {
+                                    do
+                                    {
+                                    %>
+                                    <tr>
+                                        <td><%=a44+1%></td>
+                                        <td><%=rs.getString("name")%></td>
+                                        <td><%=rs.getString("emp")%></td>
+                                        <td><%=rs.getString("desi")%></td>
+                                        <td><%=rs.getString("phone")%></td>
+                                        <%if(convert(bill_date44,request)){%>
+                                        <td><input form="myform4" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a44]%>" onchange="checknumber(this)" style="width:100px;" required></td>
+                                        <%}else{%>
+                                        <td><input form="myform4" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a44]%>" style="width:100px;" readonly></td>
+                                        <%}%>
+                                        <%
+                                        rs1 = stm1.executeQuery("select * from receipt where operator='vodofone' and date='"+bill_date44+"' and phone='"+rs.getString("phone")+"'");
+                                        if(rs1.next())
+                                        {
+                                        %>
+                                        <td>
+                                            <button class="gb"><a style="text-decoration:none;color:inherit;" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a></button>
+                                            <%
+                                            if(admin.equals(username) && convert(bill_date44,request)) 
+                                            {
+                                            %>
+                                            <button class="rb"><a style="text-decoration:none;color:inherit;" target="_self" href="deletereceipt.jsp?operator=vodofone&bill_month=<%=bill_date44%>&phone=<%=rs.getString("phone")%>&button=old">Delete</a></button>
+                                            <%
+                                            }
+                                            %>
+                                        </td>
+                                        <%
+                                        }
+                                        else
+                                        {
+                                        %>
+                                        <td>
+                                            <form action="FileUploadServlet" method="post" enctype="multipart/form-data">
+                                                <input type="file" name="file">
+                                                <input class="bluebutton submitstyle" type="submit" value="Submit" name="submit_receipt"/>
+                                                <input type="hidden" name="mobile2" value="vodofone"/>
+                                                <input type="hidden" value="<%=a44%>" name="count"/>
+                                                <input type="hidden" name="bill_month" value="<%=bill_date44%>"/>
+                                                <input type="hidden" name="button" value="old"/>
+                                                <input type="hidden" name="phone" value="<%=rs.getString("phone")%>"/>
+                                            </form>
+                                        </td>
+                                        <%
+                                        }
+                                        %>
+                                    </tr>
+                                    <%
+                                        a44++;  
+                                        }while(rs.next());
+                                        }
+                                    
+                                }
+                            %>  
+                            </tbody>
+                        </table>
+                            </div>
+                    </div>
+                </div>
+                        
+                </td>
+                </tr>
+            </table>                        
+        </div>
+        <div id="airtelvip" class="tabcontent center">
+            <center><p class="title">AIRTEL VIP</p></center>
+            <table class="tablecontent display1 center" style="width:100%;">
+                <tr>
+                <td>
+                <div class="tab2">
+                    <table class="center" cellspacing="30">
+                        <tr>
+                        <%
+                            if(request.getParameter("button")!=null && request.getParameter("bill_operator").equals("airtelvip"))
+                            {
+                            if(request.getParameter("button").equals("new"))
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new5')" id="defaultOpen5">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old5')">OLD BILL</button></td>
+                            <%
+                            }
+                            else if(request.getParameter("button").equals("old"))
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new5')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old5')" id="defaultOpen5">OLD BILL</button></td>
+                            <%
+                            }
+                            else
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new5')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old5')">OLD BILL</button></td>
+                            <%
+                            }
+                            }
+                            else
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new5')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old5')">OLD BILL</button></td>
+                            <%
+                            }
+                        %>
+                        </tr>
+                    </table>
+                </div>
+                <div id="new5" class="tabcontent2">
+                <%
+                    int count5 = 0;
+                    double sum5 = 0.0;
+                    bill_date = "";
+                    String[] amt5 = new String[100];
+                    if(request.getParameter("count")!=null && request.getParameter("button").equals("new") && request.getParameter("bill_operator").equals("airtelvip"))
+                    {
+                        count5=Integer.parseInt(request.getParameter("count"));
+                        for(int i=0;i<count5;i++)
+                            amt5[i]=request.getParameter(name[i]);
+                        if(request.getParameter("sum")!=null)
+                            sum5=Double.parseDouble(request.getParameter("sum"));
+                        if(request.getParameter("bill_date")!=null)
+                            bill_date = request.getParameter("bill_date");
+                    }
+                    else
+                        count5=100;
+                    for(int i=0;i<count5;i++)
+                    {
+                        if(amt5[i]==null)
+                            amt5[i]="";
+                    }
+                %>   
+                    <form id="form5"  method="post" action="bill_validation.jsp"> 
+                        <div class="tabcontent12 center">
+                            <br><br>
+                            <table class="center" cellspacing="20">
+                                <tr>
+                                    <td>BILL MONTH</td>
+                                    <td>
+                                       <div class="input-group date datepicker">
+                                            <input style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date%>" onchange="checkdate1(this)" name="bill_date" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>	
+                                    <td>Total</td>
+                                    <td><%=sum5%></td>
+                                </tr>
+                                <tr>
+                                    <td class="greenbutton center"><input type="submit" value="GET" name="submit1"></td>
+                                    <%if(request.getParameter("bill_date")!=null){%>
+                                    <td class="greenbutton center"><input type="submit" value="STORE" name="submit1"></td>
+                                    <%}else{%>
+                                    <td><td>
+                                    <%}%>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
+                    <div class="tabcontent11 center" >
+                        <div class="tablescroll center" style="overflow-x:auto;">
+                        <table id="example5" class="display" style="width:100%;" cellspacing="20">
+                            <thead>    
+                                <tr>
+                                    <td>S<font color="white">_</font>No</td>
+                                    <td>Name</td>
+                                    <td>Staff<font color="white">_</font>ID</td>
+                                    <td>Designation</td>
+                                    <td>Phone Number</td>
+                                    <td>Amount</td>
+                                    <td>Receipt</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                                int a5=0;
+                                rs=stm.executeQuery("select * from airtelvip");
+                                while(rs.next())
+                                {                
+                                %>
+                                    <tr>
+                                        <td><%=a5+1%></td>
+                                        <td><%=rs.getString("name")%></td>
+                                        <td><%=rs.getString("emp")%></td>
+                                        <td><%=rs.getString("desi")%></td>
+                                        <td><%=rs.getString("phone")%></td>
+                                        <td><input form="form5" type="text" value="<%=amt5[a5]%>" name="<%=name[a5]%>" onchange="checknumber(this)" style="width:100px;" required/></td>
+                                        <%
+                                        rs1 = stm1.executeQuery("select * from receipt where operator='airtelvip' and date='"+bill_date+"' and phone='"+rs.getString("phone")+"'");
+                                        if(rs1.next())
+                                        {
+                                        %>
+                                        <td>
+                                            <a class="gb" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a>
+                                        </td>
+                                        <%
+                                        }
+                                        else
+                                        {
+                                        %>
+                                        <td>
+                                            <form action="FileUploadServlet" method="post" enctype="multipart/form-data">
+                                                <%if(!bill_date.isEmpty()){%>
+                                                <input type="file" name="file">
+                                                <input class="bluebutton submitstyle" type="submit" value="Submit" name="submit_receipt"/>
+                                                <%}%>
+                                                <input type="hidden" name="mobile2" value="airtelvip"/>
+                                                <input type="hidden" name="bill_month" value="<%=bill_date%>"/>
+                                                <input type="hidden" name="button" value="new"/>
+                                                <input type="hidden" name="phone" value="<%=rs.getString("phone")%>"/>
+                                                <input type="hidden" name="count" value="<%=count5%>"/>
+                                                <%
+                                                for(int i=0;i<count5;i++)
+                                                {
+                                                %>
+                                                <input type="hidden" value="<%=amt5[i]%>" name="<%=name[i]%>"/>
+                                                <%
+                                                }
+                                                %>
+                                            </form>
+                                        </td>
+                                        <%
+                                        }
+                                        %>
+                                    </tr>
+                                    <%
+                                        a5++;   
+                                }
+                                %>  
+                            </tbody>                                            
+                        </table>
+                        </div>
+                    </div>
+                    <input form="form5" type="hidden" value="<%=a5%>" name="count"/>
+                    <input form="form5" type="hidden" value="new" name="button"/>
+                    <input form="form5" type="hidden" value="airtelvip" name="bill_operator"/>
+                </div>
+                <div id="old5" class="tabcontent2">
+                <%
+                    String bill_date55="";
+                    filename="main.jsp";
+                    double sum55=0;
+                    if(request.getParameter("bill_operator")!=null && request.getParameter("bill_date")!=null && request.getParameter("button").equals("old") && request.getParameter("bill_operator").equals("airtelvip"))
+                    {
+                        bill_date55=request.getParameter("bill_date");
+                        filename="bill_validation.jsp";
+                    }  
+                                int a55=0;
+                                if(!bill_date55.equals(""))
+                                {
+                                rs=stm.executeQuery("select * from bills where operator='airtelvip' and date='"+bill_date55+"'");
+                                    if(rs.next())
+                                    { 
+                                    do{
+                                    a55++;  
+                                        if(rs.getString("amount")!=null)
+                                            sum55+=Double.parseDouble(rs.getString("amount"));
+                                    }while(rs.next());
+                                    }
+                                    else
+                                    {
+                                        bill_date55="";
+                                        filename="main.jsp";
+                                    }
+                                }
+                
+                %>
+                    <div class="tabcontent12 center">
+                        <form id="myform5" method="post" action="<%=filename%>"> 
+                            <br><br>
+                            <table class="center" cellspacing="20">
+                                <tr>
+                                    <td>BILL MONTH</td>
+                                    <td>
+                                        <div class="input-group date datepicker">
+                                            <input style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date55%>" onchange="checkdate1(this)" name="bill_date" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>	
+                                    <td>Total</td>
+                                    <td><%=sum55%></td>
+                                </tr>
+                                <%  
+                                if(bill_date55.equals(""))
+                                {
+                                %>
+                                <tr>
+                                    <td colspan="2" class="greenbutton1 center"><input type="submit" value="GET DETAILS" name="submit1"></td>
+                                </tr>
+                                <%
+                                }
+                                else
+                                {
+                                %>
+                                <tr>
+                                    <%if(convert(bill_date55,request)){%>
+                                    <td class="greenbutton center"><input type="submit" value="UPDATE" name="submit1"></td>
+                                    <%}%>
+                                    <td class="redbutton cventer"><input type="submit" value="BACK" name="submit1"></td>
+                                </tr>
+                                <%
+                                }
+                                %>    
+                            </table>
+                            <%
+                                rs=stm.executeQuery("select * from modifier where operator='airtelvip' and date='"+bill_date55+"'");
+                                if(rs.next())
+                                {
+                                %>
+                                <table class="center" cellspacing="25">
+                                    <tr>
+                                        <td>Last Modified By : </td>
+                                        <td><%=rs.getString("emp")%></td>
+                                    </tr>
+                                </table>    
+                                <%
+                                }
+                            %>
+                            <input type="hidden" value="airtelvip" name="bill_operator"/>
+                            <input type="hidden" value="airtelvip" name="menubar"/>
+                            <input type="hidden" value="old" name="button"/>
+                            <input type="hidden" value="<%=a55%>" name="count"/>
+                        </form>  
+                    </div>
+                    <div class="tabcontent11 center" >
+                        <div class="tablescroll center" style="overflow-x:auto;">
+                        <table id="example55" class="display" style="width:100%;" cellspacing="20">
+                            <thead>
+                                <tr>
+                                    <td>S<font color="white">_</font>No</td>
+                                    <td>Name</td>
+                                    <td>Staff<font color="white">_</font>ID</td>
+                                    <td>Designation</td>
+                                    <td>Phone Number</td>
+                                    <td>Amount</td>
+                                    <td>Receipt</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                                a55=0;
+                                if(!bill_date55.equals(""))
+                                {
+                                rs=stm.executeQuery("select * from bills where operator='airtelvip' and date='"+bill_date55+"'");
+                                    if(rs.next())
+                                    { 
+                                    do{
+                                    %>
+                                    <tr>
+                                        <td><%=a55+1%></td>
+                                        <td><%=rs.getString("name")%></td>
+                                        <td><%=rs.getString("emp")%></td>
+                                        <td><%=rs.getString("desi")%></td>
+                                        <td><%=rs.getString("phone")%></td>
+                                        <%if(convert(bill_date55,request)){%>
+                                        <td><input form="myform5" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a55]%>" onchange="checknumber(this)" style="width:100px;" required></td>
+                                        <%}else{%>
+                                        <td><input form="myform5" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a55]%>" style="width:100px;" readonly></td>
+                                        <%}%>
+                                        <%
+                                        rs1 = stm1.executeQuery("select * from receipt where operator='airtelvip' and date='"+bill_date55+"' and phone='"+rs.getString("phone")+"'");
+                                        if(rs1.next())
+                                        {
+                                        %>
+                                        <td>
+                                            <button class="gb" ><a style="text-decoration:none;color:inherit;" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a></button>
+                                            <%
+                                            if(admin.equals(username) && convert(bill_date55,request)) 
+                                            {
+                                            %>
+                                            <button class="rb" ><a style="text-decoration:none;color:inherit;" target="_self" href="deletereceipt.jsp?operator=airtelvip&bill_month=<%=bill_date55%>&phone=<%=rs.getString("phone")%>&button=old">Delete</a></button>
+                                            <%
+                                            }
+                                            %>
+                                        </td>
+                                        <%
+                                        }
+                                        else
+                                        {
+                                        %>
+                                        <td>
+                                            <form action="FileUploadServlet" method="post" enctype="multipart/form-data">
+                                                <input type="file" name="file">
+                                                <input class="bluebutton submitstyle" type="submit" value="Submit" name="submit_receipt"/>
+                                                <input type="hidden" name="mobile2" value="airtelvip"/>
+                                                <input type="hidden" value="<%=a55%>" name="count"/>
+                                                <input type="hidden" name="bill_month" value="<%=bill_date55%>"/>
+                                                <input type="hidden" name="button" value="old"/>
+                                                <input type="hidden" name="phone" value="<%=rs.getString("phone")%>"/>
+                                            </form>
+                                        </td>
+                                        <%
+                                        }
+                                        %>
+                                    </tr>
+                                    <%
+                                        a55++;
+                                    }while(rs.next());
+                                    }
+                                }
+                            %>  
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>    
+                </div>
+                </td>
+                </tr>
+            </table>
+        </div>
+        <div id="airtellandline" class="tabcontent center">
+            <center><p class="title">AIRTEL LANDLINE</p></center>
+            <table class="tablecontent display1 center" style="width:100%;">
+                <tr>
+                <td>    
+                <div class="tab2">
+                    <table class="center" cellspacing="30">
+                        <tr>
+                        <%
+                            if(request.getParameter("button")!=null && request.getParameter("bill_operator").equals("airtellandline"))
+                            {
+                            if(request.getParameter("button").equals("new"))
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new6')" id="defaultOpen5">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old6')">OLD BILL</button></td>
+                            <%
+                            }
+                            else if(request.getParameter("button").equals("old"))
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new6')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old6')" id="defaultOpen5">OLD BILL</button></td>
+                            <%
+                            }
+                            else
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new6')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old6')">OLD BILL</button></td>
+                            <%
+                            }
+                            }
+                            else
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new6')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old6')">OLD BILL</button></td>
+                            <%
+                            }
+                        %>
+                        </tr>
+                    </table>
+                </div>
+                <div id="new6" class="tabcontent2">
+                <%
+                    int count6 = 0;
+                    double sum6 = 0.0;
+                    bill_date = "";
+                    String[] amt6 = new String[100];
+                    if(request.getParameter("count")!=null && request.getParameter("button").equals("new") && request.getParameter("bill_operator").equals("airtellandline"))
+                    {
+                        count6=Integer.parseInt(request.getParameter("count"));
+                        for(int i=0;i<count6;i++)
+                            amt6[i]=request.getParameter(name[i]);
+                        if(request.getParameter("sum")!=null)
+                            sum6=Double.parseDouble(request.getParameter("sum"));
+                        if(request.getParameter("bill_date")!=null)
+                            bill_date = request.getParameter("bill_date");
+                    }
+                    else
+                        count6=100;
+                    for(int i=0;i<count6;i++)
+                    {
+                        if(amt6[i]==null)
+                            amt6[i]="";
+                    }
+                %>   
+                    <form id="form6"  method="post" action="bill_validation.jsp"> 
+                        <div class="tabcontent12 center">
+                            <br><br>
+                            <table class="center" cellspacing="20">
+                                <tr>
+                                    <td>BILL MONTH</td>
+                                    <td>
+                                        <div class="input-group date datepicker">
+                                            <input style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date%>" onchange="checkdate1(this)" name="bill_date" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>	
+                                    <td>Total</td>
+                                    <td><%=sum6%></td>
+                                </tr>
+                                <tr>
+                                    <td class="greenbutton center"><input type="submit" value="GET" name="submit1"></td>
+                                    <%if(request.getParameter("bill_date")!=null){%>
+                                    <td class="greenbutton center"><input type="submit" value="STORE" name="submit1"></td>
+                                    <%}else{%>
+                                    <td><td>
+                                    <%}%>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                    </form>
+                    <div class="tabcontent11 center" >
+                        <div class="tablescroll center" style="overflow-x:auto;">
+                        <table id="example6" class="display" style="width:100%;" cellspacing="20">
+                            <thead>    
+                                <tr>
+                                    <td>S<font color="white">_</font>No</td>
+                                    <td>Name</td>
+                                    <td>Staff<font color="white">_</font>ID</td>
+                                    <td>Designation</td>
+                                    <td>Phone Number</td>
+                                    <td>Amount</td>
+                                    <td>Receipt</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                                int a6=0;
+                                rs=stm.executeQuery("select * from airtellandline");
+                                while(rs.next())
+                                {                
+                                %>
+                                    <tr>
+                                        <td><%=a6+1%></td>
+                                        <td><%=rs.getString("name")%></td>
+                                        <td><%=rs.getString("emp")%></td>
+                                        <td><%=rs.getString("desi")%></td>
+                                        <td><%=rs.getString("phone")%></td>
+                                        <td><input form="form6" type="text" value="<%=amt6[a6]%>" name="<%=name[a6]%>" onchange="checknumber(this)" style="width:100px;" required/></td>
+                                        <%
+                                        rs1 = stm1.executeQuery("select * from receipt where operator='airtellandline' and date='"+bill_date+"' and phone='"+rs.getString("phone")+"'");
+                                        if(rs1.next())
+                                        {
+                                        %>
+                                        <td>
+                                            <a  class="gb" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a>
+                                        </td>
+                                        <%
+                                        }
+                                        else
+                                        {
+                                        %>
+                                        <td>
+                                            <form action="FileUploadServlet" method="post" enctype="multipart/form-data">
+                                                <%if(!bill_date.isEmpty()){%>
+                                                <input type="file" name="file">
+                                                <input class="bluebutton submitstyle" type="submit" value="Submit" name="submit_receipt"/>
+                                                <%}%>
+                                                <input type="hidden" name="mobile2" value="airtellandline"/>
+                                                <input type="hidden" name="bill_month" value="<%=bill_date%>"/>
+                                                <input type="hidden" name="button" value="new"/>
+                                                <input type="hidden" name="phone" value="<%=rs.getString("phone")%>"/>
+                                                <input type="hidden" name="count" value="<%=count6%>"/>
+                                                <%
+                                                for(int i=0;i<count6;i++)
+                                                {
+                                                %>
+                                                <input type="hidden" value="<%=amt6[i]%>" name="<%=name[i]%>"/>
+                                                <%
+                                                }
+                                                %>
+                                            </form>
+                                        </td>
+                                        <%
+                                        }
+                                        %>
+                                    </tr>
+                                    <%
+                                        a6++;   
+                                }
+                                %>  
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                        <input form="form6" type="hidden" value="<%=a6%>" name="count"/>
+                        <input form="form6" type="hidden" value="new" name="button"/>
+                        <input form="form6" type="hidden" value="airtellandline" name="bill_operator"/>
+                </div>
+                <div id="old6" class="tabcontent2">
+                <%
+                    String bill_date66="";
+                    filename="main.jsp";
+                    double sum66=0;
+                    if(request.getParameter("bill_operator")!=null && request.getParameter("bill_date")!=null && request.getParameter("button").equals("old") && request.getParameter("bill_operator").equals("airtellandline"))
+                    {
+                        bill_date66=request.getParameter("bill_date");
+                        filename="bill_validation.jsp";
+                    }  
+                                int a66=0;
+                                if(!bill_date66.equals(""))
+                                {
+                                    rs=stm.executeQuery("select * from bills where operator='airtellandline' and date='"+bill_date66+"'");
+                                    if(rs.next())
+                                    { 
+                                    do
+                                    {    
+                                        a66++;  
+                                        if(rs.getString("amount")!=null)
+                                            sum66+=Double.parseDouble(rs.getString("amount"));
+                                    }while(rs.next());
+                                    }
+                                    else
+                                    {
+                                        bill_date66="";
+                                        filename="main.jsp";
+                                    }
+                                }
+                %>
+                    <div class="tabcontent12 center">
+                        <form id="myform6" method="post" action="<%=filename%>"> 
+                            <br><br>
+                            <table class="center" cellspacing="20">
+                                <tr>
+                                    <td>BILL MONTH</td>
+                                    <td>
+                                        <div class="input-group date datepicker">
+                                            <input style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date66%>" onchange="checkdate1(this)" name="bill_date" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>	
+                                    <td>Total</td>
+                                    <td><%=sum66%></td>
+                                </tr>
+                                <%  
+                                if(bill_date66.equals(""))
+                                {
+                                %>
+                                <tr>
+                                    <td colspan="2" class="greenbutton1 center"><input type="submit" value="GET DETAILS" name="submit1"></td>
+                                </tr>
+                                <%
+                                }
+                                else
+                                {
+                                %>
+                                <tr>
+                                    <%if(convert(bill_date66,request)){%>
+                                    <td class="greenbutton center"><input type="submit" value="UPDATE" name="submit1"></td>
+                                    <%}%>
+                                    <td class="redbutton cventer"><input type="submit" value="BACK" name="submit1"></td>
+                                </tr>
+                                <%
+                                }
+                                %>    
+                            </table>
+                            <%
+                                rs=stm.executeQuery("select * from modifier where operator='airtellandline' and date='"+bill_date66+"'");
+                                if(rs.next())
+                                {
+                                %>
+                                <table class="center" cellspacing="25">
+                                    <tr>
+                                        <td>Last Modified By : </td>
+                                        <td><%=rs.getString("emp")%></td>
+                                    </tr>
+                                </table>    
+                                <%
+                                }
+                            %>
+                            <input type="hidden" value="airtellandline" name="bill_operator"/>
+                            <input type="hidden" value="airtellandline" name="menubar"/>
+                            <input type="hidden" value="old" name="button"/>
+                            <input type="hidden" value="<%=a66%>" name="count"/>
+                        </form>  
+                    </div>
+                        <div class="tabcontent11 center" >
+                        <div class="tablescroll center" style="overflow-x:auto;">
+                        <table id="example66" class="display" style="width:100%;" cellspacing="20">
+                            <thead>
+                                <tr>
+                                    <td>S<font color="white">_</font>No</td>
+                                    <td>Name</td>
+                                    <td>Staff<font color="white">_</font>ID</td>
+                                    <td>Designation</td>
+                                    <td>Phone Number</td>
+                                    <td>Amount</td>
+                                    <td>Receipt</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                                a66=0;
+                                if(!bill_date66.equals(""))
+                                {
+                                    rs=stm.executeQuery("select * from bills where operator='airtellandline' and date='"+bill_date66+"'");
+                                    if(rs.next())
+                                    { 
+                                    do
+                                    {
+                                    %>
+                                    <tr>
+                                        <td><%=a66+1%></td>
+                                        <td><%=rs.getString("name")%></td>
+                                        <td><%=rs.getString("emp")%></td>
+                                        <td><%=rs.getString("desi")%></td>
+                                        <td><%=rs.getString("phone")%></td>
+                                        <%if(convert(bill_date66,request)){%>
+                                        <td><input form="myform6" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a66]%>" onchange="checknumber(this)" style="width:100px;" required></td>
+                                        <%}else{%>
+                                        <td><input form="myform6" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a66]%>" style="width:100px;" readonly></td>
+                                        <%}%>
+                                        <%
+                                        rs1 = stm1.executeQuery("select * from receipt where operator='airtellandline' and date='"+bill_date66+"' and phone='"+rs.getString("phone")+"'");
+                                        if(rs1.next())
+                                        {
+                                        %>
+                                        <td>
+                                            <button class="gb" ><a style="text-decoration:none;color:inherit;" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a></button>
+                                            <%
+                                            if(admin.equals(username) && convert(bill_date66,request)) 
+                                            {
+                                            %>
+                                            <button class="rb" ><a style="text-decoration:none;color:inherit;" target="_self" href="deletereceipt.jsp?operator=airtellandline&bill_month=<%=bill_date66%>&phone=<%=rs.getString("phone")%>&button=old">Delete</a></button>
+                                            <%
+                                            }
+                                            %>
+                                        </td>
+                                        <%
+                                        }
+                                        else
+                                        {
+                                        %>
+                                        <td>
+                                            <form action="FileUploadServlet" method="post" enctype="multipart/form-data">
+                                                <input type="file" name="file"><input class="bluebutton submitstyle" type="submit" value="Submit" name="submit_receipt"/>
+                                                <input type="hidden" name="mobile2" value="airtellandline"/>
+                                                <input type="hidden" name="bill_month" value="<%=bill_date66%>"/>
+                                                <input type="hidden" name="button" value="old"/>
+                                                <input type="hidden" value="<%=a66%>" name="count"/>
+                                                <input type="hidden" name="phone" value="<%=rs.getString("phone")%>"/>
+                                            </form>
+                                        </td>
+                                        <%
+                                        }
+                                        %>
+                                    </tr>
+                                    <%
+                                        a66++;  
+                                    }while(rs.next());
+                                    }
+                                }
+                            %>  
+                            </tbody>
+                        </table>
+                            </div>
+                    </div>
+                </div>
+                </td>
+                </tr>
+            </table>
+        </div>             
+        <div id="bsnllandline" class="tabcontent center">
+            <center><p class="title">BSNL LANDLINE</p></center>
+            <table class="tablecontent display1 center" style="width:100%;">
+                <tr>
+                <td>
+                <div class="tab2">
+                    <table class="center" cellspacing="30">
+                        <tr>
+                        <%
+                            if(request.getParameter("button")!=null && request.getParameter("bill_operator").equals("bsnllandline"))
+                            {
+                            if(request.getParameter("button").equals("new"))
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new7')" id="defaultOpen5">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old7')">OLD BILL</button></td>
+                            <%
+                            }
+                            else if(request.getParameter("button").equals("old"))
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new7')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old7')" id="defaultOpen5">OLD BILL</button></td>
+                            <%
+                            }
+                            else
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new7')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old7')">OLD BILL</button></td>
+                            <%
+                            }
+                            }
+                            else
+                            {
+                            %>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'new7')">NEW BILL</button></td>
+                            <td><button class="tablinks2 bluebutton buttonstyle" onclick="openMode2(event, 'old7')">OLD BILL</button></td>
+                            <%
+                            }
+                        %>
+                        </tr>
+                    </table>
+                </div>
+                <div id="new7" class="tabcontent2">
+                <%
+                    int count7 = 0;
+                    double sum7 = 0.0;
+                    bill_date = "";
+                    String[] amt7 = new String[100];
+                    if(request.getParameter("count")!=null && request.getParameter("button").equals("new") && request.getParameter("bill_operator").equals("bsnllandline"))
+                    {
+                        count7=Integer.parseInt(request.getParameter("count"));
+                        for(int i=0;i<count7;i++)
+                            amt7[i]=request.getParameter(name[i]);
+                        if(request.getParameter("sum")!=null)
+                            sum7=Double.parseDouble(request.getParameter("sum"));
+                        if(request.getParameter("bill_date")!=null)
+                            bill_date = request.getParameter("bill_date");
+                    }
+                    else
+                        count7=100;
+                    for(int i=0;i<count7;i++)
+                    {
+                        if(amt7[i]==null)
+                            amt7[i]="";
+                    }
+                %>   
+                    <form id="form7"  method="post" action="bill_validation.jsp"> 
+                        <div class="tabcontent12 center">
+                            <br><br>
+                            <table class="center" cellspacing="20">
+                                <tr>
+                                    <td>BILL MONTH</td>
+                                    <td>
+                                        <div class="input-group date datepicker">
+                                            <input style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date%>" onchange="checkdate1(this)" name="bill_date" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>	
+                                    <td>Total</td>
+                                    <td><%=sum7%></td>
+                                </tr>
+                                <tr>
+                                    <td class="greenbutton center"><input type="submit" value="GET" name="submit1"></td>
+                                    <%if(request.getParameter("bill_date")!=null){%>
+                                    <td class="greenbutton center"><input type="submit" value="STORE" name="submit1"></td>
+                                    <%}else{%>
+                                    <td><td>
+                                    <%}%>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                    </form>
+                    <div class="tabcontent11 center" >
+                        <div class="tablescroll center" style="overflow-x:auto;">
+                        <table id="example7" class="display" style="width:100%;" cellspacing="20">
+                            <thead>    
+                                <tr>
+                                    <td>S<font color="white">_</font>No</td>
+                                    <td>Name</td>
+                                    <td>Staff<font color="white">_</font>ID</td>
+                                    <td>Designation</td>
+                                    <td>Phone Number</td>
+                                    <td>Amount</td>
+                                    <td>Receipt</td>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                                int a7=0;
+                                rs=stm.executeQuery("select * from bsnllandline");
+                                while(rs.next())
+                                {                
+                                %>
+                                    <tr>
+                                        <td><%=a7+1%></td>
+                                        <td><%=rs.getString("name")%></td>
+                                        <td><%=rs.getString("emp")%></td>
+                                        <td><%=rs.getString("desi")%></td>
+                                        <td><%=rs.getString("phone")%></td>
+                                        <td><input form="form7" type="text" value="<%=amt7[a7]%>" name="<%=name[a7]%>" onchange="checknumber(this)" style="width:100px;" required/></td>
+                                        <%
+                                        rs1 = stm1.executeQuery("select * from receipt where operator='bsnllandline' and date='"+bill_date+"' and phone='"+rs.getString("phone")+"'");
+                                        if(rs1.next())
+                                        {
+                                        %>
+                                        <td>
+                                            <a class="gb" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a>
+                                        </td>
+                                        <%
+                                        }
+                                        else
+                                        {
+                                        %>
+                                        <td>
+                                            <form action="FileUploadServlet" method="post" enctype="multipart/form-data">
+                                                <%if(!bill_date.isEmpty()){%>
+                                                <input type="file" name="file">
+                                                <input class="bluebutton submitstyle" type="submit" value="Submit" name="submit_receipt"/>
+                                                <%}%>
+                                                <input type="hidden" name="mobile2" value="bsnllandline"/>
+                                                <input type="hidden" name="bill_month" value="<%=bill_date%>"/>
+                                                <input type="hidden" name="button" value="new"/>
+                                                <input type="hidden" name="phone" value="<%=rs.getString("phone")%>"/>
+                                                <input type="hidden" name="count" value="<%=count7%>"/>
+                                                <%
+                                                for(int i=0;i<count7;i++)
+                                                {
+                                                %>
+                                                <input type="hidden" value="<%=amt7[i]%>" name="<%=name[i]%>"/>
+                                                <%
+                                                }
+                                                %>
+                                            </form>
+                                        </td>
+                                        <%
+                                        }
+                                        %>
+                                    </tr>
+                                    <%
+                                        a7++;   
+                                }
+                                %>  
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                        <input form="form7" type="hidden" value="<%=a7%>" name="count"/>
+                        <input form="form7" type="hidden" value="new" name="button"/>
+                        <input form="form7" type="hidden" value="bsnllandline" name="bill_operator"/>
+                </div>
+                <div id="old7" class="tabcontent2">
+                <%
+                    String bill_date77="";
+                    filename="main.jsp";
+                    double sum77=0;
+                    if(request.getParameter("bill_operator")!=null && request.getParameter("bill_date")!=null && request.getParameter("button").equals("old") && request.getParameter("bill_operator").equals("bsnllandline"))
+                    {
+                        bill_date77=request.getParameter("bill_date");
+                        filename="bill_validation.jsp";
+                    }  
+                                int a77=0;
+                                if(!bill_date77.equals(""))
+                                {
+                                    rs=stm.executeQuery("select * from bills where operator='bsnllandline' and date='"+bill_date77+"'");
+                                    if(rs.next())
+                                    {  
+                                    do
+                                    {
+                                        a77++;  
+                                        if(rs.getString("amount")!=null)
+                                            sum77+=Double.parseDouble(rs.getString("amount"));
+                                    }while(rs.next());
+                                    }    
+                                    else
+                                    {
+                                        bill_date77="";
+                                        filename="main.jsp";
+                                    }
+                                }
+                %>
+                    <div class="tabcontent12 center">
+                        <form id="myform7" method="post" action="<%=filename%>"> 
+                            <br><br>
+                            <table class="center" cellspacing="20">
+                                <tr>
+                                    <td>BILL MONTH</td>
+                                    <td>
+                                        <div class="input-group date datepicker">
+                                            <input style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date77%>" onchange="checkdate1(this)" name="bill_date" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>	
+                                    <td>Total</td>
+                                    <td><%=sum77%></td>
+                                </tr>
+                                <%  
+                                if(bill_date77.equals(""))
+                                {
+                                %>
+                                <tr>
+                                    <td colspan="2" class="greenbutton1 center"><input type="submit" value="GET DETAILS" name="submit1"></td>
+                                </tr>
+                                <%
+                                }
+                                else
+                                {
+                                %>
+                                <tr>
+                                    <%if(convert(bill_date77,request)){%>
+                                    <td class="greenbutton center"><input type="submit" value="UPDATE" name="submit1"></td>
+                                    <%}%>
+                                    <td class="redbutton cventer"><input type="submit" value="BACK" name="submit1"></td>
+                                </tr>
+                                <%
+                                }
+                                %>    
+                            </table>
+                            <%
+                                rs=stm.executeQuery("select * from modifier where operator='bsnllandline' and date='"+bill_date77+"'");
+                                if(rs.next())
+                                {
+                                %>
+                                <table class="center" cellspacing="25">
+                                    <tr>
+                                        <td>Last Modified By : </td>
+                                        <td><%=rs.getString("emp")%></td>
+                                    </tr>
+                                </table>    
+                                <%
+                                }
+                            %>
+                            <input type="hidden" value="bsnllandline" name="bill_operator"/>
+                            <input type="hidden" value="bsnllandline" name="menubar"/>
+                            <input type="hidden" value="old" name="button"/>
+                            <input type="hidden" value="<%=a77%>" name="count"/>
+                        </form>  
+                    </div>
+                    <div class="tabcontent11 center" >
+                        <div class="tablescroll center" style="overflow-x:auto;">
+                        <table id="example77" class="display" style="width:100%;" cellspacing="20">
+                            <thead>
+                                <tr>
+                                    <td>S<font color="white">_</font>No</td>
+                                    <td>Name</td>
+                                    <td>Staff<font color="white">_</font>ID</td>
+                                    <td>Designation</td>
+                                    <td>Phone Number</td>
+                                    <td>Amount</td>
+                                    <td>Receipt</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                                a77=0;
+                                if(!bill_date77.equals(""))
+                                {
+                                    rs=stm.executeQuery("select * from bills where operator='bsnllandline' and date='"+bill_date77+"'");
+                                    if(rs.next())
+                                    {  
+                                    do
+                                    {
+                                    %>
+                                    <tr>
+                                        <td><%=a77+1%></td>
+                                        <td><%=rs.getString("name")%></td>
+                                        <td><%=rs.getString("emp")%></td>
+                                        <td><%=rs.getString("desi")%></td>
+                                        <td><%=rs.getString("phone")%></td>
+                                        <%if(convert(bill_date77,request)){%>
+                                        <td><input form="myform7" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a77]%>" onchange="checknumber(this)" style="width:100px;" required></td>
+                                        <%}else{%>
+                                        <td><input form="myform7" type="text" value="<%=rs.getString("amount")%>" name="<%=name[a77]%>" style="width:100px;" readonly></td>
+                                        <%}%>
+                                        <%
+                                        rs1 = stm1.executeQuery("select * from receipt where operator='bsnllandline' and date='"+bill_date77+"' and phone='"+rs.getString("phone")+"'");
+                                        if(rs1.next())
+                                        {
+                                        %>
+                                        <td>
+                                            <button class="gb" ><a style="text-decoration:none;color:inherit;" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a></button>
+                                            <%
+                                            if(admin.equals(username) && convert(bill_date77,request)) 
+                                            {
+                                            %>
+                                            <button class="rb" ><a style="text-decoration:none;color:inherit;" target="_self" href="deletereceipt.jsp?operator=bsnllandline&bill_month=<%=bill_date77%>&phone=<%=rs.getString("phone")%>&button=old">Delete</a></button>
+                                            <%
+                                            }
+                                            %>
+                                        </td>
+                                        <%
+                                        }
+                                        else
+                                        {  
+                                        %>
+                                        <td>
+                                            <form action="FileUploadServlet" method="post" enctype="multipart/form-data">
+                                                <input type="file" name="file"><input class="bluebutton submitstylee" type="submit" value="Submit" name="submit_receipt"/>
+                                                <input type="hidden" name="mobile2" value="bsnllandline"/>
+                                                <input type="hidden" name="bill_month" value="<%=bill_date77%>"/>
+                                                <input type="hidden" name="button" value="old"/>
+                                                <input type="hidden" value="<%=a77%>" name="count"/>
+                                                <input type="hidden" name="phone" value="<%=rs.getString("phone")%>"/>
+                                            </form>
+                                        </td>
+                                        <%
+                                        }
+                                    %>
+                                    </tr>
+                                    <%
+                                        a77++;  
+                                        if(rs.getString("amount")!=null)
+                                            sum77+=Double.parseDouble(rs.getString("amount"));
+                                    }while(rs.next());
+                                    }
+                                }
+                            %>  
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+                </td>
+                </tr>
+            </table>
+        </div> 
             <div id="add" class="tabcontent">
                 <center><p class="title">ADD</p></center>
                 <form name="myform13" id="myform13" method="post" action="add_validation.jsp">
@@ -1646,13 +4060,13 @@
                                     <td>Mobile operator*</td>
                                     <%
                                         int count8 = 0 ; 
-                                        if(request.getParameter("count")==null || Integer.parseInt(request.getParameter("count"))==0 || Integer.parseInt(request.getParameter("count"))==1)
+                                        if(request.getParameter("count8")==null || Integer.parseInt(request.getParameter("count8"))==0 || Integer.parseInt(request.getParameter("count8"))==1)
                                         {
                                             %><input type="hidden" id="displayTab" value="singlemonth" /><%
                                         }
                                         else
                                         {
-                                            count8 = Integer.parseInt(request.getParameter("count"));
+                                            count8 = Integer.parseInt(request.getParameter("count8"));
                                             %><input type="hidden" id="displayTab" value="multiplemonth" /><%
                                         }
                                         String dbmonth1="";
@@ -1690,11 +4104,11 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="greenbutton center" colspan="2"> <input form="myform17" type="submit" value="submit"/>
+                                    <td class="greenbutton1 center" colspan="2"> <input form="myform17" type="submit" value="submit"/>
                                 </tr>
                             </table>
                             <input form="myform17" type="hidden" value="display" name="menubar" /> 
-                            <input form="myform17" type="hidden" value="<%=count8%>" name="count"/>
+                            <input form="myform17" type="hidden" value="<%=count8%>" name="count8"/>
                         </form>    
                     <div id="singlemonth" style="display:none;">
                         <div class="center" style="overflow-x:auto;width:90vw;">
@@ -1702,9 +4116,9 @@
                         <table id="example" class="display" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>S no</th>
+                                    <th>S<font color="white">_</font>No</th>
                                     <th>Name</th>
-                                    <th>Staff ID</th>
+                                    <th>Staff<font color="white">_</font>ID</th>
                                     <th>Designation</th>
                                     <th>Phone No</th>
                                     <th>Amount</th>
@@ -1716,6 +4130,7 @@
                             double sum88=0;
                             double cgst8=0;
                             double sgst8=0;
+                            double one8 = 0.0;
                             double fixed8 = 0.0;
                             double misc8 = 0.0;
                             double usage8 = 0.0;
@@ -1745,6 +4160,7 @@
                                     {
                                         cgst8=Double.parseDouble(rs.getString("cgst"));
                                         sgst8=Double.parseDouble(rs.getString("sgst"));
+                                        one8 = Double.parseDouble(rs.getString("one"));
                                         fixed8 = Double.parseDouble(rs.getString("fixed"));
                                         usage8 = Double.parseDouble(rs.getString("usages"));
                                         misc8 = Double.parseDouble(rs.getString("misc"));
@@ -1765,11 +4181,15 @@
                                 <%
                                 if(request.getParameter("mobile1")!=null && request.getParameter("mobile1").equals("bsnl"))
                                 {
-                                    sum8+=fixed8+usage8+misc8+late8;
+                                    sum8+=one8+fixed8+usage8+misc8+late8;
                                     sum88+=sum8-discount8-adj8;
                                     cgst8*=sum88;
                                     sgst8*=sum88;
                                     %>
+                                    <tr>
+                                    <th colspan="5" align="right">One Time Charge</th>
+                                    <td align="right"><%=Math.round(one8*100.0)/100.0%></td>
+                                    </tr>
                                     <tr>
                                     <th colspan="5" align="right">Fixed Monthly Charge</th>
                                     <td align="right"><%=Math.round(fixed8*100.0)/100.0%></td>
@@ -1856,7 +4276,7 @@
                                 <tr>
                                     <th>Sno</th>
                                     <th>Name</th>
-                                    <th>Staff ID</th>
+                                    <th>Staff<font color="white">_</font>ID</th>
                                     <th>Designation</th>
                                     <th>Phone No</th>
                                     <%
@@ -1893,13 +4313,13 @@
                                             {
                                             
                                                 %>
-                                                <td><%=rs1.getString("amount")%></td>
+                                                <td align="center"><%=rs1.getString("amount")%></td>
                                                 <%                    
                                                 rowsum+=Double.parseDouble(rs1.getString("amount"));
                                             }  
                                             else{
                                                 %>
-                                                <td>0</td>
+                                                <td align="center">0</td>
                                                 <%  
                                             }
                                         }
@@ -2168,8 +4588,9 @@
             {
                 var from = new Date(document.getElementById("from2").value);
                 var to = new Date(document.getElementById("to2").value);
-                var month = (to.getFullYear() - from.getFullYear())*12 + to.getMonth() - from.getMonth() + 1; 
-                document.myform17.count.value=month;
+                var month = (to.getFullYear() - from.getFullYear())*12 + to.getMonth() - from.getMonth() + 1;
+                document.myform17.count8.value=month;
+                alert(document.myform17.count8.value);
                 return true;
             }
             function submitForm()
@@ -2275,7 +4696,15 @@
                 document.getElementById(id1).style.display="none";
                 document.getElementById(id2).style.display="block";
             }
-            
+            function checknumber(va)
+            {
+                if(isNaN(va.value))
+                {
+                    alert("Amount should be in numbers only");
+                    va.focus();
+                    va.value="";
+                }
+            }
             function dropdown_list() {
                 document.getElementById("myDropdown").classList.toggle("show");
             }
@@ -2357,7 +4786,8 @@
                 });
             });
             $(document).ready(function () {
-                $('.display').DataTable({"bPaginate": false,"paging": false,"scrollX": true});
+                $('.display').DataTable({"bPaginate": false,"paging": false});
+                
             });
         </script>
     </body>

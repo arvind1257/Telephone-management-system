@@ -102,8 +102,8 @@
     DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     Calendar obj = Calendar.getInstance();
     String date = formatter.format(obj.getTime());
-    double[] extra = new double[11];
-    String[] name = {"Fixed Monthly Charges","Usage Charges","Miscellaneous Charges","Late Charge","Sub Total","Discounts","Adjustments","Total Charges","CGST","SGST","Total"};
+    double[] extra = new double[12];
+    String[] name = {"One Time Charges","Fixed Monthly Charges","Usage Charges","Miscellaneous Charges","Late Charge","Sub Total","Discounts","Adjustments","Total Charges","CGST","SGST","Total"};
     if(operator.equals("airtel")) Operators="Airtel Mobile";
     else if(operator.equals("bsnl")) Operators="Bsnl Mobile";
     else if(operator.equals("jio")) Operators="Jio Mobile";
@@ -208,18 +208,26 @@
                 {
                     do
                     {
-                        extra[0] = Double.parseDouble(rs.getString("fixed"));
-                        extra[1] = Double.parseDouble(rs.getString("usages"));
-                        extra[2] = Double.parseDouble(rs.getString("misc"));
-                        extra[3] = Double.parseDouble(rs.getString("late"));
-                        extra[4] = extra[0]+extra[1]+extra[2]+extra[3];
-                        extra[5] = Double.parseDouble(rs.getString("discount"));
-                        extra[6] = Double.parseDouble(rs.getString("adj"));
-                        extra[7] = extra[4]-extra[5]-extra[6];
-                        extra[8] = extra[7]*Double.parseDouble(rs.getString("cgst"));
-                        extra[9] = extra[7]*Double.parseDouble(rs.getString("sgst"));
-                        extra[10] = extra[8] + extra[9] + extra[7];
+                        extra[0] = Double.parseDouble(rs.getString("one"));
+                        extra[1] = Double.parseDouble(rs.getString("fixed"));
+                        extra[2] = Double.parseDouble(rs.getString("usages"));
+                        extra[3] = Double.parseDouble(rs.getString("misc"));
+                        extra[4] = Double.parseDouble(rs.getString("late"));
+                        extra[5] = extra[0]+extra[1]+extra[2]+extra[3]+extra[4];
+                        extra[6] = Double.parseDouble(rs.getString("discount"));
+                        extra[7] = Double.parseDouble(rs.getString("adj"));
+                        extra[8] = extra[5]-extra[6]-extra[7];
+                        extra[9] = extra[8]*Double.parseDouble(rs.getString("cgst"));
+                        extra[10] = extra[8]*Double.parseDouble(rs.getString("sgst"));
+                        extra[11] = extra[9] + extra[10] + extra[8];
+            
                     }while(rs.next());
+                }
+                else{
+                    for(int k=0;k<extra.length;k++)
+                    {
+                        extra[k]=0.0;
+                    }
                 }
                 createCell(wb,row,i+5,HorizontalAlignment.RIGHT,false,13,Double.toString(extra[j]),"0.00");
             }
