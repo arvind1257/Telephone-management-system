@@ -60,7 +60,7 @@
         {
             username = session.getAttribute("uid").toString();
         %>
-        <form method="post" action="main.jsp" id="myForm" onload/>
+        <form method="post" action="main.jsp" id="myForm" name="myForm" onload/>
             <input type="hidden" value="<%=bill_operator%>" name="bill_operator"/>
             <%  
                 Class.forName("com.mysql.cj.jdbc.Driver");
@@ -155,6 +155,7 @@
                         {
                         %>
                         <input type="hidden" value="error2" id="check"/>
+                        <input type="hidden" value="<%=one%>" name="one_charge"/>
                         <input type="hidden" value="<%=fixed%>" name="f_charge"/>
                         <input type="hidden" value="<%=misc%>" name="m_charge"/>
                         <input type="hidden" value="<%=usage%>" name="u_charge"/>
@@ -176,7 +177,7 @@
                         double sum = 0.0;
                         if(bill_operator.equals("bsnl"))
                         {                    
-                        sum+=fixed+misc+usage+late;
+                        sum+=one+fixed+misc+usage+late;
                         sum=Math.round(sum*100.0)/100.0;
                         }
                         else
@@ -185,6 +186,7 @@
                             sum+=Double.parseDouble(amt[i]);
                         }
                         %>
+                        <input type="hidden" value="<%=one%>" name="one_charge"/>
                         <input type="hidden" value="<%=fixed%>" name="f_charge"/>
                         <input type="hidden" value="<%=misc%>" name="m_charge"/>
                         <input type="hidden" value="<%=usage%>" name="u_charge"/>
@@ -233,7 +235,7 @@
                         while(rs.next())
                         {
                             Double.parseDouble(amt[i]);
-                            String sql1 = "insert into bills(name,desi,emp,phone,amount,operator,date,cgst,sgst,fixed,usages,misc,late,discount,adj) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                            String sql1 = "insert into bills(name,desi,emp,phone,amount,operator,date,cgst,sgst,one,fixed,usages,misc,late,discount,adj) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                             PreparedStatement ps = con.prepareStatement(sql1);
                             ps.setString(1,rs.getString("name"));
                             ps.setString(2,rs.getString("desi"));
@@ -244,12 +246,13 @@
                             ps.setString(7,date);
                             ps.setString(8,Double.toString(cgst));
                             ps.setString(9,Double.toString(sgst));
-                            ps.setString(10,Double.toString(fixed));
-                            ps.setString(11,Double.toString(usage));
-                            ps.setString(12,Double.toString(misc));
-                            ps.setString(13,Double.toString(late));
-                            ps.setString(14,Double.toString(discount));
-                            ps.setString(15,Double.toString(adj));
+                            ps.setString(10,Double.toString(one));
+                            ps.setString(11,Double.toString(fixed));
+                            ps.setString(12,Double.toString(usage));
+                            ps.setString(13,Double.toString(misc));
+                            ps.setString(14,Double.toString(late));
+                            ps.setString(15,Double.toString(discount));
+                            ps.setString(16,Double.toString(adj));
                             ps.executeUpdate();
                             i++;
                         }

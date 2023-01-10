@@ -379,7 +379,6 @@
                 width:70%;
             }
             .homecontent{
-                border:1px solid black; 
                 word-break: break-all; 
                 width:55%; 
                 float:none;
@@ -720,7 +719,7 @@
         String menubar = "";
         String photourl = "";
         String[] name = new String[100];
-        
+        try{
         username = session.getAttribute("uid").toString();
         admin = session.getAttribute("admin").toString();
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -4518,9 +4517,15 @@
                             <td class="redbutton"><input type="button" onclick="editselect(false,'myform11')" value="Back" name="fsubmit"/></td>
                         </tr>
                     </table>
-            </div>                        
+            </div>
+                                <%}
+        catch(Exception e)
+        {
+            session.setAttribute("msg","Please Login First");
+            session.setAttribute("status","failed");
+            response.sendRedirect("index.jsp");
+        }%>
         <script>
-            alert(window.innerWidth);
             document.getElementById(document.getElementById('displayTab').value).style.display="block";
             editselect(false,'myform11');
             document.getElementById('default0').click();
@@ -4538,7 +4543,6 @@
                         {
                             if(operator===c_menubar[j])
                             {
-                                alert(e_menubar+":"+operator);
                                 document.getElementById(c_menubar[j]+'1').setAttribute("selected","");
                             }
                         }
@@ -4590,7 +4594,6 @@
                 var to = new Date(document.getElementById("to2").value);
                 var month = (to.getFullYear() - from.getFullYear())*12 + to.getMonth() - from.getMonth() + 1;
                 document.myform17.count8.value=month;
-                alert(document.myform17.count8.value);
                 return true;
             }
             function submitForm()
