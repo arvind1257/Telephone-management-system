@@ -116,7 +116,9 @@
         month[0]=Integer.toString(Integer.parseInt(month[0])-1);
         months2=12;
     }
-    String month2[] = {"JANUARY-"+month[0],"FEBRUARY-"+month[0],"MARCH-"+month[0],"APRIL-"+month[0],"MAY-"+month[0],"JUNE-"+month[0],"JULY-"+month[0],"AUGEST-"+month[0],"SEPTEMBER-"+month[0],"OCTOBER-"+month[0],"NOVEMBER-"+month[0],"DECEMBER-"+month[0]};
+    String month3[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+    String month2[] = {"JAN-"+month[0],"FEB-"+month[0],"MAR-"+month[0],"APR-"+month[0],"MAY-"+month[0],"JUN-"+month[0],"JUL-"+month[0],"AUG-"+month[0],"SEP-"+month[0],"OCT-"+month[0],"NOV-"+month[0],"DEC-"+month[0]};
+    String month22[] = {"JANUARY-"+month[0],"FEBRUARY-"+month[0],"MARCH-"+month[0],"APRIL-"+month[0],"MAY-"+month[0],"JUNE-"+month[0],"JULY-"+month[0],"AUGEST-"+month[0],"SEPTEMBER-"+month[0],"OCTOBER-"+month[0],"NOVEMBER-"+month[0],"DECEMBER-"+month[0]};
     String Operators = "";
     double cgst = 0.0;
     double sgst = 0.0;
@@ -127,12 +129,12 @@
     double[] extra = new double[12];
     String[] name = {"One Time Charges","Fixed Monthly Charges","Usage Charges","Miscellaneous Charges","Late Charge","Sub Total","Discounts","Adjustments","Total Charges","CGST","SGST","Total"};
     String operator=request.getParameter("mobile5");
-    if(operator.equals("airtel")) Operators="AIRTEL";
+    if(operator.equals("airtel")) Operators="AIRTEL MOBILE";
     else if(operator.equals("bsnl")) Operators="BSNL";
-    else if(operator.equals("jio")) Operators="JIO";
-    else if(operator.equals("vodofone")) Operators="VODOFONE";
+    else if(operator.equals("jio")) Operators="JIO MOBILE";
+    else if(operator.equals("vodofone")) Operators="VODOFONE MOBILE";
     else if(operator.equals("airtellandline")) Operators="AIRTEL LANDLINE";
-    else if(operator.equals("airtelvip")) Operators="AIRTEL VIP";
+    else if(operator.equals("airtelvip")) Operators="AIRTEL VIP MOBILE";
     else if(operator.equals("bsnllandline")) Operators="BSNL LANDLINE";
     
     Class.forName("com.mysql.cj.jdbc.Driver");
@@ -141,8 +143,11 @@
     ResultSet rs = null;
     
     XSSFWorkbook wb = new XSSFWorkbook();
-    XSSFSheet sheet = wb.createSheet(month2[months2-1]);
-    
+    XSSFSheet sheet;
+    if(operator.equals("airtel"))
+    sheet = wb.createSheet(month3[months2-1]+"-"+month1[months1-1]);
+    else
+    sheet = wb.createSheet(month2[months2-1]);
     InputStream inputStream = new FileInputStream(imagepath);
     byte[] bytes = IOUtils.toByteArray(inputStream);
     int pictureIdx = wb.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
@@ -156,7 +161,10 @@
     pict.resize();
 
     XSSFRow header = sheet.createRow(6);
-    createCell(wb,header,0,HorizontalAlignment.CENTER,true,10,""+Operators+" MONTHLY STATEMENT FOR THE MONTH OF  "+month2[months2-1]+"     BILL-DATE: "+date+""," ");
+    if(operator.equals("bsnl"))
+    createCell(wb,header,0,HorizontalAlignment.CENTER,true,10,""+Operators+" MONTHLY STATEMENT FOR THE MONTH OF  "+month22[months2-1]+"     BILL-DATE: "+date+""," ");
+    else
+    createCell(wb,header,0,HorizontalAlignment.CENTER,true,10,"Statement of "+Operators+" Bill for the Period of  "+month2[months2-1]+" to "+month1[months1-1]+"    DATE: "+date+""," ");
     createCell(wb,header,1,HorizontalAlignment.CENTER,true,10,"","");
     createCell(wb,header,2,HorizontalAlignment.CENTER,true,10,"","");
     createCell(wb,header,3,HorizontalAlignment.CENTER,true,10,"","");
@@ -272,6 +280,96 @@
     cellStyle.setAlignment(HorizontalAlignment.RIGHT);
     cell.setCellStyle(cellStyle);
     cell.setCellValue("Dept. Director - Systems  (CTS)");
+    
+    if(operator.equals("airtel"))
+    {
+        index+=10;
+        CreationHelper helper1 = wb.getCreationHelper();
+        Drawing drawing1 = sheet.createDrawingPatriarch();
+        ClientAnchor anchor1 = helper1.createClientAnchor();
+        anchor1.setCol1(1);
+        anchor1.setRow1(index-5);
+        Picture pict1 = drawing1.createPicture(anchor1, pictureIdx);
+        pict1.resize();
+        
+        row = sheet.createRow(index);
+        sheet.addMergedRegion(new CellRangeAddress(index,index,0,5));
+        createCell(wb,row,0,HorizontalAlignment.CENTER,true,10,"Statement of "+Operators+" Bill for the Period of  "+month2[months2-1]+" to "+month1[months1-1]+"    DATE: "+date+""," ");
+        createCell(wb,row,1,HorizontalAlignment.CENTER,true,10,"","");
+        createCell(wb,row,2,HorizontalAlignment.CENTER,true,10,"","");
+        createCell(wb,row,3,HorizontalAlignment.CENTER,true,10,"","");
+        createCell(wb,row,4,HorizontalAlignment.CENTER,true,10,"","");
+        createCell(wb,row,5,HorizontalAlignment.CENTER,true,10,"","");
+        
+        index++;
+        row = sheet.createRow(index);
+        createCell(wb,row,0,HorizontalAlignment.CENTER,true,12,"S No","");
+        createCell(wb,row,1,HorizontalAlignment.CENTER,true,12,"Name","");
+        createCell(wb,row,2,HorizontalAlignment.CENTER,true,12,"Staff Id","");
+        createCell(wb,row,3,HorizontalAlignment.CENTER,true,12,"Designation","");
+        createCell(wb,row,4,HorizontalAlignment.CENTER,true,12,"Mobile No","");
+        createCell(wb,row,5,HorizontalAlignment.CENTER,true,12,"Total    ","");
+        
+        int newindex = index;
+        rs=stm.executeQuery("select * from bills where operator='airtel_2' and date='"+bill_month+"'");           
+        index++;
+        sum=0;
+        while(rs.next())
+        {
+            if(rs.getString("operator")!=null)
+            {                    
+                row = sheet.createRow(index);
+                createCell(wb,row,0,HorizontalAlignment.CENTER,false,11,Integer.toString(index-newindex),"");
+                createCell(wb,row,1,HorizontalAlignment.LEFT,false,11,rs.getString("name"),"");
+                createCell(wb,row,2,HorizontalAlignment.CENTER,false,11,rs.getString("emp"),"");
+                createCell(wb,row,3,HorizontalAlignment.LEFT,false,11,rs.getString("desi"),"");
+                createCell(wb,row,4,HorizontalAlignment.CENTER,false,11,rs.getString("phone"),"");
+                createCell(wb,row,5,HorizontalAlignment.RIGHT,false,11,rs.getString("amount"),"0.00");
+                cgst = Double.parseDouble(rs.getString("cgst"));
+                sgst = Double.parseDouble(rs.getString("sgst"));
+                sum+=Double.parseDouble(rs.getString("amount"));
+                index++;
+            }
+        }
+        sum+=sum*(cgst+sgst);
+        row = sheet.createRow(index);
+        createCell(wb,row,0,HorizontalAlignment.CENTER,false,13,"","");
+        createCell(wb,row,1,HorizontalAlignment.CENTER,false,13,"","");
+        createCell(wb,row,2,HorizontalAlignment.CENTER,false,13,"","");
+        createCell(wb,row,3,HorizontalAlignment.CENTER,false,13,"","");
+        createCell(wb,row,4,HorizontalAlignment.LEFT,true,13,"TAX","");
+        createCellFormula(wb,row,5,HorizontalAlignment.RIGHT,false,13,"sum(F"+newindex+":F"+index+")*("+sgst+"+"+cgst+")");
+        index+=1;
+
+        row = sheet.createRow(index);
+        createCell(wb,row,0,HorizontalAlignment.CENTER,false,13,"","");
+        createCell(wb,row,1,HorizontalAlignment.CENTER,false,13,"","");
+        createCell(wb,row,2,HorizontalAlignment.CENTER,false,13,"","");
+        createCell(wb,row,3,HorizontalAlignment.CENTER,false,13,"","");
+        createCell(wb,row,4,HorizontalAlignment.LEFT,true,13,"Total Rs","");
+        createCellFormula(wb,row,5,HorizontalAlignment.RIGHT,true,13,"sum(F"+newindex+":F"+index+")");
+        index+=1;
+
+        sheet.addMergedRegion(new CellRangeAddress(index,index,0,5));
+        row = sheet.createRow(index);
+        createCell(wb,row,0,HorizontalAlignment.CENTER,true,14,"Rupees : "+numberToWord(sum),"0.00");
+        createCell(wb,row,1,HorizontalAlignment.CENTER,false,13,"","");
+        createCell(wb,row,2,HorizontalAlignment.CENTER,false,13,"","");
+        createCell(wb,row,3,HorizontalAlignment.RIGHT,true,13,"","");
+        createCell(wb,row,4,HorizontalAlignment.CENTER,false,13,"","");
+        createCell(wb,row,5,HorizontalAlignment.RIGHT,false,13,"","");
+        index+=5;
+
+        row = sheet.createRow(index);
+        sheet.addMergedRegion(new CellRangeAddress(index,index,3,4));
+        cell = row.createCell(1);
+        cell.setCellValue("Dept,Manager-CTS");
+        cell=row.createCell(3);
+        cellStyle = wb.createCellStyle();
+        cellStyle.setAlignment(HorizontalAlignment.RIGHT);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("Dept. Director - Systems  (CTS)");
+    }
            
     ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
     wb.write(outByteStream);

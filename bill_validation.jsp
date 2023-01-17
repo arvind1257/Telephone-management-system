@@ -73,7 +73,7 @@
                 double cgst = 0.0;
                 while(rs.next())
                 {
-                    if(rs.getString("status").equals("ACTIVE") && (bill_operator.equals("airtel") || bill_operator.equals("bsnl")))
+                    if(rs.getString("status").equals("ACTIVE") && (bill_operator.equals("airtel") || bill_operator.equals("airtel_2") || bill_operator.equals("bsnl")))
                     {
                         cgst = Double.parseDouble(rs.getString("cgst"))*0.01;
                         sgst = Double.parseDouble(rs.getString("sgst"))*0.01;
