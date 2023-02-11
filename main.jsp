@@ -8,15 +8,17 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="jquery.min.js"></script>
         <link rel="stylesheet" href="bootstrap.min.css">
         <link rel="stylesheet" href="bootstrap-datepicker.min.css">
         <script src="bootstrap-datepicker.min.js"></script>
         <script src="jquery.dataTables.min.js"></script>
         <link href="jquery.dataTables.min.css" rel="stylesheet" />
-        <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+        <link href="jquery-ui.css" rel="stylesheet" type="text/css" />
         <link rel="icon" href="VITLogoEmblem.png">
-        <title>E-BILL</title>
+        <title>TELEBILL</title>
         <%
             response.setHeader("Cache-Control","no-store");
             response.setHeader("Pragma","no-cache"); 
@@ -42,14 +44,17 @@
                 padding: 0px;
                 position: fixed;
                 z-index: 1;
+                transition: 0.3s linear;
             }
             .tab ul {
                 list-style: none;
                 display: flex;
+                justify-content: center;
+                align-items: center;
                 
             }
             .tab ul li {
-                padding: 10px 30px;
+                padding: 12px 30px;
                 position: relative;
             }
             .tab ul li button {
@@ -61,8 +66,11 @@
                 color:white;
                 background-color:inherit;
             }
-            .tab ul li:hover button {
-                color: black;
+            .tab ul li:hover {
+                background-color:#1836ba; 
+            }
+            .tab ul li:hover .main{
+                transform:scale(1.2);
             }
             .fas {
                 float: right;
@@ -77,7 +85,8 @@
                 display: block;
                 position: absolute;
                 left: 0;
-                top: 100%;
+                top: 90%;
+                transform:scale(1);
                 margin-top:4.5px;
                 background-color: rgba(24,54,186,0.5);
                 z-index: 1;
@@ -570,7 +579,7 @@
                 }
                 .dropbtn { 
                     padding: 5px 10px; 
-                    min-width: 90px;
+                    min-width: 110px;
                     height:35px;
                     border-radius: 20px;
                     font-size: 15px;   
@@ -715,6 +724,14 @@
             else
                 return "null";
         }
+        public String dateconvert(String date)
+        {
+            
+            String month[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+            String[] date1 = date.split("-");
+            return month[Integer.parseInt(date1[1])-1]+"\n"+date1[0]; 
+
+        }
     %>
     <%  
         Connection con ;
@@ -778,10 +795,30 @@
         </div>
         <div class="tab">
             <ul>
-                <li><button>BILL <i class="fas fa-caret-down"></i></button>
+                <li>
+                    <button class="main tablinks" onclick="openMode(event, 'home')" id="default0"><i class="fa fa-home" aria-hidden="true"></i>&ensp;HOME</button>
+                </li>    
+                <%
+                if(admin.equals(username))
+                {
+                %>
+                <li><button class="main"><i class="fa fa-edit" aria-hidden="true"></i>&ensp;MASTER&ensp;<i class="fa fa-caret-down"></i></button>
                     <div class="ctab">
                         <ul>
-                            <li><button class="tablinks" onclick="openMode(event, 'airtel')" id="default1">AIRTEL</button></li>
+                            <li><button class="tablinks" onclick="openMode(event, 'add')" id="default9">ADD NUMBER</button></li>
+                            <li><button class="tablinks" onclick="openMode(event, 'modify')" id="default10">MODIFY NUMBER</button></li>
+                            <li><button class="tablinks" onclick="openMode(event, 'delete')" id="default11">DELETE NUMBER</button></li>
+                            <li><button class="tablinks" onclick="openMode(event, 'gst')" id="default14">GST</button></li>
+                        </ul>
+                    </div>
+                </li>
+                <%
+                }
+                %>
+                <li><button class="main"><i class="fa fa-list-alt" aria-hidden="true"></i>&ensp;BILL&ensp;<i class="fa fa-caret-down"></i></button>
+                    <div class="ctab">
+                        <ul>
+                            <li><button class="tablinks" onclick="openMode(event, 'airtel')" id="default1">AIRTEL 1</button></li>
                             <li><button class="tablinks" onclick="openMode(event, 'airtel_2')" id="default2">AIRTEL 2</button></li>
                             <li><button class="tablinks" onclick="openMode(event, 'jio')" id="default3">JIO</button></li>
                             <li><button class="tablinks" onclick="openMode(event, 'bsnl')" id="default4">BSNL</button></li>
@@ -792,33 +829,15 @@
                         </ul>
                     </div>
                 </li>
+                <li><button class="main tablinks" onclick="openMode(event, 'display')" id="default12"><i class="fa fa-file-text" aria-hidden="true"></i>&ensp;REPORT</button></li>
                 <%
                 if(admin.equals(username))
                 {
                 %>
-                <li><button>EDIT <i class="fas fa-caret-down"></i></button>
+                <li><button class="main"><i class="fa fa-gear" aria-hidden="true"></i>&ensp;SETUP&ensp;<i class="fa fa-caret-down"></i></button>
                     <div class="ctab">
                         <ul>
-                            <li><button class="tablinks" onclick="openMode(event, 'add')" id="default9">ADD</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'modify')" id="default10">MODIFY</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'delete')" id="default11">DELETE</button></li>
-                        </ul>
-                    </div>
-                </li>
-                <%
-                }
-                %>
-                <li><button class="tablinks" onclick="openMode(event, 'display')" id="default12">DISPLAY</button></li>
-                <li><button class="tablinks" onclick="openMode(event, 'download')" id="default13">DOWNLOAD</button></li>
-                <%
-                if(admin.equals(username))
-                {
-                %>
-                <li><button>SETTING <i class="fas fa-caret-down"></i></button>
-                    <div class="ctab">
-                        <ul>
-                            <li><button class="tablinks" onclick="openMode(event, 'gst')" id="default14">GST</button></li>
-                            <li><button class="tablinks" onclick="openMode(event, 'signup')" id="default15">SIGNUP</button></li> 
+                            <li><button class="tablinks" onclick="openMode(event, 'signup')" id="default15">ADD USER</button></li> 
                             <li><button class="tablinks" onclick="openMode(event, 'freeze')" id="default16">FREEZE DATE</button></li>
                         </ul>
                     </div>
@@ -837,15 +856,10 @@
                     <td class="head1">
                         <span>VIT (VELLORE CAMPUS) </span>
                     </td>
-                    <td style='width:3%;'>
-                        <button class="home tablinks" onclick="openMode(event, 'home')" id="default0">
-                            <img class="img2" src="images/home icon.png"></img>
-                        </button>
-                    </td>
-                    <td class="head2"> TELEPHONE E-BILL </td>
+                    <td class="head2"> PHONE BILL </td>
                     <td style='text-align: right;padding-right:20px;'>
                         <div class="dropdown">
-                            <button onclick="dropdown_list()" class="dropbtn"><%=username%></button>
+                            <button onclick="dropdown_list()" class="dropbtn"><i class="fa fa-user-circle"></i>&ensp;<%=username%>&ensp;<i class="fa fa-caret-down"></i></button>
                             <div id="myDropdown" class="dropdown-content center">
                                 HELLO,<br>
                                 <center>
@@ -871,8 +885,8 @@
                         <ul>
                         <%
                             String[] Operator1 = {"airtel","airtel_2","jio","bsnl","vodofone","airtelvip","airtellandline","bsnllandline"};
-                            String[] Operator2 = {"Airtel","Airtel 2","Jio","Bsnl","Vodofone","Airtel Vip","Airtel Landline","Bsnl Landline"};
-                            for(int i=0;i<7;i++)
+                            String[] Operator2 = {"Airtel 1","Airtel 2","Jio","Bsnl","Vodofone","Airtel Vip","Airtel Landline","Bsnl Landline"};
+                            for(int i=0;i<8;i++)
                             {
                                  String curr = "";
                                 if(cal.get(Calendar.MONTH) + 1>9)
@@ -1120,7 +1134,7 @@
             </div>
         </div>
         <div id="airtel" class="tabcontent center" style="width:100%;">
-            <center><p class="title">AIRTEL</p></center>
+            <center><p class="title">AIRTEL 1</p></center>
             <table class="tablecontent display1 center" style="width:100%;">
                 <tr>
                 <td>
@@ -4240,7 +4254,7 @@
             </table>
         </div> 
             <div id="add" class="tabcontent">
-                <center><p class="title">ADD</p></center>
+                <center><p class="title">ADD NUMBER</p></center>
                 <form name="myform13" id="myform13" method="post" action="add_validation.jsp">
                 </form>
                     <input type="hidden" id="operator1" value="<%=request.getParameter("operator1")%>"/>
@@ -4263,7 +4277,7 @@
                             <td>
                                 <select form="myform13" name="operator1" required>
                                     <option></option>
-                                    <option id="airtel1" value="airtel">Airtel</option>
+                                    <option id="airtel1" value="airtel">Airtel 1</option>
                                     <option id="airtel_21" value="airtel_2">Airtel 2</option>
                                     <option id="jio1" value="jio">Jio</option>
                                     <option id="bsnl1" value="bsnl">Bsnl</option>
@@ -4298,7 +4312,7 @@
                 </form>
             </div>
             <div id="modify" class="tabcontent center">
-                <center><p class="title">MODIFY</p></center>
+                <center><p class="title">MODIFY NUMBER</p></center>
                 <form method="post" id="myform14" name="myform14" action="modify_validation.jsp">
                 </form>
                 <input type="hidden" id="operator2" value="<%=request.getParameter("operator2")%>"/>
@@ -4321,7 +4335,7 @@
                                 <td>
                                     <select form="myform14" name="operator2" required>
                                         <option></option>
-                                        <option id="airtel2" value="airtel">Airtel</option>
+                                        <option id="airtel2" value="airtel">Airtel 1</option>
                                         <option id="airtel_22" value="airtel_2">Airtel 2</option>
                                         <option id="jio2" value="jio">Jio</option>
                                         <option id="bsnl2" value="bsnl">Bsnl</option>
@@ -4389,7 +4403,7 @@
                 </form>
             </div>
             <div id="delete" class="tabcontent center">
-                <center><p class="title">DELETE</p></center>
+                <center><p class="title">DELETE NUMBER</p></center>
                 <form id="myform15" name="myform15" method="post" action="delete_validation.jsp">
                 </form>
                 <input type="hidden" id="operator3" value="<%=request.getParameter("operator3")%>"/>
@@ -4411,7 +4425,7 @@
                                 <td>
                                     <select form="myform15" name="operator3" required>
                                         <option></option>
-                                        <option id="airtel3" value="airtel">Airtel</option>
+                                        <option id="airtel3" value="airtel">Airtel 1</option>
                                         <option id="airtel_23" value="airtel_2">Airtel 2</option>
                                         <option id="jio3" value="jio">Jio</option>
                                         <option id="bsnl3" value="bsnl">Bsnl</option>
@@ -4484,7 +4498,34 @@
                     
                     
             <div id="display" class="tabcontent center">
-            <center><p class="title">DISPLAY</p></center>
+            <center><p class="title">REPORT</p></center>
+            
+            <%
+                int count8 = 0 ; 
+                if(request.getParameter("count8")==null || Integer.parseInt(request.getParameter("count8"))==0 || Integer.parseInt(request.getParameter("count8"))==1)
+                {
+                %><input type="hidden" id="displayTab" value="singlemonth" /><%
+                }
+                else
+                {
+                    count8 = Integer.parseInt(request.getParameter("count8"));
+                    %><input type="hidden" id="displayTab" value="multiplemonth" /><%
+                }
+                String dbmonth1="";
+                String dbmonth2="";
+                if(request.getParameter("dbmonth1")!=null)
+                    dbmonth1=request.getParameter("dbmonth1");
+                if(request.getParameter("dbmonth2")!=null)
+                    dbmonth2=request.getParameter("dbmonth2");
+            %>
+            <form id="myform16" name="myform16" method="post" action="<%=request.getContextPath()%>/download2.jsp" onsubmit="return submitForm()">
+                <input type="hidden" id="operator4" value="<%=request.getParameter("mobile1")%>"/>
+                <input type="hidden" id="download1" value="<%=request.getContextPath()%>/download1.jsp"/>
+                <input type="hidden" id="download2" value="<%=request.getContextPath()%>/download2.jsp"/>
+                <input type="hidden" name="mobile5" value="<%=request.getParameter("mobile1")%>"/>
+                <input type="hidden" name="dmonth1" value="<%=request.getParameter("dbmonth1")%>"/>
+                <input type="hidden" name="dmonth2" value="<%=request.getParameter("dbmonth2")%>"/>
+            </form> 
             <table class="tablecontent display1 center" style="width:100%;">
                 <tr>
                     <td>
@@ -4494,34 +4535,16 @@
                             <table cellspacing="20" class=" center">
                                 <tr>
                                     <td>Mobile operator*</td>
-                                    <%
-                                        int count8 = 0 ; 
-                                        if(request.getParameter("count8")==null || Integer.parseInt(request.getParameter("count8"))==0 || Integer.parseInt(request.getParameter("count8"))==1)
-                                        {
-                                            %><input type="hidden" id="displayTab" value="singlemonth" /><%
-                                        }
-                                        else
-                                        {
-                                            count8 = Integer.parseInt(request.getParameter("count8"));
-                                            %><input type="hidden" id="displayTab" value="multiplemonth" /><%
-                                        }
-                                        String dbmonth1="";
-                                        String dbmonth2="";
-                                        if(request.getParameter("dbmonth1")!=null)
-                                            dbmonth1=request.getParameter("dbmonth1");
-                                        if(request.getParameter("dbmonth2")!=null)
-                                            dbmonth2=request.getParameter("dbmonth2");
-                                    %>    
                                             <td>
                                                 <select form="myform17" name="mobile1" required>
                                                     <option></option>
-                                                    <option value="airtel" id="airtel5">Airtel</option>
+                                                    <option value="airtel" id="airtel5">Airtel 1</option>
                                                     <option id="airtel_25" value="airtel_2">Airtel 2</option>
                                                     <option value="jio" id="jio5">Jio</option>
                                                     <option value="bsnl" id="bsnl5">Bsnl</option>
                                                     <option value="vodofone" id="vodofone5">Vodofone</option>
                                                     <option value="airtellandline" id="airtellandline5">Airtel Landline</option>
-                                                    <option value="airtelvip" id="airtelvip">Airtel Vip</option>
+                                                    <option value="airtelvip" id="airtelvip5">Airtel Vip</option>
                                                     <option value="bsnllandline" id="bsnllandline5">Bsnl Landline</option>
                                                 </select>
                                             </td>
@@ -4541,8 +4564,13 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="greenbutton1 center" colspan="2"> <input form="myform17" type="submit" value="submit"/>
-                                </tr>
+                                    <td class="greenbutton center"> <input form="myform17" type="submit" value="Search"/>
+                                    <% if(dbmonth1!="" && dbmonth2!="") { %>
+                                    <td class="greenbutton center"> <input form="myform16" type="submit" value="Download"/>
+                                    <% } else { %>
+                                    <td></td>
+                                    <% } %>
+                                </tr> 
                             </table>
                             <input form="myform17" type="hidden" value="display" name="menubar" /> 
                             <input form="myform17" type="hidden" value="<%=count8%>" name="count8"/>
@@ -4719,7 +4747,7 @@
                                     <%
                                     for(int i=0;i<count8;i++)
                                     {
-                                        %><th><%=convert1(dbmonth1,i)%></th><%
+                                        %><th><%=dateconvert(convert1(dbmonth1,i))%></th><%
                                     }
                                     %>
                                     <th>Total</th>
@@ -4777,57 +4805,6 @@
                 </tr>
             </table>
         </div>
-            <div id="download" class="tabcontent center">
-                <center><p class="title">DOWNLOAD</p></center>
-                <form id="myform16" name="myform16" method="post" action="<%=request.getContextPath()%>/download2.jsp" onsubmit="return submitForm()">
-                </form>    
-                <input type="hidden" id="operator4" value="<%=request.getParameter("mobile5")%>"/>
-                <input type="hidden" id="download1" value="<%=request.getContextPath()%>/download1.jsp"/>
-                <input type="hidden" id="download2" value="<%=request.getContextPath()%>/download2.jsp"/>
-                    <table class="tablecontent download center" cellspacing="20">
-                        <tr>
-                            <td>Mobile operator*</td>
-                            <%
-                                String dmonth1 ="";
-                                String dmonth2 ="";                            
-                                if(request.getParameter("mobile5")!=null)
-                                {
-                                    dmonth1=request.getParameter("dmonth1");
-                                    dmonth2=request.getParameter("dmonth2");                                
-                                }    
-                                %>    
-                                <td>
-                                    <select form='myform16' name="mobile5" required>
-                                        <option></option>
-                                        <option id="airtel4" value="airtel">Airtel</option>
-                                        <option id="jio4" value="jio">Jio</option>
-                                        <option id="bsnl4" value="bsnl">Bsnl</option>
-                                        <option id="vodofone4" value="vodofone">Vodofone</option>
-                                        <option id="airtellandline4" value="airtellandline">Airtel Landline</option>
-                                        <option id="airtelvip4" value="airtelvip">Airtel Vip</option>
-                                        <option id="bsnllandline4" value="bsnllandline">Bsnl Landline</option>
-                                    </select>
-                                </td>  
-                        </tr>
-                        <tr>
-                            <td>From 
-                                <div class="input-group date datepicker">
-                                    <input id='from1' form='myform16' style="width:90%;" type="text" onchange='checkdate("from","from1","to1")' onkeydown="return false" value="<%=dmonth1%>" name="dmonth1" required>
-                                    <span class="input-group-append"></span>
-                                </div>
-                            </td>
-                            <td>To 
-                                <div class="input-group date datepicker">
-                                    <input id='to1' form='myform16' style="width:90%;" type="text" onchange='checkdate("to","from1","to1")' onkeydown="return false" value="<%=dmonth2%>" name="dmonth2" required>
-                                    <span class="input-group-append"></span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="greenbutton center" colspan="2"> <input form='myform16' type="submit" style='width:40%;' value="Download"/>
-                        </tr>
-                    </table>            
-            </div>
                 
             <div id="gst" class="tabcontent">
                 <center><P class="title">GST</p></center>
@@ -4869,7 +4846,7 @@
                 </form>
             </div>
             <div id="signup" class="tabcontent">
-                <center><p class="title">SIGNUP</p></center>
+                <center><p class="title">ADD USER</p></center>
                 <form name="myform12" id="myform12" method="post" action="signup_validation.jsp">
                 </form>
                     <table cellspacing="20" class="tablecontent signup center">
@@ -4971,7 +4948,7 @@
                     if(e_menubar==="add")
                     {
                         let operator = document.getElementById('operator1').value;
-                        for(let j=1;j<=7;j++)
+                        for(let j=1;j<=8;j++)
                         {
                             if(operator===c_menubar[j])
                             {
@@ -4982,7 +4959,7 @@
                     if(e_menubar==="modify")
                     {
                         let operator= document.getElementById('operator2').value;
-                        for(let j=1;j<=7;j++)
+                        for(let j=1;j<=8;j++)
                         {
                             if(operator===c_menubar[j])
                             {
@@ -4993,7 +4970,7 @@
                     if(e_menubar==="delete")
                     {
                         let operator= document.getElementById('operator3').value;
-                        for(let j=1;j<=7;j++)
+                        for(let j=1;j<=8;j++)
                         {
                             if(operator===c_menubar[j])
                             {
@@ -5004,10 +4981,13 @@
                     if(e_menubar==="display")
                     {
                         let operator= document.getElementById('operator5').value;
-                        for(let j=1;j<=7;j++)
+                        alert("operator="+operator);
+                        for(let j=1;j<=8;j++)
                         {
+                            alert("Operator="+operator+"\nc_menubar="+c_menubar[j]);
                             if(operator===c_menubar[j])
                             {
+                                alert("c_menubar="+c_menubar[j]+'5');
                                 document.getElementById(c_menubar[j]+'5').setAttribute("selected","");
                             }
                         }

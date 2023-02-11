@@ -80,11 +80,11 @@
 	    return "zero";
 	}
 	if ((number / 1000) > 0) {
-	    words += numberToWord(number / 1000) + " thousand ";
+	    words += numberToWord(number / 1000) + " Thousand ";
 	    number %= 1000;
 	}
 	if ((number / 100) > 0) {
-	     words += numberToWord(number / 100) + " hundred ";
+	     words += numberToWord(number / 100) + " Hundred ";
 	     number %= 100;
 	}
         if (number > 0) {
@@ -269,18 +269,46 @@
     createCell(wb,row,3,HorizontalAlignment.RIGHT,true,13,"","");
     createCell(wb,row,4,HorizontalAlignment.CENTER,false,13,"","");
     createCell(wb,row,5,HorizontalAlignment.RIGHT,false,13,"","");
+           index+=2;
+        
+        row = sheet.createRow(index);
+        row = sheet.createRow(index);
+        XSSFCell cell = row.createCell(3);
+        XSSFCellStyle cellStyle = wb.createCellStyle();
+        Font font = wb.createFont();
+        font.setBold(true);
+        font.setFontHeightInPoints((short)13);  
+        font.setFontName("Times New Roman");  
+        cellStyle.setFont(font);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("PAYMENT DUE DATE");
+        
+        
     index+=5;
     
     row = sheet.createRow(index);
     sheet.addMergedRegion(new CellRangeAddress(index,index,3,4));
-    XSSFCell cell = row.createCell(1);
-    cell.setCellValue("Dept,Manager-CTS");
-    cell=row.createCell(3);
-    XSSFCellStyle cellStyle = wb.createCellStyle();
-    cellStyle.setAlignment(HorizontalAlignment.RIGHT);
+    cell = row.createCell(1);
+    cellStyle = wb.createCellStyle();
+    cellStyle = wb.createCellStyle();
+    font = wb.createFont();
+    font.setBold(true);
+    font.setFontHeightInPoints((short)13);  
+    font.setFontName("Times New Roman");  
+    cellStyle.setFont(font);
     cell.setCellStyle(cellStyle);
-    cell.setCellValue("Dept. Director - Systems  (CTS)");
-    
+    cell.setCellValue("Deputy Manager - CTS");
+    cell=row.createCell(3);
+    cellStyle = wb.createCellStyle();
+    cellStyle.setAlignment(HorizontalAlignment.RIGHT);
+    font = wb.createFont();
+    font.setBold(true);
+    font.setFontHeightInPoints((short)13);  
+    font.setFontName("Times New Roman");  
+    cellStyle.setFont(font);
+    cell.setCellStyle(cellStyle);
+    cell.setCellValue("Deputy Director Systems - CTS");
+  
     if(operator.equals("airtel"))
     {
         index+=10;
@@ -358,17 +386,42 @@
         createCell(wb,row,3,HorizontalAlignment.RIGHT,true,13,"","");
         createCell(wb,row,4,HorizontalAlignment.CENTER,false,13,"","");
         createCell(wb,row,5,HorizontalAlignment.RIGHT,false,13,"","");
+        index+=2;
+        
+        row = sheet.createRow(index);
+        cell = row.createCell(3);
+        cellStyle = wb.createCellStyle();
+        font = wb.createFont();
+        font.setBold(true);
+        font.setFontHeightInPoints((short)13);  
+        font.setFontName("Times New Roman");  
+        cellStyle.setFont(font);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("PAYMENT DUE DATE");
+        
         index+=5;
 
         row = sheet.createRow(index);
         sheet.addMergedRegion(new CellRangeAddress(index,index,3,4));
         cell = row.createCell(1);
-        cell.setCellValue("Dept,Manager-CTS");
+        cellStyle = wb.createCellStyle();
+        font = wb.createFont();
+        font.setBold(true);
+        font.setFontHeightInPoints((short)13);  
+        font.setFontName("Times New Roman");  
+        cellStyle.setFont(font);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("Deputy Manager - CTS");
         cell=row.createCell(3);
         cellStyle = wb.createCellStyle();
         cellStyle.setAlignment(HorizontalAlignment.RIGHT);
+        font = wb.createFont();
+        font.setBold(true);
+        font.setFontHeightInPoints((short)13);  
+        font.setFontName("Times New Roman");  
+        cellStyle.setFont(font);
         cell.setCellStyle(cellStyle);
-        cell.setCellValue("Dept. Director - Systems  (CTS)");
+        cell.setCellValue("Deputy Director Systems - CTS");
     }
            
     ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();

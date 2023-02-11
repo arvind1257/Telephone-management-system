@@ -27,7 +27,7 @@
 %>
 <%
     Class.forName("com.mysql.cj.jdbc.Driver");
-    String url="jdbc:mysql://localhost:3306/phone_bill?zeroDateTimeBehavior=CONVERT_TO_NULL";
+    String url="jdbc:mysql://localhost:3306/phone_bill?zeroDateTimeBehavior=convertToNull";
     Connection con = DriverManager.getConnection(url,"root","123456");
     //String url="jdbc:mysql://localhost:3306/tele_bills?zeroDateTimeBehavior=CONVERT_TO_NULL";
     //Connection con = DriverManager.getConnection(url,"telebills_admin","NcWuAqxEyEY5C622@");
@@ -46,7 +46,7 @@
     }
     else
     {
-        session.setAttribute("msg","Invalid Credentials");
+        session.setAttribute("msg",getMd5(pass));
         session.setAttribute("status","failed");
         response.sendRedirect("index.jsp");
     }
