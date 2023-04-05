@@ -129,14 +129,23 @@
             rs=stm.executeQuery("select * from login where username='"+username+"' and password='"+getMd5(pass)+"'");
             if(rs.next())
             {
-                ps = con.prepareStatement("update login set status='normal' where status='admin'");
+                ps = con.prepareStatement("update login set status='normal' where username=?");
+                ps.setString(1,username);
                 ps.executeUpdate();
 
                 PreparedStatement ps1 = con.prepareStatement("update login set status='admin' where username=?");
                 ps1.setString(1,user);
                 ps1.executeUpdate();
-                
-                session.setAttribute("admin",user);
+                String admin = new String("");
+                int i=0;
+                rs=stm.executeQuery("select * from login where status='admin'");
+                while(rs.next())
+                {
+                    if(i==0) admin+=rs.getString("username");
+                    else admin+=","+rs.getString("username");
+                    i++;        
+                }
+                session.setAttribute("admin",admin);
                 %>
                 <input type="hidden" id="check" value="done3"/>
                 <%

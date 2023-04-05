@@ -732,6 +732,13 @@
             return month[Integer.parseInt(date1[1])-1]+"\n"+date1[0]; 
 
         }
+        public boolean checkAdmin(String[] admin,String username){
+            for(int i=0;i<admin.length;i++)
+            {
+                if(admin[i].contains(username)) return true;
+            }
+            return false;
+        }
     %>
     <%  
         Connection con ;
@@ -740,15 +747,16 @@
         double cgst = 0.0;
         double sgst = 0.0;
         String username="";
-        String admin="";
+        String admin1 = "";
+        String[] admin = new String[10];
         String uname = "";
         String menubar = "";
         String photourl = "";
         String[] name = new String[100];
         Calendar cal = Calendar.getInstance();
-        try{
         username = session.getAttribute("uid").toString();
-        admin = session.getAttribute("admin").toString();
+        admin1 = session.getAttribute("admin").toString();
+        admin = session.getAttribute("admin").toString().split(",");
         Class.forName("com.mysql.cj.jdbc.Driver");
         con = (Connection)session.getAttribute("connection");
         stm = con.createStatement();
@@ -781,13 +789,6 @@
             menubar="";
         else
             menubar=request.getParameter("menubar");
-        }
-        catch(Exception e)
-        {
-            session.setAttribute("msg","Please Login First");
-            session.setAttribute("status","failed");
-            response.sendRedirect("index.jsp");
-        }
     %>
         <input type="hidden" id="menubar" value="<%=menubar%>"/>
         <div class="footer">
@@ -799,7 +800,7 @@
                     <button class="main tablinks" onclick="openMode(event, 'home')" id="default0"><i class="fa fa-home" aria-hidden="true"></i>&ensp;HOME</button>
                 </li>    
                 <%
-                if(admin.equals(username))
+                if(checkAdmin(admin,username))
                 {
                 %>
                 <li><button class="main"><i class="fa fa-edit" aria-hidden="true"></i>&ensp;MASTER&ensp;<i class="fa fa-caret-down"></i></button>
@@ -831,7 +832,7 @@
                 </li>
                 <li><button class="main tablinks" onclick="openMode(event, 'display')" id="default12"><i class="fa fa-file-text" aria-hidden="true"></i>&ensp;REPORT</button></li>
                 <%
-                if(admin.equals(username))
+                if(checkAdmin(admin,username))
                 {
                 %>
                 <li><button class="main"><i class="fa fa-gear" aria-hidden="true"></i>&ensp;SETUP&ensp;<i class="fa fa-caret-down"></i></button>
@@ -1020,12 +1021,12 @@
                                 <tr>
                                     <td colspan="2">
                                         <div style="width:40%; float:left;">Current admin:</div>
-                                        <div style="width:25%; float:left;"><%=admin%></div>
+                                        <div style="width:30%; float:left;"><%=admin1%></div>
                                         <%
-                                        if(admin.equals(username))
+                                        if(checkAdmin(admin,username))
                                         {
                                         %>
-                                        <div style="width:35%; float:left;">
+                                        <div style="width:30%; float:left;">
                                             <input style="width:100%;" class="bluebutton" type="button" onclick="switchtab('content111','content112')" value="Change Admin" name="submit2"/>
                                         </div>
                                         <%
@@ -1378,10 +1379,25 @@
                                 <tr>
                                     <td>BILL MONTH</td>
                                     <td>
-                                        <div class="input-group date datepicker">
-                                            <input form="myform" style="width:90%;" type="text" onkeydown="return false" onchange="checkdate1(this)" value="<%=bill_date11%>" name="bill_date" yform'required>
+                                        <%
+                                        if(!bill_date11.equals(""))
+                                        {
+                                        %>
+                                        <div class="input-group date">
+                                            <input form="myform" style="width:90%;" type="text" onkeydown="return false" onchange="checkdate1(this)" value="<%=bill_date11%>" name="bill_date" readonly>
                                             <span class="input-group-append"></span>
                                         </div>
+                                        <%
+                                        }
+                                        else{
+                                        %>
+                                        <div class="input-group date datepicker">
+                                            <input form="myform" style="width:90%;" type="text" onkeydown="return false" onchange="checkdate1(this)" value="<%=bill_date11%>" name="bill_date" required>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                        <%
+                                        }
+                                        %>    
                                     </td>
                                 
                                 </tr>
@@ -1437,7 +1453,7 @@
                                     <td style="word-break:break-all;"><%=rs.getString("filename")%></td>
                                 </tr>
                                 <%
-                                if(admin.equals(username) && convert(bill_date11,request)) 
+                                if(checkAdmin(admin,username) && convert(bill_date11,request)) 
                                 {
                                 %>
                                 <tr>
@@ -1797,10 +1813,25 @@
                                 <tr>
                                     <td>BILL MONTH</td>
                                     <td>
+                                        <%
+                                        if(!bill_date_11.equals(""))
+                                        {
+                                        %>
+                                        <div class="input-group date">
+                                            <input form="myform_2" style="width:90%;" type="text" onkeydown="return false" onchange="checkdate1(this)" value="<%=bill_date_11%>" name="bill_date" readonly>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                        <%
+                                        }
+                                        else{
+                                        %>
                                         <div class="input-group date datepicker">
                                             <input form="myform_2" style="width:90%;" type="text" onkeydown="return false" onchange="checkdate1(this)" value="<%=bill_date_11%>" name="bill_date" required>
                                             <span class="input-group-append"></span>
                                         </div>
+                                        <%
+                                        }
+                                        %>
                                     </td>
                                 
                                 </tr>
@@ -1856,7 +1887,7 @@
                                     <td style="word-break:break-all;"><%=rs.getString("filename")%></td>
                                 </tr>
                                 <%
-                                if(admin.equals(username) && convert(bill_date_11,request)) 
+                                if(checkAdmin(admin,username) && convert(bill_date_11,request)) 
                                 {
                                 %>
                                 <tr>
@@ -2115,6 +2146,7 @@
                                         %>
                                         <td>
                                             <a class="gb" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a>
+                                            <i class="fa fa-file-text" title="<%=rs1.getString("filename")%>"></i>
                                         </td>
                                         <%
                                         }
@@ -2195,10 +2227,24 @@
                                 <tr>
                                     <td>BILL MONTH</td>
                                     <td>
+                                        <%
+                                        if(!bill_date22.equals("")){
+                                        %>
+                                        <div class="input-group date">
+                                            <input form="myform2" style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date22%>" onchange="checkdate1(this)" name="bill_date" readonly>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                        <% 
+                                        }
+                                        else{
+                                        %>
                                         <div class="input-group date datepicker">
                                             <input form="myform2" style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date22%>" onchange="checkdate1(this)" name="bill_date" required>
                                             <span class="input-group-append"></span>
                                         </div>
+                                        <%
+                                        }
+                                        %>
                                     </td>
                                 </tr>
                                 <tr>	
@@ -2282,8 +2328,9 @@
                                         %>
                                         <td>
                                             <button class="gb"><a style="text-decoration:none;color:inherit;" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a></button>
+                                            <i class="fa fa-file-text" title="<%=rs1.getString("filename")%>"></i>                                            
                                             <%
-                                            if(admin.equals(username) && convert(bill_date22,request)) 
+                                            if(checkAdmin(admin,username) && convert(bill_date22,request)) 
                                             {
                                             %>
                                             <button class="rb"><a style="text-decoration:none;color:inherit;" target="_self" href="deletereceipt.jsp?operator=jio&bill_month=<%=bill_date22%>&phone=<%=rs.getString("phone")%>&button=old">Delete</a></button>
@@ -2634,11 +2681,26 @@
                             <table class="center" cellspacing="10">
                                 <tr>
                                     <td>BILL MONTH</td>
-                                    <td>
+                                    <td>                                     
+                                    <%
+                                        if(!bill_date33.equals("")){
+                                        %>
+                                        <div class="input-group date">
+                                            <input form="myform3" style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date33%>" onchange="checkdate1(this)" name="bill_date" readonly>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                        <% 
+                                        }
+                                        else{
+                                        %>
                                         <div class="input-group date datepicker">
                                             <input form="myform3" style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date33%>" onchange="checkdate1(this)" name="bill_date" required>
                                             <span class="input-group-append"></span>
                                         </div>
+                                        <%
+                                        }
+                                        %>
+                                        
                                     </td>
                                 </tr>
                                 <tr>
@@ -2732,7 +2794,7 @@
                                     <td colspan="2" style="word-break: break-all;"><%=rs.getString("filename")%></td>
                                 </tr>
                                 <%
-                                if(admin.equals(username) && convert(bill_date33,request)) 
+                                if(checkAdmin(admin,username) && convert(bill_date33,request)) 
                                 {
                                 %>
                                 <tr>
@@ -2977,6 +3039,7 @@
                                         %>
                                         <td>
                                             <a class="gb" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a>
+                                            <i class="fa fa-file-text" title="<%=rs1.getString("filename")%>"></i>
                                         </td>
                                         <%
                                         }
@@ -3060,10 +3123,25 @@
                                 <tr>
                                     <td>BILL MONTH</td>
                                     <td>
+                                    <%
+                                        if(!bill_date44.equals("")){
+                                        %>
+                                        <div class="input-group date">
+                                            <input style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date44%>" onchange="checkdate1(this)" name="bill_date" readonly>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                        <% 
+                                        }
+                                        else{
+                                        %>
                                         <div class="input-group date datepicker">
                                             <input style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date44%>" onchange="checkdate1(this)" name="bill_date" required>
                                             <span class="input-group-append"></span>
                                         </div>
+                                        <%
+                                        }
+                                        %>
+                                        
                                     </td>
                                 </tr>
                                 <tr>	
@@ -3155,8 +3233,9 @@
                                         %>
                                         <td>
                                             <button class="gb"><a style="text-decoration:none;color:inherit;" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a></button>
+                                            <i class="fa fa-file-text" title="<%=rs1.getString("filename")%>"></i>
                                             <%
-                                            if(admin.equals(username) && convert(bill_date44,request)) 
+                                            if(checkAdmin(admin,username) && convert(bill_date44,request)) 
                                             {
                                             %>
                                             <button class="rb"><a style="text-decoration:none;color:inherit;" target="_self" href="deletereceipt.jsp?operator=vodofone&bill_month=<%=bill_date44%>&phone=<%=rs.getString("phone")%>&button=old">Delete</a></button>
@@ -3332,6 +3411,7 @@
                                         %>
                                         <td>
                                             <a class="gb" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a>
+                                            <i class="fa fa-file-text" title="<%=rs1.getString("filename")%>"></i>
                                         </td>
                                         <%
                                         }
@@ -3412,10 +3492,25 @@
                                 <tr>
                                     <td>BILL MONTH</td>
                                     <td>
+                                    <%
+                                        if(!bill_date55.equals("")){
+                                        %>
+                                        <div class="input-group date">
+                                            <input style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date55%>" onchange="checkdate1(this)" name="bill_date" readonly>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                        <% 
+                                        }
+                                        else{
+                                        %>
                                         <div class="input-group date datepicker">
                                             <input style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date55%>" onchange="checkdate1(this)" name="bill_date" required>
                                             <span class="input-group-append"></span>
                                         </div>
+                                        <%
+                                        }
+                                        %>
+                                        
                                     </td>
                                 </tr>
                                 <tr>	
@@ -3506,8 +3601,9 @@
                                         %>
                                         <td>
                                             <button class="gb" ><a style="text-decoration:none;color:inherit;" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a></button>
+                                            <i class="fa fa-file-text" title="<%=rs1.getString("filename")%>"></i>
                                             <%
-                                            if(admin.equals(username) && convert(bill_date55,request)) 
+                                            if(checkAdmin(admin,username) && convert(bill_date55,request)) 
                                             {
                                             %>
                                             <button class="rb" ><a style="text-decoration:none;color:inherit;" target="_self" href="deletereceipt.jsp?operator=airtelvip&bill_month=<%=bill_date55%>&phone=<%=rs.getString("phone")%>&button=old">Delete</a></button>
@@ -3682,6 +3778,7 @@
                                         %>
                                         <td>
                                             <a  class="gb" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a>
+                                            <i class="fa fa-file-text" title="<%=rs1.getString("filename")%>"></i>
                                         </td>
                                         <%
                                         }
@@ -3762,10 +3859,25 @@
                                 <tr>
                                     <td>BILL MONTH</td>
                                     <td>
+                                    <%
+                                        if(!bill_date66.equals("")){
+                                        %>
+                                        <div class="input-group date">
+                                            <input style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date66%>" onchange="checkdate1(this)" name="bill_date" readonly>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                        <% 
+                                        }
+                                        else{
+                                        %>
                                         <div class="input-group date datepicker">
                                             <input style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date66%>" onchange="checkdate1(this)" name="bill_date" required>
                                             <span class="input-group-append"></span>
                                         </div>
+                                        <%
+                                        }
+                                        %>
+                                        
                                     </td>
                                 </tr>
                                 <tr>	
@@ -3857,8 +3969,9 @@
                                         %>
                                         <td>
                                             <button class="gb" ><a style="text-decoration:none;color:inherit;" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a></button>
+                                            <i class="fa fa-file-text" title="<%=rs1.getString("filename")%>"></i>
                                             <%
-                                            if(admin.equals(username) && convert(bill_date66,request)) 
+                                            if(checkAdmin(admin,username) && convert(bill_date66,request)) 
                                             {
                                             %>
                                             <button class="rb" ><a style="text-decoration:none;color:inherit;" target="_self" href="deletereceipt.jsp?operator=airtellandline&bill_month=<%=bill_date66%>&phone=<%=rs.getString("phone")%>&button=old">Delete</a></button>
@@ -4033,6 +4146,7 @@
                                         %>
                                         <td>
                                             <a class="gb" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a>
+                                            <i class="fa fa-file-text" title="<%=rs1.getString("filename")%>"></i>
                                         </td>
                                         <%
                                         }
@@ -4111,12 +4225,27 @@
                             <br><br>
                             <table class="center" cellspacing="20">
                                 <tr>
-                                    <td>BILL MONTH</td>
+                                    <td>BILL MONTH</td>                         
                                     <td>
+                                        <%
+                                        if(!bill_date77.equals("")){
+                                        %>
+                                        <div class="input-group date">
+                                            <input style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date77%>" onchange="checkdate1(this)" name="bill_date" readonly>
+                                            <span class="input-group-append"></span>
+                                        </div>
+                                        <% 
+                                        }
+                                        else{
+                                        %>
                                         <div class="input-group date datepicker">
                                             <input style="width:90%;" type="text" onkeydown="return false" value="<%=bill_date77%>" onchange="checkdate1(this)" name="bill_date" required>
                                             <span class="input-group-append"></span>
                                         </div>
+                                        <%
+                                        }
+                                        %>
+                                        
                                     </td>
                                 </tr>
                                 <tr>	
@@ -4208,8 +4337,9 @@
                                         %>
                                         <td>
                                             <button class="gb" ><a style="text-decoration:none;color:inherit;" target="_blank" href="<%=rs1.getString("filepath")%>">Download</a></button>
+                                            <i class="fa fa-file-text" title="<%=rs1.getString("filename")%>"></i>
                                             <%
-                                            if(admin.equals(username) && convert(bill_date77,request)) 
+                                            if(checkAdmin(admin,username) && convert(bill_date77,request)) 
                                             {
                                             %>
                                             <button class="rb" ><a style="text-decoration:none;color:inherit;" target="_self" href="deletereceipt.jsp?operator=bsnllandline&bill_month=<%=bill_date77%>&phone=<%=rs.getString("phone")%>&button=old">Delete</a></button>
@@ -4361,7 +4491,7 @@
                             </tr>
                             <tr>
                                 <td>STAFF ID</td>
-                                <td><input form="myform14" type="text" name="emp2" value="<%=request.getParameter("emp2")%>" pattern="[0-9]{5}" title="It must contain 5 digits only" required/></td>
+                                <td><input form="myform14" type="text" name="emp2" value="<%=request.getParameter("emp2")%>" pattern="[0-9]{5}||{0}" title="It must contain 5 digits only"/></td>
                             </tr>
                             <tr>
                                 <td>DESIGNATION</td>
@@ -4933,7 +5063,8 @@
                         </tr>
                     </table>
             </div>
-                                    <%%>
+        <%
+        %>
         <script>
             document.getElementById(document.getElementById('displayTab').value).style.display="block";
             editselect(false,'myform11');
@@ -4981,13 +5112,10 @@
                     if(e_menubar==="display")
                     {
                         let operator= document.getElementById('operator5').value;
-                        alert("operator="+operator);
                         for(let j=1;j<=8;j++)
                         {
-                            alert("Operator="+operator+"\nc_menubar="+c_menubar[j]);
                             if(operator===c_menubar[j])
                             {
-                                alert("c_menubar="+c_menubar[j]+'5');
                                 document.getElementById(c_menubar[j]+'5').setAttribute("selected","");
                             }
                         }
@@ -5197,7 +5325,8 @@
                     startView: 1,
                     minViewMode: 1,
                     format: 'yyyy-mm',
-                    clearBtn: true
+                    clearBtn: true,
+                    autoclose:true
                 });
             });
             $(document).ready(function () {

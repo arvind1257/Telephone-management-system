@@ -81,7 +81,6 @@
                 {
                 %>
                 <input type="hidden" value="error" id="check"/>
-                
                 <input type="hidden" name="phone2" value="<%=ph%>">
                 <input type="hidden" name="operator2" value="<%=operator%>"/>
                 <input type="hidden" name="menubar" value="modify"/>

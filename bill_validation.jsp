@@ -271,6 +271,7 @@
                     String sql= "select * from bills where operator='"+bill_operator+"' and date='"+date+"'";
                     rs = stm.executeQuery(sql);
                     int i=0;
+                   
                     while(rs.next())
                     {   
                         Double.parseDouble(amt[i]);
@@ -283,6 +284,7 @@
                         <input type="hidden" value="old" name="button"/>
                         <input type="hidden" value="<%=date%>" name="bill_date" id="bill_date"/>
                         <%
+                        break;    
                         }
                         else if(rs.getString("amount").equals(amt[i]))
                         {
@@ -298,11 +300,6 @@
                             ps.setString(3,rs.getString("phone"));
                             ps.setString(4,date);
                             ps.executeUpdate();
-                            ps = con.prepareStatement("update modifier set emp=? where operator=? and date=?");
-                            ps.setString(1,username);
-                            ps.setString(2,bill_operator);
-                            ps.setString(3,date);
-                            ps.executeUpdate();
                             i++;
                         }
                         
@@ -314,6 +311,7 @@
                     <input type="hidden" value="old" name="button"/>
                     <input type="hidden" value="<%=date%>" name="bill_date" id="bill_date"/>
                     <%
+                        
                     String sql1 = "update bills set one=? , fixed=? , usages=? , misc=? , late=? , discount=? , adj=?  where operator=? and date=?";
                     PreparedStatement ps = con.prepareStatement(sql1);
                     
@@ -327,6 +325,11 @@
                     ps.setString(8,bill_operator);
                     ps.setString(9,date);
                     ps.executeUpdate();
+                    ps = con.prepareStatement("update modifier set emp=? where operator=? and date=?");
+                            ps.setString(1,username);
+                            ps.setString(2,bill_operator);
+                            ps.setString(3,date);
+                            ps.executeUpdate();
                 }
                 else
                 {

@@ -147,7 +147,7 @@
     if(operator.equals("airtel"))
     sheet = wb.createSheet(month3[months2-1]+"-"+month1[months1-1]);
     else
-    sheet = wb.createSheet(month2[months2-1]);
+    sheet = wb.createSheet(month2[months1-1]);
     InputStream inputStream = new FileInputStream(imagepath);
     byte[] bytes = IOUtils.toByteArray(inputStream);
     int pictureIdx = wb.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
@@ -162,7 +162,7 @@
 
     XSSFRow header = sheet.createRow(6);
     if(operator.equals("bsnl"))
-    createCell(wb,header,0,HorizontalAlignment.CENTER,true,10,""+Operators+" MONTHLY STATEMENT FOR THE MONTH OF  "+month22[months2-1]+"     BILL-DATE: "+date+""," ");
+    createCell(wb,header,0,HorizontalAlignment.CENTER,true,10,""+Operators+" MONTHLY STATEMENT FOR THE MONTH OF  "+month22[months1-1]+"     BILL-DATE: "+date+""," ");
     else
     createCell(wb,header,0,HorizontalAlignment.CENTER,true,10,"Statement of "+Operators+" Bill for the Period of  "+month2[months2-1]+" to "+month1[months1-1]+"    DATE: "+date+""," ");
     createCell(wb,header,1,HorizontalAlignment.CENTER,true,10,"","");
@@ -173,20 +173,20 @@
 
     sheet.addMergedRegion(new CellRangeAddress(6,6,0,5));
         
-    sheet.setColumnWidth(0,1300);
+    sheet.setColumnWidth(0,1000);
     sheet.setColumnWidth(1,6500);
     sheet.setColumnWidth(2,2000);
     sheet.setColumnWidth(3,7000);
-    sheet.setColumnWidth(4,3400);
+    sheet.setColumnWidth(4,2800);
     sheet.setColumnWidth(5,2800);
     
     header = sheet.createRow(7);
-    createCell(wb,header,0,HorizontalAlignment.CENTER,true,12,"S No","");
-    createCell(wb,header,1,HorizontalAlignment.CENTER,true,12,"Name","");
-    createCell(wb,header,2,HorizontalAlignment.CENTER,true,12,"Staff Id","");
-    createCell(wb,header,3,HorizontalAlignment.CENTER,true,12,"Designation","");
-    createCell(wb,header,4,HorizontalAlignment.CENTER,true,12,"Mobile No","");
-    createCell(wb,header,5,HorizontalAlignment.CENTER,true,12,"Total    ","");
+    createCell(wb,header,0,HorizontalAlignment.CENTER,true,10,"S No","");
+    createCell(wb,header,1,HorizontalAlignment.CENTER,true,10,"Name","");
+    createCell(wb,header,2,HorizontalAlignment.CENTER,true,10,"Staff Id","");
+    createCell(wb,header,3,HorizontalAlignment.CENTER,true,10,"Designation","");
+    createCell(wb,header,4,HorizontalAlignment.CENTER,true,10,"Mobile No","");
+    createCell(wb,header,5,HorizontalAlignment.CENTER,true,10,"Total    ","");
     
     XSSFRow row ;
     rs=stm.executeQuery("select * from bills where operator='"+operator+"' and date='"+bill_month+"'");           
@@ -308,129 +308,14 @@
     cellStyle.setFont(font);
     cell.setCellStyle(cellStyle);
     cell.setCellValue("Deputy Director Systems - CTS");
-  
-    if(operator.equals("airtel"))
-    {
-        index+=10;
-        CreationHelper helper1 = wb.getCreationHelper();
-        Drawing drawing1 = sheet.createDrawingPatriarch();
-        ClientAnchor anchor1 = helper1.createClientAnchor();
-        anchor1.setCol1(1);
-        anchor1.setRow1(index-5);
-        Picture pict1 = drawing1.createPicture(anchor1, pictureIdx);
-        pict1.resize();
-        
-        row = sheet.createRow(index);
-        sheet.addMergedRegion(new CellRangeAddress(index,index,0,5));
-        createCell(wb,row,0,HorizontalAlignment.CENTER,true,10,"Statement of "+Operators+" Bill for the Period of  "+month2[months2-1]+" to "+month1[months1-1]+"    DATE: "+date+""," ");
-        createCell(wb,row,1,HorizontalAlignment.CENTER,true,10,"","");
-        createCell(wb,row,2,HorizontalAlignment.CENTER,true,10,"","");
-        createCell(wb,row,3,HorizontalAlignment.CENTER,true,10,"","");
-        createCell(wb,row,4,HorizontalAlignment.CENTER,true,10,"","");
-        createCell(wb,row,5,HorizontalAlignment.CENTER,true,10,"","");
-        
-        index++;
-        row = sheet.createRow(index);
-        createCell(wb,row,0,HorizontalAlignment.CENTER,true,12,"S No","");
-        createCell(wb,row,1,HorizontalAlignment.CENTER,true,12,"Name","");
-        createCell(wb,row,2,HorizontalAlignment.CENTER,true,12,"Staff Id","");
-        createCell(wb,row,3,HorizontalAlignment.CENTER,true,12,"Designation","");
-        createCell(wb,row,4,HorizontalAlignment.CENTER,true,12,"Mobile No","");
-        createCell(wb,row,5,HorizontalAlignment.CENTER,true,12,"Total    ","");
-        
-        int newindex = index;
-        rs=stm.executeQuery("select * from bills where operator='airtel_2' and date='"+bill_month+"'");           
-        index++;
-        sum=0;
-        while(rs.next())
-        {
-            if(rs.getString("operator")!=null)
-            {                    
-                row = sheet.createRow(index);
-                createCell(wb,row,0,HorizontalAlignment.CENTER,false,11,Integer.toString(index-newindex),"");
-                createCell(wb,row,1,HorizontalAlignment.LEFT,false,11,rs.getString("name"),"");
-                createCell(wb,row,2,HorizontalAlignment.CENTER,false,11,rs.getString("emp"),"");
-                createCell(wb,row,3,HorizontalAlignment.LEFT,false,11,rs.getString("desi"),"");
-                createCell(wb,row,4,HorizontalAlignment.CENTER,false,11,rs.getString("phone"),"");
-                createCell(wb,row,5,HorizontalAlignment.RIGHT,false,11,rs.getString("amount"),"0.00");
-                cgst = Double.parseDouble(rs.getString("cgst"));
-                sgst = Double.parseDouble(rs.getString("sgst"));
-                sum+=Double.parseDouble(rs.getString("amount"));
-                index++;
-            }
-        }
-        sum+=sum*(cgst+sgst);
-        row = sheet.createRow(index);
-        createCell(wb,row,0,HorizontalAlignment.CENTER,false,13,"","");
-        createCell(wb,row,1,HorizontalAlignment.CENTER,false,13,"","");
-        createCell(wb,row,2,HorizontalAlignment.CENTER,false,13,"","");
-        createCell(wb,row,3,HorizontalAlignment.CENTER,false,13,"","");
-        createCell(wb,row,4,HorizontalAlignment.LEFT,true,13,"TAX","");
-        createCellFormula(wb,row,5,HorizontalAlignment.RIGHT,false,13,"sum(F"+newindex+":F"+index+")*("+sgst+"+"+cgst+")");
-        index+=1;
-
-        row = sheet.createRow(index);
-        createCell(wb,row,0,HorizontalAlignment.CENTER,false,13,"","");
-        createCell(wb,row,1,HorizontalAlignment.CENTER,false,13,"","");
-        createCell(wb,row,2,HorizontalAlignment.CENTER,false,13,"","");
-        createCell(wb,row,3,HorizontalAlignment.CENTER,false,13,"","");
-        createCell(wb,row,4,HorizontalAlignment.LEFT,true,13,"Total Rs","");
-        createCellFormula(wb,row,5,HorizontalAlignment.RIGHT,true,13,"sum(F"+newindex+":F"+index+")");
-        index+=1;
-
-        sheet.addMergedRegion(new CellRangeAddress(index,index,0,5));
-        row = sheet.createRow(index);
-        createCell(wb,row,0,HorizontalAlignment.CENTER,true,14,"Rupees : "+numberToWord(sum),"0.00");
-        createCell(wb,row,1,HorizontalAlignment.CENTER,false,13,"","");
-        createCell(wb,row,2,HorizontalAlignment.CENTER,false,13,"","");
-        createCell(wb,row,3,HorizontalAlignment.RIGHT,true,13,"","");
-        createCell(wb,row,4,HorizontalAlignment.CENTER,false,13,"","");
-        createCell(wb,row,5,HorizontalAlignment.RIGHT,false,13,"","");
-        index+=2;
-        
-        row = sheet.createRow(index);
-        cell = row.createCell(3);
-        cellStyle = wb.createCellStyle();
-        font = wb.createFont();
-        font.setBold(true);
-        font.setFontHeightInPoints((short)13);  
-        font.setFontName("Times New Roman");  
-        cellStyle.setFont(font);
-        cell.setCellStyle(cellStyle);
-        cell.setCellValue("PAYMENT DUE DATE");
-        
-        index+=5;
-
-        row = sheet.createRow(index);
-        sheet.addMergedRegion(new CellRangeAddress(index,index,3,4));
-        cell = row.createCell(1);
-        cellStyle = wb.createCellStyle();
-        font = wb.createFont();
-        font.setBold(true);
-        font.setFontHeightInPoints((short)13);  
-        font.setFontName("Times New Roman");  
-        cellStyle.setFont(font);
-        cell.setCellStyle(cellStyle);
-        cell.setCellValue("Deputy Manager - CTS");
-        cell=row.createCell(3);
-        cellStyle = wb.createCellStyle();
-        cellStyle.setAlignment(HorizontalAlignment.RIGHT);
-        font = wb.createFont();
-        font.setBold(true);
-        font.setFontHeightInPoints((short)13);  
-        font.setFontName("Times New Roman");  
-        cellStyle.setFont(font);
-        cell.setCellStyle(cellStyle);
-        cell.setCellValue("Deputy Director Systems - CTS");
-    }
-           
+             
     ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
     wb.write(outByteStream);
     byte [] outArray = outByteStream.toByteArray();
     response.setContentType("application/ms-excel");
     response.setContentLength(outArray.length); 
     response.setHeader("Expires:", "0");
-    response.setHeader("Content-Disposition", "attachment; filename="+Operators+" "+month2[months2-1]+".xls");
+    response.setHeader("Content-Disposition", "attachment; filename="+Operators+" "+month2[months1-1]+".xlsx");
     OutputStream outStream = response.getOutputStream();
     outStream.write(outArray);
     outStream.flush();
